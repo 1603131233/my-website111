@@ -1,0 +1,42 @@
+<!DOCTYPE html> <!-- 声明这是 HTML5 网页 -->
+<html lang="zh-CN"> <!-- 网页开始，设置语言为中文 -->
+<head> <!-- 头部开始，放网页的基础信息 -->
+    <meta charset="UTF-8"> <!-- 设置文字编码为 UTF-8，防止中文乱码 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- 让网页在手机和电脑上都能正常显示 -->
+    <title>Hello World 按钮网页</title> <!-- 设置浏览器标签页上显示的标题 -->
+    <style> /* 开始写网页样式 */
+        body { /* 设置整个网页页面的样式 */
+            margin: 0; /* 去掉浏览器默认的外边距 */
+            height: 100vh; /* 让页面高度等于整个浏览器窗口高度 */
+            display: flex; /* 使用弹性布局，方便居中内容 */
+            justify-content: center; /* 让内容在水平方向居中 */
+            align-items: center; /* 让内容在垂直方向居中 */
+            background-color: #f5f5f5; /* 设置页面背景颜色为浅灰色 */
+            font-family: Arial, sans-serif; /* 设置网页文字字体 */
+        } /* body 样式结束 */
+
+        button { /* 设置按钮的样式 */
+            background-color: red; /* 按钮背景颜色设为红色 */
+            color: white; /* 按钮文字颜色设为白色 */
+            font-size: 28px; /* 设置按钮文字大小 */
+            padding: 20px 40px; /* 设置按钮上下和左右的内边距，让按钮变大 */
+            border: none; /* 去掉按钮默认边框 */
+            border-radius: 12px; /* 让按钮四个角变圆一些 */
+            cursor: pointer; /* 鼠标移到按钮上时显示小手形状 */
+        } /* button 样式结束 */
+
+        button:hover { /* 设置鼠标放到按钮上时的效果 */
+            background-color: darkred; /* 鼠标悬停时按钮颜色变成深红色 */
+        } /* button:hover 样式结束 */
+    </style> <!-- 样式部分结束 -->
+</head> <!-- 头部结束 -->
+<body> <!-- 网页主体开始，用户能看到的内容都放这里 -->
+    <button onclick="showMessage()">点我</button> <!-- 创建一个红色按钮，点击时执行 showMessage 函数 -->
+    
+    <script> // 开始写 JavaScript 代码
+        function showMessage() { // 定义一个名叫 showMessage 的函数
+            alert("Hello World!"); // 弹出提示框，并显示 Hello World!
+        } // 函数结束
+    </script> <!-- JavaScript 代码结束 -->
+</body> <!-- 网页主体结束 -->
+</html> <!-- 整个网页结束 -->
