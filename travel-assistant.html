@@ -2,203 +2,640 @@
 <html lang="zh-CN" data-theme="light" data-trae-theme="dark"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>我的AI学习作品集</title>
+    <title>🌍 智能旅行助手</title>
     <style>
-        /* 页面基础样式 */
+        /* ========== 全局基础样式 ========== */
+        :root {
+            --pink-50: #FFF0F3;
+            --pink-100: #FFD6E0;
+            --pink-200: #FFADBF;
+            --pink-300: #FF859F;
+            --pink-400: #FF5C7F;
+            --pink-500: #FF3360;
+            --pink-600: #E62E56;
+            --pink-700: #CC294D;
+            --text-dark: #2D1321;
+            --text-gray: #6B4E5C;
+            --text-light: #9E8290;
+            --bg-card: #ffffff;
+            --bg-page: #FFF5F7;
+            --shadow-sm: 0 2px 8px rgba(255, 51, 96, 0.08);
+            --shadow-md: 0 4px 20px rgba(255, 51, 96, 0.12);
+            --shadow-lg: 0 8px 32px rgba(255, 51, 96, 0.15);
+            --radius-sm: 10px;
+            --radius-md: 16px;
+            --radius-lg: 24px;
+            --radius-xl: 32px;
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        
+
+        /* 页面背景：粉色渐变 */
         body {
-            font-family: "Microsoft YaHei", Arial, sans-serif;
-            background: linear-gradient(135deg, #0f172a, #1e293b);
-            color: #e2e8f0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #FFE0E8 0%, #FFF0F3 30%, #FFE4EC 60%, #FFD6E0 100%);
             min-height: 100vh;
-            overflow-x: hidden;
-        }
-        
-        /* 顶部导航栏 - 毛玻璃效果 */
-        .navbar {
-            background: rgba(15, 23, 42, 0.8);
-            padding: 15px 0;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(96, 165, 250, 0.1);
-            transition: all 0.3s ease;
-        }
-        
-        .nav-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
             display: flex;
-            justify-content: space-between;
-            align-items: center;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 20px;
+            color: var(--text-dark);
+            -webkit-font-smoothing: antialiased;
         }
-        
-        .logo {
-            font-size: 24px;
-            font-weight: bold;
-            color: #60a5fa;
-        }
-        
-        /* 主体内容 */
+
+        /* ========== 主容器 ========== */
         .container {
-            max-width: 1200px;
+            width: 100%;
+            max-width: 720px;
             margin: 0 auto;
-            padding: 40px 20px;
         }
-        
-        /* 欢迎区域 */
-        .hero {
+
+        /* ========== 顶部标题区域 ========== */
+        .header {
             text-align: center;
-            padding: 60px 20px;
-            opacity: 0;
-            transform: translateY(30px);
-            animation: fadeInUp 0.8s ease forwards;
+            margin-bottom: 28px;
+            padding-top: 10px;
         }
-        
-        .hero h1 {
-            font-size: 42px;
-            margin-bottom: 20px;
-            background: linear-gradient(90deg, #60a5fa, #a78bfa);
+
+        .header .icon-row {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .header .icon-bubble {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            box-shadow: var(--shadow-md);
+        }
+
+        .header .icon-bubble:nth-child(1) {
+            background: linear-gradient(135deg, #FF6B8A, #FF3B5C);
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .header .icon-bubble:nth-child(2) {
+            background: linear-gradient(135deg, #FF85A0, #FF5978);
+            animation: float 3s ease-in-out 0.3s infinite;
+        }
+
+        .header .icon-bubble:nth-child(3) {
+            background: linear-gradient(135deg, #FF9FB5, #FF7590);
+            animation: float 3s ease-in-out 0.6s infinite;
+        }
+
+        @keyframes float {
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-8px);
+            }
+        }
+
+        .header h1 {
+            font-size: 32px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #FF3360, #FF6B8A);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+            letter-spacing: 1px;
         }
-        
-        .hero p {
-            font-size: 18px;
-            color: #94a3b8;
-            max-width: 600px;
-            margin: 0 auto;
+
+        .header .subtitle {
+            font-size: 15px;
+            color: var(--text-gray);
+            font-weight: 400;
             line-height: 1.6;
         }
-        
-        /* 作品卡片网格 */
-        .projects-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
-            margin-top: 40px;
+
+        /* ========== 输入卡片 ========== */
+        .input-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            padding: 28px 24px;
+            box-shadow: var(--shadow-lg);
+            margin-bottom: 20px;
+            border: 1.5px solid var(--pink-100);
+            transition: box-shadow 0.3s;
         }
-        
-        /* 单个作品卡片 */
-        .project-card {
-            background: rgba(30, 41, 59, 0.8);
-            border: 1px solid rgba(96, 165, 250, 0.2);
-            border-radius: 16px;
-            padding: 30px;
+
+        .input-card:hover {
+            box-shadow: 0 12px 40px rgba(255, 51, 96, 0.18);
+        }
+
+        .input-row {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        /* 输入框样式 */
+        .input-row input {
+            flex: 1;
+            height: 54px;
+            border: 2px solid var(--pink-100);
+            border-radius: var(--radius-md);
+            padding: 0 20px;
+            font-size: 16px;
+            color: var(--text-dark);
+            background: var(--pink-50);
+            outline: none;
             transition: all 0.3s ease;
-            text-decoration: none;
-            color: inherit;
-            display: block;
-            opacity: 0;
-            transform: translateY(30px);
+        }
+
+        .input-row input::placeholder {
+            color: var(--text-light);
+            font-size: 15px;
+        }
+
+        .input-row input:focus {
+            border-color: var(--pink-400);
+            box-shadow: 0 0 0 4px rgba(255, 51, 96, 0.1);
+            background: #ffffff;
+        }
+
+        /* 按钮样式 */
+        .btn-plan {
+            height: 54px;
+            padding: 0 28px;
+            background: linear-gradient(135deg, #FF3360, #FF5C7F);
+            color: #ffffff;
+            font-size: 16px;
+            font-weight: 700;
+            border: none;
+            border-radius: var(--radius-md);
             cursor: pointer;
+            white-space: nowrap;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 16px rgba(255, 51, 96, 0.35);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-plan:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(255, 51, 96, 0.45);
+        }
+
+        .btn-plan:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 8px rgba(255, 51, 96, 0.3);
+        }
+
+        .btn-plan:disabled {
+            background: linear-gradient(135deg, #CCC, #BBB);
+            box-shadow: none;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-plan .spinner {
+            display: none;
+            width: 18px;
+            height: 18px;
+            border: 2.5px solid rgba(255, 255, 255, 0.3);
+            border-top-color: #ffffff;
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+        }
+
+        .btn-plan.loading .spinner {
+            display: inline-block;
+        }
+
+        .btn-plan.loading .btn-text {
+            display: none;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* ========== 工作流进度区域 ========== */
+        .workflow-section {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            box-shadow: var(--shadow-md);
+            margin-bottom: 20px;
+            border: 1.5px solid var(--pink-100);
+            display: none;
+            /* 默认隐藏，开始规划后才显示 */
+        }
+
+        .workflow-section.visible {
+            display: block;
+        }
+
+        .workflow-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-gray);
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* 步骤列表 */
+        .steps-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
             position: relative;
-            overflow: hidden;
         }
-        
-        /* 卡片悬停效果 - 放大+发光+阴影 */
-        .project-card:hover {
-            transform: translateY(-8px) scale(1.03);
-            border-color: #60a5fa;
-            box-shadow: 0 15px 40px rgba(96, 165, 250, 0.3);
+
+        /* 单个步骤卡片 */
+        .step-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            padding: 18px 16px;
+            border-radius: var(--radius-sm);
+            position: relative;
+            transition: all 0.4s ease;
         }
-        
-        /* 卡片点击反馈 */
-        .project-card:active {
-            transform: translateY(-4px) scale(0.98);
+
+        /* 步骤之间的连接线 */
+        .step-item::before {
+            content: '';
+            position: absolute;
+            left: 35px;
+            top: 56px;
+            width: 2px;
+            height: calc(100% - 12px);
+            background: var(--pink-100);
+            z-index: 0;
+            transition: background 0.5s ease;
         }
-        
-        /* 卡片进入动画 - 依次淡入 */
-        .project-card.show {
-            animation: fadeInUp 0.6s ease forwards;
+
+        /* 最后一个步骤不显示连接线 */
+        .step-item:last-child::before {
+            display: none;
         }
-        
-        /* 每个卡片延迟不同，形成依次出现的效果 */
-        .project-card:nth-child(1).show { animation-delay: 0.1s; }
-        .project-card:nth-child(2).show { animation-delay: 0.2s; }
-        .project-card:nth-child(3).show { animation-delay: 0.3s; }
-        .project-card:nth-child(4).show { animation-delay: 0.4s; }
-        .project-card:nth-child(5).show { animation-delay: 0.5s; }
-        .project-card:nth-child(6).show { animation-delay: 0.6s; }
-        .project-card:nth-child(7).show { animation-delay: 0.7s; }
-        .project-card:nth-child(8).show { animation-delay: 0.8s; }
-        
-        /* 淡入动画定义 */
-        @keyframes fadeInUp {
+
+        /* 已完成步骤的连接线变粉色 */
+        .step-item.completed::before {
+            background: linear-gradient(to bottom, var(--pink-400), var(--pink-200));
+        }
+
+        /* 步骤圆圈 */
+        .step-circle {
+            width: 40px;
+            height: 40px;
+            min-width: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: 700;
+            z-index: 1;
+            transition: all 0.5s ease;
+            background: var(--pink-50);
+            color: var(--text-light);
+            border: 2px solid var(--pink-100);
+        }
+
+        /* 当前进行中的步骤圆圈 */
+        .step-item.active .step-circle {
+            background: linear-gradient(135deg, #FF3360, #FF5C7F);
+            color: #ffffff;
+            border-color: transparent;
+            box-shadow: 0 0 0 6px rgba(255, 51, 96, 0.15);
+            animation: pulse-ring 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse-ring {
+            0%,
+            100% {
+                box-shadow: 0 0 0 4px rgba(255, 51, 96, 0.15);
+            }
+            50% {
+                box-shadow: 0 0 0 12px rgba(255, 51, 96, 0.05);
+            }
+        }
+
+        /* 已完成的步骤圆圈 */
+        .step-item.completed .step-circle {
+            background: linear-gradient(135deg, #22C55E, #16A34A);
+            color: #ffffff;
+            border-color: transparent;
+            box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.12);
+        }
+
+        /* 步骤内容 */
+        .step-content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .step-label {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-light);
+            margin-bottom: 4px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .step-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 4px;
+            transition: color 0.3s;
+        }
+
+        .step-item.active .step-title {
+            color: var(--pink-500);
+        }
+
+        .step-item.completed .step-title {
+            color: #16A34A;
+        }
+
+        /* 步骤状态文字 */
+        .step-status {
+            font-size: 13px;
+            transition: color 0.3s;
+        }
+
+        .step-status.pending {
+            color: var(--text-light);
+        }
+
+        .step-status.running {
+            color: var(--pink-500);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .step-status.running::after {
+            content: '';
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            background: var(--pink-500);
+            border-radius: 50%;
+            animation: blink 0.8s ease-in-out infinite;
+        }
+
+        @keyframes blink {
+            0%,
+            100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.3;
+            }
+        }
+
+        .step-status.done {
+            color: #16A34A;
+        }
+
+        /* 步骤结果的简短预览（在步骤下方显示） */
+        .step-preview {
+            margin-top: 10px;
+            padding: 12px 16px;
+            background: #F0FDF4;
+            border-radius: var(--radius-sm);
+            font-size: 13px;
+            color: #166534;
+            line-height: 1.7;
+            border: 1px solid #BBF7D0;
+            display: none;
+            max-height: 120px;
+            overflow-y: auto;
+        }
+
+        .step-item.completed .step-preview {
+            display: block;
+        }
+
+        /* ========== 最终结果区域 ========== */
+        .result-section {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            padding: 28px 24px;
+            box-shadow: var(--shadow-lg);
+            margin-bottom: 20px;
+            border: 1.5px solid var(--pink-100);
+            display: none;
+        }
+
+        .result-section.visible {
+            display: block;
+        }
+
+        .result-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 2px solid var(--pink-50);
+        }
+
+        .result-header .result-icon {
+            font-size: 28px;
+        }
+
+        .result-header h2 {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+        /* 每个部分的结果卡片 */
+        .result-block {
+            margin-bottom: 20px;
+            padding: 20px;
+            background: var(--pink-50);
+            border-radius: var(--radius-md);
+            border: 1px solid var(--pink-100);
+            transition: all 0.3s;
+        }
+
+        .result-block:hover {
+            background: #ffffff;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .result-block:last-child {
+            margin-bottom: 0;
+        }
+
+        .result-block h3 {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--pink-600);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .result-block .block-content {
+            font-size: 14px;
+            color: var(--text-dark);
+            line-height: 1.8;
+            white-space: pre-wrap;
+        }
+
+        /* ========== 错误提示 ========== */
+        .error-toast {
+            position: fixed;
+            top: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #FFF0F0;
+            color: #CC1A1A;
+            padding: 14px 24px;
+            border-radius: var(--radius-md);
+            font-size: 14px;
+            font-weight: 500;
+            box-shadow: var(--shadow-lg);
+            border: 1.5px solid #FECACA;
+            z-index: 1000;
+            display: none;
+            animation: slideDown 0.3s ease;
+        }
+
+        .error-toast.visible {
+            display: block;
+        }
+
+        @keyframes slideDown {
             from {
                 opacity: 0;
-                transform: translateY(30px);
+                transform: translateX(-50%) translateY(-20px);
             }
             to {
                 opacity: 1;
-                transform: translateY(0);
+                transform: translateX(-50%) translateY(0);
             }
         }
-        
-        .project-icon {
-            font-size: 40px;
-            margin-bottom: 15px;
-            transition: transform 0.3s ease;
-        }
-        
-        /* 图标悬停旋转效果 */
-        .project-card:hover .project-icon {
-            transform: scale(1.2) rotate(5deg);
-        }
-        
-        .project-card h3 {
-            font-size: 22px;
-            margin-bottom: 10px;
-            color: #f1f5f9;
-        }
-        
-        .project-card p {
-            font-size: 14px;
-            color: #94a3b8;
-            line-height: 1.6;
-        }
-        
-        .project-tag {
-            display: inline-block;
-            background: rgba(96, 165, 250, 0.2);
-            color: #60a5fa;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            margin-top: 15px;
-            transition: all 0.3s ease;
-        }
-        
-        /* 标签悬停变亮 */
-        .project-card:hover .project-tag {
-            background: rgba(96, 165, 250, 0.4);
-            color: #fff;
-        }
-        
-        /* 页脚 */
-        footer {
+
+        /* ========== 页脚 ========== */
+        .footer {
             text-align: center;
-            padding: 40px;
-            color: #64748b;
-            font-size: 14px;
-            opacity: 0;
-            animation: fadeInUp 0.8s ease 0.8s forwards;
+            padding: 16px 0;
+            font-size: 12px;
+            color: var(--text-light);
         }
-        
-        /* 响应式适配手机 */
-        @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 28px;
+
+        /* ========== 响应式：手机适配 ========== */
+        @media (max-width: 640px) {
+            .container {
+                max-width: 100%;
             }
-            .projects-grid {
-                grid-template-columns: 1fr;
+
+            .header h1 {
+                font-size: 26px;
+            }
+
+            .header .subtitle {
+                font-size: 13px;
+            }
+
+            .input-row {
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .input-row input {
+                width: 100%;
+                height: 50px;
+                font-size: 15px;
+            }
+
+            .btn-plan {
+                width: 100%;
+                height: 50px;
+                justify-content: center;
+                font-size: 15px;
+            }
+
+            .input-card {
+                padding: 20px 16px;
+            }
+
+            .workflow-section {
+                padding: 18px 14px;
+            }
+
+            .result-section {
+                padding: 20px 16px;
+            }
+
+            .step-item {
+                padding: 14px 10px;
+                gap: 12px;
+            }
+
+            .step-circle {
+                width: 34px;
+                height: 34px;
+                min-width: 34px;
+                font-size: 15px;
+            }
+
+            .step-item::before {
+                left: 28px;
+                top: 50px;
+            }
+
+            .step-title {
+                font-size: 14px;
+            }
+
+            .step-preview {
+                font-size: 12px;
+                max-height: 100px;
+            }
+
+            .result-block {
+                padding: 14px;
+            }
+
+            .result-block h3 {
+                font-size: 14px;
+            }
+
+            .result-block .block-content {
+                font-size: 13px;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .header h1 {
+                font-size: 22px;
+            }
+
+            .header .icon-bubble {
+                width: 38px;
+                height: 38px;
+                font-size: 18px;
             }
         }
     </style>
@@ -206,7 +643,7 @@
   try {
     const client = await import('/@vite/client');
     const hmr = client.createHotContext('hmr-handler/fake.js');
-    hmr.on('vite:afterUpdate', window['__ICUBE_WEBVIEW_HMR_CALLBACK_1785268818150']);
+    hmr.on('vite:afterUpdate', window['__ICUBE_WEBVIEW_HMR_CALLBACK_1785267559989']);
   } catch {}
 })();</script><style>.buttonsCard-bTXa5j {
   padding: var(--spacer-4);
@@ -563,7 +1000,7 @@
   try {
     const client = await import('/@vite/client');
     const hmr = client.createHotContext('hmr-handler/fake.js');
-    hmr.on('vite:afterUpdate', window['__ICUBE_WEBVIEW_HMR_CALLBACK_1785268818170']);
+    hmr.on('vite:afterUpdate', window['__ICUBE_WEBVIEW_HMR_CALLBACK_1785267560007']);
   } catch {}
 })();</script><style>.buttonsCard-bTXa5j {
   padding: var(--spacer-4);
@@ -2614,121 +3051,405 @@
 }
 </style></head>
 <body>
-    <!-- 导航栏 -->
-    <nav class="navbar" style="box-shadow: rgba(0, 0, 0, 0.3) 0px 4px 20px;">
-        <div class="nav-container">
-            <div class="logo">🚀 AI学习之路</div>
-            <div style="color: #94a3b8;">零基础 → AI开发工程师</div>
-        </div>
-    </nav>
 
-    <!-- 欢迎区域 -->
+    <!-- ========== 错误提示横幅 ========== -->
+    <div class="error-toast" id="errorToast">⚠️ 规划失败：API 请求失败：Invalid Authentication，请检查 API Key 和网络后重试</div>
+
+    <!-- ========== 主容器 ========== -->
     <div class="container">
-        <div class="hero">
-            <h1>欢迎来到我的AI学习作品集</h1>
-            <p>这是一个从零开始的学习记录。我不会写代码，全程用AI辅助，做出了这些网页。每一个作品都代表一次进步。</p>
+
+        <!-- ========== 顶部标题区域 ========== -->
+        <div class="header">
+            <!-- 三个浮动的装饰气泡图标 -->
+            <div class="icon-row">
+                <div class="icon-bubble">🗺️</div>
+                <div class="icon-bubble">✈️</div>
+                <div class="icon-bubble">🎒</div>
+            </div>
+            <!-- 主标题 -->
+            <h1>🌍 智能旅行助手</h1>
+            <!-- 副标题 -->
+            <p class="subtitle">输入目的地，AI 自动拆解多步骤为你规划旅行</p>
         </div>
 
-        <!-- 作品展示 -->
-        <div class="projects-grid">
-            <!-- 作品1：Hello World -->
-            <a href="index1.html" class="project-card show">
-                <div class="project-icon">👋</div>
-                <h3>Hello World</h3>
-                <p>我的第一个网页！点击红色按钮，弹出"Hello World"。学会了按钮和弹窗的基本原理。</p>
-                <span class="project-tag">基础入门</span>
-            </a>
-
-            <!-- 作品2：名字欢迎页 -->
-            <a href="hello-name.html" class="project-card show">
-                <div class="project-icon">🎉</div>
-                <h3>名字欢迎页</h3>
-                <p>输入你的名字，生成专属欢迎语。学会了输入框和获取用户输入的值。</p>
-                <span class="project-tag">交互入门</span>
-            </a>
-
-            <!-- 作品3：计算器 -->
-            <a href="calculator.html" class="project-card show">
-                <div class="project-icon">🧮</div>
-                <h3>网页计算器</h3>
-                <p>支持加减乘除的完整计算器。学会了运算逻辑和条件判断。</p>
-                <span class="project-tag">逻辑运算</span>
-            </a>
-
-            <!-- 作品4：AI文案生成器 -->
-            <a href="ai-copywriter.html" class="project-card show">
-                <div class="project-icon">✨</div>
-                <h3>AI文案生成器</h3>
-                <p>接入Kimi真AI，输入产品名称自动生成小红书种草文案。带emoji、分段、网感十足！</p>
-                <span class="project-tag">AI应用</span>
-            </a>
-
-            <!-- 作品5：AI聊天机器人（新增） -->
-            <a href="ai-chat.html" class="project-card show">
-                <div class="project-icon">🤖</div>
-                <h3>AI聊天机器人</h3>
-                <p>接入Kimi真AI的网页版聊天机器人，支持多轮对话，像微信一样聊天！</p>
-                <span class="project-tag">AI应用</span>
-            </a>
-
-            <!-- 作品7：文档问答助手 -->
-            <a href="doc-qa.html" class="project-card show">
-                <div class="project-icon">📄</div>
-                <h3>文档问答助手</h3>
-                <p>RAG检索增强生成，上传文档后AI只根据文档内容回答，不会胡说</p>
-                <span class="project-tag">AI应用</span>
-            </a>
-
-            <!-- 作品8：旅游助手 -->
-            <a href="travel-assistant.html" class="project-card show">
-                <div class="project-icon">🌍</div>
-                <h3>旅游助手</h3>
-                <p>3段工作流，根据地区按照3段写出规划</p>
-                <span class="project-tag">AI应用</span>
-            </a>
-
-            <!-- 作品6：关于我 -->
-            <div class="project-card show" style="cursor: default;">
-                <div class="project-icon">👤</div>
-                <h3>关于我</h3>
-                <p>零基础小白，正在用AI学习编程。目标是成为AI开发工程师。这个网站就是我用AI做出来的！</p>
-                <span class="project-tag">持续更新中</span>
+        <!-- ========== 输入卡片 ========== -->
+        <div class="input-card">
+            <div class="input-row">
+                <!-- 目的地输入框 -->
+                <input type="text" id="destinationInput" placeholder="输入目的地，比如：杭州、成都、西安" autocomplete="off">
+                <!-- 开始规划按钮 -->
+                <button class="btn-plan" id="btnPlan" onclick="startPlanning()">
+                    <span class="spinner"></span>
+                    <span class="btn-text">🎯 开始规划</span>
+                </button>
             </div>
         </div>
+
+        <!-- ========== 工作流进度区域 ========== -->
+        <div class="workflow-section visible" id="workflowSection">
+            <div class="workflow-title">📋 工作流进度</div>
+            <div class="steps-list">
+                <!-- Step 1 -->
+                <div class="step-item active" id="step1">
+                    <div class="step-circle">1</div>
+                    <div class="step-content">
+                        <div class="step-label">Step 1</div>
+                        <div class="step-title">🧭 分析目的地特色</div>
+                        <div class="step-status running">正在分析目的地...</div>
+                        <div class="step-preview" id="step1Preview"></div>
+                    </div>
+                </div>
+                <!-- Step 2 -->
+                <div class="step-item" id="step2">
+                    <div class="step-circle">2</div>
+                    <div class="step-content">
+                        <div class="step-label">Step 2</div>
+                        <div class="step-title">📅 生成行程规划</div>
+                        <div class="step-status pending">等待中</div>
+                        <div class="step-preview" id="step2Preview"></div>
+                    </div>
+                </div>
+                <!-- Step 3 -->
+                <div class="step-item" id="step3">
+                    <div class="step-circle">3</div>
+                    <div class="step-content">
+                        <div class="step-label">Step 3</div>
+                        <div class="step-title">💡 旅行贴士</div>
+                        <div class="step-status pending">等待中</div>
+                        <div class="step-preview" id="step3Preview"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== 最终结果区域 ========== -->
+        <div class="result-section" id="resultSection">
+            <div class="result-header">
+                <span class="result-icon">📝</span>
+                <h2 id="resultTitle">旅行攻略</h2>
+            </div>
+            <!-- Step 1 结果 -->
+            <div class="result-block" id="resultBlock1">
+                <h3>🧭 目的地特色</h3>
+                <div class="block-content" id="resultContent1"></div>
+            </div>
+            <!-- Step 2 结果 -->
+            <div class="result-block" id="resultBlock2">
+                <h3>📅 行程规划</h3>
+                <div class="block-content" id="resultContent2"></div>
+            </div>
+            <!-- Step 3 结果 -->
+            <div class="result-block" id="resultBlock3">
+                <h3>💡 旅行贴士</h3>
+                <div class="block-content" id="resultContent3"></div>
+            </div>
+        </div>
+
+        <!-- ========== 页脚 ========== -->
+        <div class="footer">Powered by Kimi AI · 智能旅行助手</div>
+
     </div>
 
-    <!-- 页脚 -->
-    <footer>
-        <p>Made with ❤️ and AI | 我的AI学习之旅</p>
-    </footer>
-
     <script>
-        // 滚动动画：当卡片进入视口时，添加show类触发动画
-        // 创建IntersectionObserver观察器
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                // 当元素进入视口时
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('show'); // 添加show类，触发CSS动画
+        /* ================================================================
+           全局变量 & API 配置
+           ================================================================ */
+
+        /* Kimi API 密钥（请替换为你自己的 API Key） */
+        const KIMI_API_KEY = 'sk-EsbZd1Gl8j21gKrYlAImEQcbr8myT1raqgtqbdliLJZ9n3Jg';
+
+        /* Kimi API 请求地址（兼容 OpenAI 格式） */
+        const KIMI_API_URL = 'https://api.moonshot.cn/v1/chat/completions';
+
+        /* 模型名称 */
+        const MODEL_NAME = 'kimi-k2.6';
+
+        /* Temperature 参数，控制输出随机性，1.0 为默认值 */
+        const TEMPERATURE = 1.0;
+
+        /* 当前目的地 */
+        let currentDestination = '';
+
+        /* ================================================================
+           工具函数
+           ================================================================ */
+
+        /**
+         * 显示页面顶部的错误提示条
+         * @param {string} msg - 错误消息文本
+         * @param {number} [duration=4000] - 显示时长（毫秒）
+         */
+        function showError(msg, duration = 4000) {
+            const toast = document.getElementById('errorToast');
+            toast.textContent = '⚠️ ' + msg;
+            toast.classList.add('visible');
+            setTimeout(() => toast.classList.remove('visible'), duration);
+        }
+
+        /**
+         * 调用 Kimi API 的通用函数
+         * @param {string} systemPrompt - 系统提示词
+         * @param {string} userPrompt - 用户提示词
+         * @returns {Promise<string>} - 返回 AI 回复的文本内容
+         */
+        async function callKimiAPI(systemPrompt, userPrompt) {
+            /* 构建请求体 */
+            const requestBody = {
+                model: MODEL_NAME, // 模型名称
+                temperature: TEMPERATURE, // 温度参数
+                messages: [
+                    { role: 'system', content: systemPrompt }, // 系统角色提示
+                    { role: 'user', content: userPrompt } // 用户问题
+                ]
+            };
+
+            /* 发起 HTTP POST 请求 */
+            const response = await fetch(KIMI_API_URL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json', // JSON 格式
+                    'Authorization': 'Bearer ' + KIMI_API_KEY // Bearer 鉴权
+                },
+                body: JSON.stringify(requestBody) // 序列化请求体
+            });
+
+            /* 检查 HTTP 状态码 */
+            if (!response.ok) {
+                const errorData = await response.json().catch(() => ({}));
+                const errorMsg = errorData.error?.message || 'HTTP ' + response.status;
+                throw new Error('API 请求失败：' + errorMsg);
+            }
+
+            /* 解析响应数据 */
+            const data = await response.json();
+            /* 提取 AI 的回复文本 */
+            return data.choices[0].message.content.trim();
+        }
+
+        /**
+         * 更新某个步骤的 UI 状态
+         * @param {number} stepNum - 步骤编号（1/2/3）
+         * @param {'active'|'completed'} status - 新状态
+         * @param {string} [statusText=''] - 状态文字
+         * @param {string} [previewText=''] - 步骤预览文字
+         */
+        function updateStepUI(stepNum, status, statusText = '', previewText = '') {
+            /* 获取步骤 DOM 元素 */
+            const stepEl = document.getElementById('step' + stepNum);
+            const statusEl = stepEl.querySelector('.step-status');
+
+            /* 移除所有旧状态 class */
+            stepEl.classList.remove('active', 'completed');
+            statusEl.classList.remove('pending', 'running', 'done');
+
+            if (status === 'active') {
+                /* 设为"进行中"状态 */
+                stepEl.classList.add('active');
+                statusEl.classList.add('running');
+                statusEl.textContent = statusText;
+            } else if (status === 'completed') {
+                /* 设为"已完成"状态，圆圈变成绿色对勾 */
+                stepEl.classList.add('completed');
+                statusEl.classList.add('done');
+                statusEl.textContent = statusText;
+                /* 更新步骤圆圈为对勾 */
+                const circleEl = stepEl.querySelector('.step-circle');
+                circleEl.textContent = '✓';
+                /* 更新预览文字 */
+                const previewEl = document.getElementById('step' + stepNum + 'Preview');
+                previewEl.textContent = previewText;
+            }
+        }
+
+        /**
+         * 重置所有步骤到初始状态
+         */
+        function resetAllSteps() {
+            for (let i = 1; i <= 3; i++) {
+                const stepEl = document.getElementById('step' + i);
+                const statusEl = stepEl.querySelector('.step-status');
+                const circleEl = stepEl.querySelector('.step-circle');
+                const previewEl = document.getElementById('step' + i + 'Preview');
+
+                /* 重置 class */
+                stepEl.classList.remove('active', 'completed');
+                statusEl.classList.remove('running', 'done');
+                statusEl.classList.add('pending');
+                statusEl.textContent = '等待中';
+
+                /* 重置圆圈数字 */
+                circleEl.textContent = i;
+
+                /* 清空预览 */
+                previewEl.textContent = '';
+            }
+        }
+
+        /* ================================================================
+           核心业务逻辑：三步工作流
+           ================================================================ */
+
+        /**
+         * Step 1：分析目的地特色
+         * 调用 Kimi 获取目的地的简要介绍
+         */
+        async function step1Analyze(destination) {
+            /* 系统提示词：让 AI 扮演旅行专家 */
+            const systemPrompt =
+                '你是一位经验丰富的旅行规划师，擅长用简洁生动的语言介绍旅行目的地。你的回答风格热情、专业、有感染力。';
+
+            /* 用户提示词：具体请求 */
+            const userPrompt =
+                '请用50字介绍' + destination + '的特色，包括著名景点、美食、气候特点。请用流畅的自然段落回答，不要用列表格式。';
+
+            /* 调用 Kimi API */
+            const result = await callKimiAPI(systemPrompt, userPrompt);
+            return result;
+        }
+
+        /**
+         * Step 2：生成行程规划
+         * 调用 Kimi 生成 3 天 2 夜的详细行程
+         */
+        async function step2Plan(destination) {
+            /* 系统提示词 */
+            const systemPrompt =
+                '你是一位资深的旅行行程规划师，擅长设计合理、舒适又充满趣味的旅行路线。请用清晰的段落格式回答。';
+
+            /* 用户提示词 */
+            const userPrompt =
+                '请为' + destination +
+                '生成一个3天2夜的旅行行程，每天安排3-4个景点，包含交通建议和用餐推荐。请按天分段，每天一个小标题，用自然的段落描述。';
+
+            /* 调用 Kimi API */
+            const result = await callKimiAPI(systemPrompt, userPrompt);
+            return result;
+        }
+
+        /**
+         * Step 3：给出旅行贴士
+         * 调用 Kimi 获取实用旅行建议
+         */
+        async function step3Tips(destination) {
+            /* 系统提示词 */
+            const systemPrompt =
+                '你是一位贴心的旅行顾问，善于发现旅行中的细节问题并给出实用建议。请用自然的段落格式回答。';
+
+            /* 用户提示词 */
+            const userPrompt =
+                '请给出' + destination +
+                '的旅行贴士：最佳旅行时间、必备物品、避坑指南。请用自然流畅的段落描述，分三个方面来讲。';
+
+            /* 调用 Kimi API */
+            const result = await callKimiAPI(systemPrompt, userPrompt);
+            return result;
+        }
+
+        /**
+         * 主流程：依次执行三个步骤
+         */
+        async function startPlanning() {
+            /* 获取输入的目的地 */
+            const inputEl = document.getElementById('destinationInput');
+            const destination = inputEl.value.trim();
+
+            /* 校验：目的地不能为空 */
+            if (!destination) {
+                showError('请输入一个目的地再开始规划哦～');
+                /* 让输入框抖动一下提示用户 */
+                inputEl.style.borderColor = '#FF3360';
+                inputEl.focus();
+                setTimeout(() => { inputEl.style.borderColor = ''; }, 1500);
+                return;
+            }
+
+            /* 保存当前目的地 */
+            currentDestination = destination;
+
+            /* 隐藏之前的错误提示 */
+            document.getElementById('errorToast').classList.remove('visible');
+
+            /* 重置步骤 UI */
+            resetAllSteps();
+
+            /* 隐藏最终结果区域 */
+            document.getElementById('resultSection').classList.remove('visible');
+
+            /* 显示工作流区域 */
+            document.getElementById('workflowSection').classList.add('visible');
+
+            /* 禁用按钮，显示加载状态 */
+            const btnPlan = document.getElementById('btnPlan');
+            btnPlan.disabled = true;
+            btnPlan.classList.add('loading');
+            inputEl.disabled = true;
+
+            /* 保存三个步骤的结果 */
+            let result1 = '';
+            let result2 = '';
+            let result3 = '';
+
+            try {
+                /* ===== Step 1：分析目的地特色 ===== */
+                updateStepUI(1, 'active', '正在分析目的地...');
+                result1 = await step1Analyze(destination);
+                updateStepUI(1, 'completed', '已完成', result1);
+                /* 同时写入最终结果区域 */
+                document.getElementById('resultContent1').textContent = result1;
+
+                /* ===== Step 2：生成行程规划 ===== */
+                updateStepUI(2, 'active', '正在规划行程...');
+                result2 = await step2Plan(destination);
+                updateStepUI(2, 'completed', '已完成', result2.substring(0, 80) + '...');
+                document.getElementById('resultContent2').textContent = result2;
+
+                /* ===== Step 3：旅行贴士 ===== */
+                updateStepUI(3, 'active', '正在整理贴士...');
+                result3 = await step3Tips(destination);
+                updateStepUI(3, 'completed', '已完成', result3.substring(0, 80) + '...');
+                document.getElementById('resultContent3').textContent = result3;
+
+                /* 更新结果标题 */
+                document.getElementById('resultTitle').textContent =
+                    destination + ' · 旅行攻略';
+
+                /* 显示最终结果区域 */
+                document.getElementById('resultSection').classList.add('visible');
+
+                /* 平滑滚动到结果区域 */
+                document.getElementById('resultSection').scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+
+            } catch (error) {
+                /* 捕获并显示错误 */
+                console.error('工作流出错：', error);
+                showError('规划失败：' + error.message + '，请检查 API Key 和网络后重试');
+            } finally {
+                /* 恢复按钮和输入框状态 */
+                btnPlan.disabled = false;
+                btnPlan.classList.remove('loading');
+                inputEl.disabled = false;
+                inputEl.focus();
+            }
+        }
+
+        /* ================================================================
+           页面初始化 & 事件绑定
+           ================================================================ */
+
+        /* 页面加载完成后绑定回车键事件 */
+        document.addEventListener('DOMContentLoaded', function() {
+            const inputEl = document.getElementById('destinationInput');
+
+            /* 按回车键也可以触发规划 */
+            inputEl.addEventListener('keydown', function(event) {
+                if (event.key === 'Enter') {
+                    event.preventDefault();
+                    startPlanning();
                 }
             });
-        }, {
-            threshold: 0.1 // 元素出现10%时触发
-        });
-
-        // 观察所有作品卡片
-        document.querySelectorAll('.project-card').forEach(card => {
-            observer.observe(card);
-        });
-
-        // 导航栏滚动效果：滚动时增加阴影
-        window.addEventListener('scroll', () => {
-            const navbar = document.querySelector('.navbar');
-            if (window.scrollY > 10) {
-                navbar.style.boxShadow = '0 4px 20px rgba(0,0,0,0.3)';
-            } else {
-                navbar.style.boxShadow = 'none';
-            }
         });
     </script>
 
