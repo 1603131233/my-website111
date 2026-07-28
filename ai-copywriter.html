@@ -1,143 +1,29 @@
 <!DOCTYPE html>
-<html lang="zh-CN" data-theme="light" data-trae-theme="dark"><head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>我的AI学习作品集</title>
-    <style>
-        /* 页面基础样式 */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: "Microsoft YaHei", Arial, sans-serif;
-            background: linear-gradient(135deg, #0f172a, #1e293b);
-            color: #e2e8f0;
-            min-height: 100vh;
-        }
-        
-        /* 顶部导航栏 */
-        .navbar {
-            background: rgba(15, 23, 42, 0.9);
-            padding: 15px 0;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            backdrop-filter: blur(10px);
-        }
-        
-        .nav-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .logo {
-            font-size: 24px;
-            font-weight: bold;
-            color: #60a5fa;
-        }
-        
-        /* 主体内容 */
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 40px 20px;
-        }
-        
-        /* 欢迎区域 */
-        .hero {
-            text-align: center;
-            padding: 60px 20px;
-        }
-        
-        .hero h1 {
-            font-size: 42px;
-            margin-bottom: 20px;
-            background: linear-gradient(90deg, #60a5fa, #a78bfa);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        
-        .hero p {
-            font-size: 18px;
-            color: #94a3b8;
-            max-width: 600px;
-            margin: 0 auto;
-            line-height: 1.6;
-        }
-        
-        /* 作品卡片网格 */
-        .projects-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
-            margin-top: 40px;
-        }
-        
-        /* 单个作品卡片 */
-        .project-card {
-            background: rgba(30, 41, 59, 0.8);
-            border: 1px solid rgba(96, 165, 250, 0.2);
-            border-radius: 16px;
-            padding: 30px;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            color: inherit;
-            display: block;
-        }
-        
-        .project-card:hover {
-            transform: translateY(-5px);
-            border-color: #60a5fa;
-            box-shadow: 0 10px 40px rgba(96, 165, 250, 0.2);
-        }
-        
-        .project-icon {
-            font-size: 40px;
-            margin-bottom: 15px;
-        }
-        
-        .project-card h3 {
-            font-size: 22px;
-            margin-bottom: 10px;
-            color: #f1f5f9;
-        }
-        
-        .project-card p {
-            font-size: 14px;
-            color: #94a3b8;
-            line-height: 1.6;
-        }
-        
-        .project-tag {
-            display: inline-block;
-            background: rgba(96, 165, 250, 0.2);
-            color: #60a5fa;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            margin-top: 15px;
-        }
-        
-        /* 页脚 */
-        footer {
-            text-align: center;
-            padding: 40px;
-            color: #64748b;
-            font-size: 14px;
-        }
-    </style>
+<html lang="zh-CN" data-theme="light" data-trae-theme="dark"><!-- 设置网页语言为中文 --><head> <!-- 头部开始，放网页配置内容 -->
+  <meta charset="UTF-8"> <!-- 设置字符编码为 UTF-8，避免中文乱码 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- 让网页在手机和电脑上都能正常缩放 -->
+  <title>小红书文案生成器</title> <!-- 设置浏览器标签页标题 -->
+  <style> /* 样式代码开始，负责网页外观 */
+    * { box-sizing: border-box; } /* 让元素的宽高计算更直观，包含内边距和边框 */
+    body { margin: 0; font-family: "Microsoft YaHei", sans-serif; background: linear-gradient(135deg, #fff5f7, #ffe4ea); color: #333333; } /* 设置页面整体外观、字体、背景和文字颜色 */
+    .page { min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 24px; } /* 让内容区域在页面中间显示，并留出内边距 */
+    .card { width: 100%; max-width: 760px; background: #ffffff; border-radius: 24px; padding: 32px; box-shadow: 0 18px 50px rgba(255, 71, 102, 0.16); } /* 设置白色卡片容器的大小、圆角和阴影 */
+    h1 { margin: 0 0 12px; text-align: center; color: #ff2442; font-size: 32px; } /* 设置主标题样式 */
+    .desc { margin: 0 0 24px; text-align: center; color: #666666; line-height: 1.8; } /* 设置说明文字样式 */
+    .form-area { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 20px; } /* 设置输入框和按钮的排版方式 */
+    #productInput { flex: 1; min-width: 240px; padding: 14px 16px; border: 2px solid #ffd2da; border-radius: 14px; font-size: 16px; outline: none; } /* 设置输入框样式 */
+    #productInput:focus { border-color: #ff2442; box-shadow: 0 0 0 4px rgba(255, 36, 66, 0.12); } /* 设置输入框获取焦点时的高亮效果 */
+    #generateBtn { border: none; background: #ff2442; color: #ffffff; padding: 14px 28px; border-radius: 14px; font-size: 16px; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; } /* 设置红色按钮样式 */
+    #generateBtn:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(255, 36, 66, 0.24); } /* 设置鼠标移入按钮时的悬浮效果 */
+    .result-title { margin: 0 0 12px; color: #ff2442; font-size: 20px; } /* 设置结果标题样式 */
+    #result { min-height: 220px; background: #fff7f8; border: 2px dashed #ffc1cc; border-radius: 18px; padding: 20px; white-space: pre-wrap; line-height: 1.9; font-size: 16px; } /* 设置结果显示区域样式，并保留换行 */
+    .tip { margin-top: 12px; color: #888888; font-size: 14px; } /* 设置底部提示文字样式 */
+  </style> <!-- 样式代码结束 -->
 <style>.trae-browser-inspect-overlay{position:fixed;top:0;left:0;width:100%;height:100%;z-index:999997;pointer-events:auto;background:rgba(0,0,0,0)}.trae-browser-inspect-highlight-box{position:absolute;top:0;left:0;z-index:999998;display:none}.trae-browser-inspect-highlight-tag{position:absolute;left:0px;top:0px;height:18px;padding:0 6px;box-sizing:border-box;border-radius:4px;background-color:var(--vscode-icube-colorSuccessHover, "#2FB287");color:var(--vscode-icube-colorSnow, "#fff");font-size:12px;font-weight:400;display:none;align-items:center;z-index:999999}.trae-browser-inspect-highlight-box-show{display:flex}.trae-browser-inspect-select-button.trae-browser-inspect-highlight-box-show{display:flex !important}.trae-browser-inspect-select-button{position:absolute;top:0;left:0;background-color:var(--vscode-icube--bg-bg-base-secondary, "#222427");color:var(--vscode-icube--text-text-default-active, "#F5F9FE");font-size:11px;font-weight:500;border:1px solid var(--vscode-icube--border-neutral-l1, "#E0E2F217");border-radius:6px;padding:0 8px;height:32px;display:none;align-items:center;cursor:pointer;z-index:999999;gap:4px}.trae-browser-inspect-select-button svg,.trae-browser-inspect-select-button span{z-index:1}.trae-browser-inspect-select-highlight-box{background:rgba(0,0,0,0) !important}.trae-browser-inspect-select-highlight-box .trae-browser-inspect-highlight-tag{background-color:var(--vscode-icube--status-success-active, "#1E8B56")}.trae-browser-inspect-comment-card-container{position:fixed;top:0;left:0;z-index:9999999;pointer-events:auto}.trae-browser-inspect-comment-card-container .trae-browser-inspect-comment-card{display:flex;padding-top:0px !important;align-items:center;z-index:9999999 !important;background-color:var(--vscode-icube--bg-bg-menu)}*[contenteditable]{outline:none}.trae-browser-inspect-click-effect{position:fixed;width:40px;height:40px;margin-left:-20px;margin-top:-20px;border-radius:50%;background-color:var(--vscode-icube-colorSuccessHover, #2FB287);pointer-events:none;animation:trae-browser-inspect-ripple 500ms ease-out forwards;z-index:999999}@keyframes trae-browser-inspect-ripple{0%{transform:scale(0.3);opacity:.8}100%{transform:scale(2);opacity:0}}.trae-browser-inspect-ref-box{position:absolute;border:2px solid var(--vscode-icube-colorSuccessHover, "#2FB287");pointer-events:none;z-index:999998;animation:trae-browser-inspect-fadeInOut 2s ease-in-out forwards}.trae-browser-inspect-ref-label{position:absolute;top:-14px;left:0;height:14px;padding:0 4px;box-sizing:border-box;border-radius:2px;background-color:var(--vscode-icube-colorSuccessHover, "#2FB287");color:var(--vscode-icube-colorSnow, "#fff");font-size:9px;font-weight:500;display:flex;align-items:center;white-space:nowrap;z-index:999999}@keyframes trae-browser-inspect-fadeInOut{0%{opacity:0}10%{opacity:1}90%{opacity:1}100%{opacity:0}}.trae-browser-inspect-input-highlight{position:absolute;border:2px solid var(--vscode-icube-colorSuccessHover, "#2FB287");border-radius:4px;pointer-events:none;z-index:999998;box-shadow:0 0 8px var(--vscode-icube-colorSuccessHover, "#2FB287");animation:trae-browser-inspect-input-pulse 600ms ease-out forwards}@keyframes trae-browser-inspect-input-pulse{0%{opacity:0;box-shadow:0 0 0 var(--vscode-icube-colorSuccessHover, "#2FB287")}30%{opacity:1;box-shadow:0 0 12px var(--vscode-icube-colorSuccessHover, "#2FB287")}100%{opacity:0;box-shadow:0 0 0 var(--vscode-icube-colorSuccessHover, "#2FB287")}}.trae-browser-inspect-virtual-cursor{position:fixed;width:20px;height:20px;pointer-events:none;z-index:9999999;opacity:0;transition:opacity .2s ease}.trae-browser-inspect-virtual-cursor.trae-browser-inspect-cursor-visible{opacity:1}.trae-browser-inspect-virtual-cursor.trae-browser-inspect-cursor-idle{animation:trae-browser-inspect-cursor-breathe 2s ease-in-out infinite}.trae-browser-inspect-virtual-cursor svg{width:20px;height:20px;filter:drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3))}@keyframes trae-browser-inspect-cursor-breathe{0%,100%{opacity:.7}50%{opacity:1}}.trae-browser-inspect-scroll-indicator{position:fixed;display:flex;align-items:center;justify-content:center;gap:6px;padding:8px 16px;border-radius:8px;background-color:rgba(0,0,0,.7);color:#fff;font-size:13px;font-weight:500;pointer-events:none;z-index:999999;animation:trae-browser-inspect-indicator-fade 800ms ease-out forwards;backdrop-filter:blur(4px)}.trae-browser-inspect-scroll-indicator svg{width:16px;height:16px;fill:#fff}.trae-browser-inspect-scroll-indicator.trae-scroll-up{top:12px;left:50%;transform:translateX(-50%)}.trae-browser-inspect-scroll-indicator.trae-scroll-down{bottom:12px;left:50%;transform:translateX(-50%)}.trae-browser-inspect-scroll-indicator.trae-scroll-left{left:12px;top:50%;transform:translateY(-50%)}.trae-browser-inspect-scroll-indicator.trae-scroll-right{right:12px;top:50%;transform:translateY(-50%)}@keyframes trae-browser-inspect-indicator-fade{0%{opacity:0;transform:translateX(-50%) scale(0.9)}15%{opacity:1;transform:translateX(-50%) scale(1)}85%{opacity:1}100%{opacity:0}}.trae-browser-inspect-scroll-indicator.trae-scroll-left,.trae-browser-inspect-scroll-indicator.trae-scroll-right{animation-name:trae-browser-inspect-indicator-fade-y}@keyframes trae-browser-inspect-indicator-fade-y{0%{opacity:0;transform:translateY(-50%) scale(0.9)}15%{opacity:1;transform:translateY(-50%) scale(1)}85%{opacity:1}100%{opacity:0}}.trae-browser-inspect-key-badge{position:fixed;bottom:60px;left:50%;transform:translateX(-50%);padding:8px 20px;border-radius:8px;background-color:rgba(0,0,0,.8);color:#fff;font-size:18px;font-weight:600;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,monospace;pointer-events:none;z-index:999999;animation:trae-browser-inspect-key-pop 500ms ease-out forwards;backdrop-filter:blur(4px);border:1px solid hsla(0,0%,100%,.15);box-shadow:0 4px 12px rgba(0,0,0,.3);letter-spacing:1px}@keyframes trae-browser-inspect-key-pop{0%{opacity:0;transform:translateX(-50%) translateY(10px) scale(0.9)}20%{opacity:1;transform:translateX(-50%) translateY(0) scale(1)}80%{opacity:1}100%{opacity:0;transform:translateX(-50%) translateY(-10px)}}.trae-browser-inspect-step-badge{position:fixed;top:12px;left:12px;padding:6px 12px;border-radius:6px;background-color:var(--vscode-icube-colorSuccessHover, #2FB287);color:#fff;font-size:12px;font-weight:600;pointer-events:none;z-index:999999;animation:trae-browser-inspect-step-slide 600ms ease-out forwards;box-shadow:0 2px 8px rgba(47,178,135,.3);max-width:280px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.trae-browser-inspect-step-badge.trae-step-old{opacity:.4;transform:translateY(0)}@keyframes trae-browser-inspect-step-slide{0%{opacity:0;transform:translateX(-20px)}20%{opacity:1;transform:translateX(0)}100%{opacity:1;transform:translateX(0)}}.trae-browser-inspect-drag-trail{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:999998}.trae-browser-inspect-drag-trail svg{width:100%;height:100%}.trae-browser-inspect-drag-trail .trae-drag-path{fill:none;stroke:var(--vscode-icube-colorSuccessHover, #2FB287);stroke-width:2;stroke-dasharray:8 4;opacity:.6;animation:trae-browser-inspect-dash 600ms linear forwards}.trae-browser-inspect-drag-trail .trae-drag-dot{fill:var(--vscode-icube-colorSuccessHover, #2FB287);filter:drop-shadow(0 0 4px rgba(47, 178, 135, 0.6))}.trae-browser-inspect-drag-trail .trae-drag-endpoint{fill:none;stroke:var(--vscode-icube-colorSuccessHover, #2FB287);stroke-width:2;opacity:.5}@keyframes trae-browser-inspect-dash{0%{stroke-dashoffset:200}100%{stroke-dashoffset:0}}.trae-browser-inspect-drag-trail.trae-drag-fade{animation:trae-browser-inspect-trail-fade 400ms ease-out forwards}@keyframes trae-browser-inspect-trail-fade{0%{opacity:1}100%{opacity:0}}</style><script type="module">(async () => {
   try {
     const client = await import('/@vite/client');
     const hmr = client.createHotContext('hmr-handler/fake.js');
-    hmr.on('vite:afterUpdate', window['__ICUBE_WEBVIEW_HMR_CALLBACK_1785261148012']);
+    hmr.on('vite:afterUpdate', window['__ICUBE_WEBVIEW_HMR_CALLBACK_1785260574031']);
   } catch {}
 })();</script><style>.buttonsCard-bTXa5j {
   padding: var(--spacer-4);
@@ -494,7 +380,7 @@
   try {
     const client = await import('/@vite/client');
     const hmr = client.createHotContext('hmr-handler/fake.js');
-    hmr.on('vite:afterUpdate', window['__ICUBE_WEBVIEW_HMR_CALLBACK_1785261148023']);
+    hmr.on('vite:afterUpdate', window['__ICUBE_WEBVIEW_HMR_CALLBACK_1785260574048']);
   } catch {}
 })();</script><style>.buttonsCard-bTXa5j {
   padding: var(--spacer-4);
@@ -2543,71 +2429,86 @@
   color: var(--trae-text-default);
   user-select: none;
 }
-</style></head>
-<body>
-    <!-- 导航栏 -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="logo">🚀 AI学习之路</div>
-            <div style="color: #94a3b8;">零基础 → AI开发工程师</div>
-        </div>
-    </nav>
-
-    <!-- 欢迎区域 -->
-    <div class="container">
-        <div class="hero">
-            <h1>欢迎来到我的AI学习作品集</h1>
-            <p>这是一个从零开始的学习记录。我不会写代码，全程用AI辅助，做出了这些网页。每一个作品都代表一次进步。</p>
-        </div>
-
-        <!-- 作品展示 -->
-        <div class="projects-grid">
-            <!-- 作品1：Hello World -->
-            <a href="index1.html" class="project-card">
-                <div class="project-icon">👋</div>
-                <h3>Hello World</h3>
-                <p>我的第一个网页！点击红色按钮，弹出"Hello World"。学会了按钮和弹窗的基本原理。</p>
-                <span class="project-tag">基础入门</span>
-            </a>
-
-            <!-- 作品2：名字欢迎页 -->
-            <a href="hello-name.html" class="project-card">
-                <div class="project-icon">🎉</div>
-                <h3>名字欢迎页</h3>
-                <p>输入你的名字，生成专属欢迎语。学会了输入框和获取用户输入的值。</p>
-                <span class="project-tag">交互入门</span>
-            </a>
-
-            <!-- 作品3：计算器 -->
-            <a href="calculator.html" class="project-card">
-                <div class="project-icon">🧮</div>
-                <h3>网页计算器</h3>
-                <p>支持加减乘除的完整计算器。学会了运算逻辑和条件判断。</p>
-                <span class="project-tag">逻辑运算</span>
-            </a>
-
-            <!-- 作品4：AI文案生成器 -->
-            <a href="ai-copywriter.html" class="project-card">
-                <div class="project-icon">✨</div>
-                <h3>AI文案生成器</h3>
-                <p>输入产品名称，自动生成小红书风格种草文案。带emoji、分段、网感十足！</p>
-                <span class="project-tag">AI应用</span>
-            </a>
-
-            <!-- 作品5：关于我 -->
-            <div class="project-card" style="cursor: default;">
-                <div class="project-icon">👤</div>
-                <h3>关于我</h3>
-                <p>零基础小白，正在用AI学习编程。目标是成为AI开发工程师。这个网站就是我用AI做出来的！</p>
-                <span class="project-tag">持续更新中</span>
-            </div>
-        </div>
-    </div>
-
-    <!-- 页脚 -->
-    <footer>
-        <p>Made with ❤️ and AI | 我的AI学习之旅</p>
-    </footer>
-
-
-<div class="light"></div><div data-trae-edit-ui="true"></div></body></html>
+</style></head> <!-- 头部结束 -->
+<body> <!-- 页面主体开始 -->
+  <div class="page"> <!-- 页面主容器开始 -->
+    <div class="card"> <!-- 白色卡片容器开始 -->
+      <h1>小红书文案生成器</h1> <!-- 页面主标题 -->
+      <p class="desc">输入一个产品名称，点击按钮，就能生成一段带 emoji、分段和种草语气的小红书风格文案。</p> <!-- 页面说明文字 -->
+      <div class="form-area"> <!-- 输入区域开始 -->
+        <input id="productInput" type="text" placeholder="输入产品名称，比如：奶茶、口红、面膜"> <!-- 产品名称输入框 -->
+        <button id="generateBtn">生成文案</button> <!-- 红色生成按钮 -->
+      </div> <!-- 输入区域结束 -->
+      <h2 class="result-title">生成结果</h2> <!-- 结果区域标题 -->
+      <div id="result">点击“生成文案”后，这里会出现内容～</div> <!-- 文案输出区域 -->
+      <p class="tip">小提示：每次点击都会随机组合不同模板，所以结果会不一样。</p> <!-- 底部提示文字 -->
+    </div> <!-- 白色卡片容器结束 -->
+  </div> <!-- 页面主容器结束 -->
+  <script> // JavaScript 代码开始，负责交互功能
+    const productInput = document.getElementById("productInput"); // 获取输入框元素，后面要读取用户输入的产品名
+    const generateBtn = document.getElementById("generateBtn"); // 获取生成按钮元素，后面要监听点击事件
+    const result = document.getElementById("result"); // 获取结果显示区域元素，后面要把生成的文案放进去
+    const openings = [ // 定义开头吸引句模板数组
+      "谁懂啊！！最近挖到一个宝藏好物，就是【${name}】🥹", // 模板1：惊喜发现型开头
+      "真的不是我夸张，自从用了【${name}】，我直接狠狠爱上了✨", // 模板2：强烈推荐型开头
+      "本来只是随便试试【${name}】，结果现在已经离不开了😭", // 模板3：试用后真香型开头
+      "挖到宝了姐妹们！这个【${name}】我必须立刻分享给你们💥", // 模板4：姐妹安利型开头
+      "最近被问爆的【${name}】，今天终于来认真说说感受啦🫶", // 模板5：热门种草型开头
+      "救命！怎么会有【${name}】这么会拿捏我的需求啊😳", // 模板6：情绪拉满型开头
+      "如果最近只能推荐一个好东西，我会毫不犹豫选【${name}】👏", // 模板7：唯一推荐型开头
+      "先说结论：这个【${name}】真的有点东西，难怪这么多人在夸它🔥" // 模板8：先下结论型开头
+    ]; // 开头模板数组结束
+    const descriptions = [ // 定义产品描述模板数组
+      "它最打动我的点就是整体体验很在线，颜值、质感和实用度都没掉链子。", // 模板1：综合体验描述
+      "我一开始是被它的外观吸引，后来发现真正厉害的是细节做得很到位。", // 模板2：外观加细节描述
+      "不是那种只会营销的类型，实际用下来能感受到它确实有认真做产品。", // 模板3：真实感描述
+      "无论是日常通勤、出门约会，还是懒得折腾的时候，它都很顶。", // 模板4：多场景适用描述
+      "最让我惊喜的是，它不是短暂的新鲜感，而是真的越用越顺手。", // 模板5：耐用顺手描述
+      "我觉得它属于那种第一眼好看，第二眼开始觉得“诶，怎么这么好用”的类型。", // 模板6：由外到内描述
+    ]; // 产品描述模板数组结束
+    const feelings = [ // 定义使用感受模板数组
+      "我自己的感受就是：用完真的会忍不住想回购，舒服度和满意度都很高～", // 模板1：高满意度感受
+      "以前总觉得差不多就行，但用了它之后，才发现体验感真的会影响心情。", // 模板2：体验升级感受
+      "尤其是最近状态不太稳定的时候，它反而成了我最安心的一部分。", // 模板3：情绪价值感受
+      "说实话，它不是那种一秒惊艳到离谱的路线，而是越体验越上头。", // 模板4：耐看耐用感受
+      "用过之后就会明白，为什么很多人都说它是“默默厉害”的那一类。", // 模板5：口碑型感受
+      "如果你也在找一个不容易踩雷、又能提升幸福感的选择，真的可以试试。", // 模板6：低踩雷推荐感受
+    ]; // 使用感受模板数组结束
+    const endings = [ // 定义结尾号召模板数组
+      "答应我，有机会一定去试试【${name}】！真的很容易一用就爱上～💗", // 模板1：温柔安利型结尾
+      "如果你最近也在纠结选什么，直接把【${name}】放进备选清单里，不亏！🛍️", // 模板2：购物建议型结尾
+      "真心建议有同样需求的姐妹们都去看看【${name}】，说不定会和我一样真香！🙌", // 模板3：姐妹安利型结尾
+      "总之，最近的快乐有一部分就是【${name}】给的，狠狠爱住了💞", // 模板4：情绪价值型结尾
+      "谁还没有试过【${name}】啊！这波种草我先按头安利了🌷", // 模板5：按头安利型结尾
+      "如果你用了【${name}】，记得回来告诉我感受，我真的很想和你一起讨论！🥰" // 模板6：互动讨论型结尾
+    ]; // 结尾号召模板数组结束
+    function getRandomItem(array) { // 定义一个函数，用来从数组里随机拿出一条模板
+      const randomIndex = Math.floor(Math.random() * array.length); // 生成一个 0 到数组长度减 1 的随机下标
+      return array[randomIndex]; // 返回随机选中的模板内容
+    } // 随机取模板函数结束
+    function fillTemplate(template, productName) { // 定义一个函数，把模板里的占位符替换成真实产品名称
+      return template.replace(/\$\{name\}/g, productName); // 把模板中所有 ${name} 都替换为用户输入的产品名
+    } // 模板填充函数结束
+    function generateCopy() { // 定义生成文案的主函数
+      const productName = productInput.value.trim(); // 获取输入框内容，并去掉首尾空格
+      if (!productName) { // 判断用户是否什么都没输入
+        result.textContent = "请先输入产品名称，比如：奶茶、口红、面膜～"; // 如果没输入，就提示用户先输入内容
+        return; // 结束当前函数，不继续往下执行
+      } // 空内容判断结束
+      const opening = fillTemplate(getRandomItem(openings), productName); // 随机生成开头吸引句
+      const description = getRandomItem(descriptions); // 随机生成产品描述段落
+      const feeling = getRandomItem(feelings); // 随机生成使用感受段落
+      const ending = fillTemplate(getRandomItem(endings), productName); // 随机生成结尾号召段落
+      const finalCopy = `${opening}\n\n${description}\n\n${feeling}\n\n${ending}`; // 把四部分文案按分段方式拼接成最终结果
+      result.textContent = finalCopy; // 把生成好的文案显示到页面下方
+    } // 主生成函数结束
+    generateBtn.addEventListener("click", generateCopy); // 给按钮绑定点击事件，点击时执行生成函数
+    productInput.addEventListener("keydown", function (event) { // 给输入框绑定键盘事件，方便按回车直接生成
+      if (event.key === "Enter") { // 判断当前按下的键是不是回车键
+        generateCopy(); // 如果是回车键，就执行生成文案函数
+      } // 回车键判断结束
+    }); // 输入框键盘事件绑定结束
+  </script> <!-- JavaScript 代码结束 -->
+ 
+ 
+<div class="light"></div><div data-trae-edit-ui="true"></div></body><!-- 页面主体结束 --></html>
