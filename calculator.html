@@ -2,59 +2,311 @@
 <html lang="zh-CN" data-theme="light" data-trae-theme="dark"><!-- 设置网页语言为中文 --><head> <!-- 头部内容开始 -->
     <meta charset="UTF-8"> <!-- 设置网页字符编码为 UTF-8，防止中文乱码 -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- 让网页在手机和电脑上都能正常显示 -->
-    <title>简单网页计算器</title> <!-- 设置网页标题 -->
-    <style> /* 开始编写网页样式 */
-        body { /* 设置整个页面的样式 */
-            font-family: "Microsoft YaHei", sans-serif; /* 设置页面字体为微软雅黑，找不到时用无衬线字体 */
-            background-color: #f5f5f5; /* 设置页面背景颜色为浅灰色 */
-            display: flex; /* 使用弹性布局让内容更容易居中 */
-            justify-content: center; /* 让内容在水平方向居中 */
-            align-items: center; /* 让内容在垂直方向居中 */
-            height: 100vh; /* 让页面高度等于整个浏览器窗口高度 */
-            margin: 0; /* 去掉浏览器默认外边距 */
-        } /* 结束 body 的样式 */
-        .box { /* 设置计算器外层盒子的样式 */
-            background-color: white; /* 设置盒子背景为白色 */
-            padding: 30px; /* 设置盒子内边距为 30 像素 */
-            border-radius: 12px; /* 设置圆角效果 */
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* 设置盒子的阴影效果 */
-            width: 320px; /* 设置盒子的宽度为 320 像素 */
-        } /* 结束 .box 的样式 */
-        h1 { /* 设置标题样式 */
-            text-align: center; /* 让标题文字居中 */
-            margin-bottom: 20px; /* 设置标题下方外边距 */
-            font-size: 24px; /* 设置标题字体大小 */
-        } /* 结束 h1 的样式 */
-        input, select, button { /* 同时设置输入框、下拉菜单和按钮的共同样式 */
-            width: 100%; /* 让这些元素宽度占满盒子 */
-            padding: 10px; /* 设置内部间距 */
-            margin-bottom: 15px; /* 设置下方外边距 */
-            font-size: 16px; /* 设置字体大小 */
+    <title>升级版网页计算器</title> <!-- 设置网页标题 -->
+    <style> /* ========== 开始编写网页样式 ========== */
+
+        /* ---------- 全局基础样式 ---------- */
+        * { /* 选中页面所有元素 */
+            margin: 0; /* 去掉所有元素默认外边距 */
+            padding: 0; /* 去掉所有元素默认内边距 */
             box-sizing: border-box; /* 让宽度计算包含内边距和边框 */
-        } /* 结束共同样式 */
-        button { /* 设置按钮单独样式 */
-            background-color: red; /* 设置按钮背景颜色为红色 */
-            color: white; /* 设置按钮文字颜色为白色 */
-            border: none; /* 去掉按钮边框 */
-            border-radius: 6px; /* 设置按钮圆角 */
-            cursor: pointer; /* 鼠标移到按钮上时显示小手图标 */
-        } /* 结束 button 的样式 */
-        button:hover { /* 设置鼠标移入按钮时的样式 */
-            background-color: darkred; /* 鼠标移入时让按钮颜色变深 */
-        } /* 结束 button:hover 的样式 */
-        #result { /* 设置结果显示区域的样式 */
-            font-size: 18px; /* 设置结果字体大小 */
-            font-weight: bold; /* 让结果文字加粗 */
-            color: #333; /* 设置结果文字颜色为深灰色 */
-            text-align: center; /* 让结果文字居中 */
-            margin-top: 10px; /* 设置结果区域上方外边距 */
-        } /* 结束 #result 的样式 */
-    </style> <!-- 样式编写结束 -->
+        } /* 结束全局样式 */
+
+        body { /* 设置整个页面的样式 */
+            font-family: "Microsoft YaHei", "PingFang SC", sans-serif; /* 设置页面字体，优先使用中文字体 */
+            background-color: #0f0f1a; /* 设置深色页面背景 */
+            color: #e0e0e0; /* 设置默认文字颜色为浅灰白色 */
+            min-height: 100vh; /* 让页面最小高度等于整个浏览器窗口高度 */
+            display: flex; /* 使用弹性布局方便居中 */
+            justify-content: center; /* 让内容在水平方向居中 */
+            align-items: flex-start; /* 让内容从顶部开始排列 */
+            padding: 20px; /* 给页面四周留出 20 像素间距 */
+        } /* 结束 body 的样式 */
+
+        /* ---------- 主容器：桌面端左右并排，手机端上下堆叠 ---------- */
+        .main-container { /* 设置主容器的样式 */
+            display: flex; /* 使用弹性布局 */
+            gap: 24px; /* 左右两个面板之间的间距 */
+            max-width: 900px; /* 设置最大宽度 */
+            width: 100%; /* 宽度占满可用空间 */
+            flex-wrap: wrap; /* 当屏幕不够宽时，右侧面板自动换到下一行 */
+            justify-content: center; /* 水平居中 */
+        } /* 结束主容器样式 */
+
+        /* ---------- 左侧：计算器主面板 ---------- */
+        .calculator-panel { /* 设置计算器面板的样式 */
+            background-color: #1a1a2e; /* 深蓝紫色卡片背景 */
+            padding: 28px 24px; /* 卡片内边距：上下 28px，左右 24px */
+            border-radius: 16px; /* 圆角效果 */
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5); /* 给卡片添加柔和的深色阴影 */
+            width: 380px; /* 设置计算器面板宽度 */
+            max-width: 100%; /* 保证在小屏幕上不超出屏幕宽度 */
+        } /* 结束计算器面板样式 */
+
+        .panel-title { /* 设置面板标题样式 */
+            text-align: center; /* 标题文字居中 */
+            font-size: 22px; /* 标题字体大小 */
+            font-weight: bold; /* 标题加粗 */
+            margin-bottom: 20px; /* 标题下方留出间距 */
+            color: #ffffff; /* 标题颜色为纯白色 */
+            letter-spacing: 2px; /* 字间距增加，看起来更现代 */
+        } /* 结束标题样式 */
+
+        /* ---------- 输入框和下拉菜单样式 ---------- */
+        .input-group { /* 输入组的外层容器，用于包装标签和输入元素 */
+            margin-bottom: 14px; /* 每组之间的下方间距 */
+        } /* 结束输入组样式 */
+
+        .input-label { /* 输入框上方小标签的样式 */
+            font-size: 12px; /* 标签字体较小 */
+            color: #8888aa; /* 标签颜色为淡紫灰色 */
+            margin-bottom: 4px; /* 标签和输入框之间的间距 */
+            display: block; /* 让标签独占一行 */
+        } /* 结束标签样式 */
+
+        input, select { /* 同时设置输入框和下拉菜单的样式 */
+            width: 100%; /* 宽度占满容器 */
+            padding: 12px 14px; /* 内部间距 */
+            background-color: #16213e; /* 深蓝色输入背景 */
+            color: #ffffff; /* 输入文字白色 */
+            border: 1px solid #2a2a4a; /* 深色边框 */
+            border-radius: 8px; /* 圆角 */
+            font-size: 16px; /* 字号 */
+            font-family: inherit; /* 继承页面字体 */
+            transition: border-color 0.3s, box-shadow 0.3s; /* 边框和阴影变化的过渡动画 */
+        } /* 结束输入框和下拉菜单共同样式 */
+
+        input:focus, select:focus { /* 输入框或下拉菜单获得焦点时的样式 */
+            outline: none; /* 去掉浏览器默认的焦点轮廓 */
+            border-color: #e94560; /* 边框变为红色的强调色 */
+            box-shadow: 0 0 0 3px rgba(233, 69, 96, 0.2); /* 添加红色发光效果 */
+        } /* 结束焦点样式 */
+
+        input::placeholder { /* 输入框占位文字样式 */
+            color: #555577; /* 占位文字颜色为暗灰紫色 */
+        } /* 结束占位文字样式 */
+
+        select { /* 下拉菜单独有样式 */
+            cursor: pointer; /* 鼠标悬停时显示手型图标 */
+            appearance: none; /* 去掉系统默认下拉箭头 */
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23888' fill='none' stroke-width='2'/%3E%3C/svg%3E");
+            background-repeat: no-repeat; /* 自定义箭头不重复 */
+            background-position: right 14px center; /* 箭头放在右侧 */
+            padding-right: 36px; /* 右侧留出箭头空间 */
+        } /* 结束下拉菜单独有样式 */
+
+        select option { /* 下拉菜单选项样式 */
+            background-color: #1a1a2e; /* 选项背景色 */
+            color: #ffffff; /* 选项文字颜色 */
+        } /* 结束下拉选项样式 */
+
+        /* ---------- 科学计算按钮行 ---------- */
+        .sci-buttons { /* 科学计算按钮行的容器 */
+            display: flex; /* 弹性布局，让按钮横向排列 */
+            gap: 10px; /* 按钮之间的间距 */
+            margin-bottom: 16px; /* 下方间距 */
+        } /* 结束科学按钮容器样式 */
+
+        .sci-btn { /* 科学计算按钮的样式 */
+            flex: 1; /* 每个按钮平均分配宽度 */
+            padding: 10px 6px; /* 内部间距 */
+            background-color: #2a2a4a; /* 深紫灰色按钮背景 */
+            color: #c0c0e0; /* 浅紫灰色文字 */
+            border: 1px solid #3a3a5a; /* 边框 */
+            border-radius: 8px; /* 圆角 */
+            font-size: 16px; /* 字号 */
+            cursor: pointer; /* 鼠标悬停时显示手型 */
+            font-family: inherit; /* 继承页面字体 */
+            transition: all 0.3s; /* 所有变化都有过渡动画 */
+        } /* 结束科学按钮样式 */
+
+        .sci-btn:hover { /* 科学按钮鼠标悬停样式 */
+            background-color: #3a3a6a; /* 背景变亮 */
+            border-color: #e94560; /* 边框变红 */
+            color: #ffffff; /* 文字变白 */
+        } /* 结束悬停样式 */
+
+        .sci-btn:active { /* 科学按钮按下时样式 */
+            background-color: #e94560; /* 背景变红 */
+            color: #ffffff; /* 文字变白 */
+            transform: scale(0.96); /* 按钮稍微缩小，产生按下效果 */
+        } /* 结束按下样式 */
+
+        /* ---------- 计算按钮 ---------- */
+        .calc-btn { /* 计算按钮的样式 */
+            width: 100%; /* 宽度占满 */
+            padding: 14px; /* 内部间距 */
+            background-color: #e94560; /* 红色背景——和原来的红色按钮保持一致 */
+            color: #ffffff; /* 白色文字 */
+            border: none; /* 无边框 */
+            border-radius: 8px; /* 圆角 */
+            font-size: 18px; /* 稍大字号 */
+            font-weight: bold; /* 加粗 */
+            cursor: pointer; /* 鼠标悬停时显示手型 */
+            font-family: inherit; /* 继承页面字体 */
+            letter-spacing: 4px; /* 字间距拉大 */
+            transition: all 0.3s; /* 过渡动画 */
+            margin-bottom: 16px; /* 下方间距 */
+        } /* 结束计算按钮样式 */
+
+        .calc-btn:hover { /* 计算按钮鼠标悬停样式 */
+            background-color: #ff5a75; /* 背景变为更亮的红色 */
+            box-shadow: 0 4px 20px rgba(233, 69, 96, 0.4); /* 红色发光阴影 */
+        } /* 结束悬停样式 */
+
+        .calc-btn:active { /* 计算按钮按下时样式 */
+            background-color: #c0392b; /* 背景变暗 */
+            transform: scale(0.97); /* 按钮缩小，产生按下效果 */
+        } /* 结束按下样式 */
+
+        /* ---------- 计算过程显示区域 ---------- */
+        .process-area { /* 计算过程显示区域 */
+            background-color: #0d1b2a; /* 很深的蓝色背景，与主面板区分 */
+            border: 1px solid #2a2a4a; /* 边框 */
+            border-radius: 8px; /* 圆角 */
+            padding: 12px 14px; /* 内部间距 */
+            margin-bottom: 10px; /* 下方间距 */
+            min-height: 42px; /* 最小高度，保证有内容时也有空间 */
+            font-size: 14px; /* 字号 */
+            color: #aabbcc; /* 蓝灰色文字 */
+            word-break: break-all; /* 长文字自动换行 */
+            display: flex; /* 弹性布局，方便垂直居中 */
+            align-items: center; /* 垂直居中 */
+        } /* 结束过程显示区域样式 */
+
+        .process-text { /* 过程文字样式 */
+            color: #7ec8e3; /* 天蓝色——让公式步骤醒目 */
+            font-weight: bold; /* 加粗 */
+        } /* 结束过程文字样式 */
+
+        /* ---------- 计算结果显示区域 ---------- */
+        .result-area { /* 结果显示区域 */
+            background-color: #0d1b2a; /* 深色背景 */
+            border: 1px solid #2a2a4a; /* 边框 */
+            border-radius: 8px; /* 圆角 */
+            padding: 14px; /* 内部间距 */
+            text-align: center; /* 文字居中 */
+            font-size: 20px; /* 较大字号 */
+            font-weight: bold; /* 加粗 */
+            color: #e94560; /* 红色——结果用红色突出显示 */
+            min-height: 54px; /* 最小高度 */
+            display: flex; /* 弹性布局 */
+            align-items: center; /* 垂直居中 */
+            justify-content: center; /* 水平居中 */
+        } /* 结束结果显示区域样式 */
+
+        /* ---------- 键盘提示 ---------- */
+        .keyboard-hint { /* 键盘快捷键提示 */
+            text-align: center; /* 居中 */
+            font-size: 11px; /* 小字号 */
+            color: #555577; /* 暗灰紫色 */
+            margin-top: 12px; /* 上方间距 */
+        } /* 结束键盘提示样式 */
+
+        /* ---------- 右侧：历史记录面板 ---------- */
+        .history-panel { /* 历史记录面板样式 */
+            background-color: #1a1a2e; /* 和主面板相同的深蓝紫色背景 */
+            padding: 24px; /* 内部间距 */
+            border-radius: 16px; /* 圆角 */
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5); /* 阴影 */
+            width: 320px; /* 历史面板宽度 */
+            max-width: 100%; /* 小屏幕不超出 */
+            display: flex; /* 弹性布局 */
+            flex-direction: column; /* 内部元素纵向排列 */
+        } /* 结束历史面板样式 */
+
+        .history-header { /* 历史记录标题行 */
+            display: flex; /* 弹性布局 */
+            justify-content: space-between; /* 标题在左，按钮在右 */
+            align-items: center; /* 垂直居中 */
+            margin-bottom: 16px; /* 下方间距 */
+        } /* 结束历史标题行样式 */
+
+        .history-title { /* 历史区域标题 */
+            font-size: 18px; /* 字号 */
+            font-weight: bold; /* 加粗 */
+            color: #ffffff; /* 白色 */
+        } /* 结束历史标题样式 */
+
+        .clear-history-btn { /* 清空历史按钮 */
+            background-color: transparent; /* 透明背景 */
+            color: #e94560; /* 红色文字 */
+            border: 1px solid #e94560; /* 红色边框 */
+            padding: 6px 14px; /* 内部间距 */
+            border-radius: 6px; /* 圆角 */
+            font-size: 12px; /* 小字号 */
+            cursor: pointer; /* 手型 */
+            font-family: inherit; /* 继承字体 */
+            transition: all 0.3s; /* 过渡动画 */
+        } /* 结束清空按钮样式 */
+
+        .clear-history-btn:hover { /* 清空按钮悬停 */
+            background-color: #e94560; /* 红色背景 */
+            color: #ffffff; /* 白色文字 */
+        } /* 结束清空悬停样式 */
+
+        .history-list { /* 历史记录列表容器 */
+            flex: 1; /* 占满剩余空间 */
+            overflow-y: auto; /* 内容超出时显示垂直滚动条 */
+            display: flex; /* 弹性布局 */
+            flex-direction: column; /* 纵向排列 */
+            gap: 8px; /* 每条记录之间间距 */
+        } /* 结束历史列表样式 */
+
+        .history-item { /* 每条历史记录 */
+            background-color: #16213e; /* 深蓝色背景 */
+            padding: 10px 12px; /* 内部间距 */
+            border-radius: 8px; /* 圆角 */
+            cursor: pointer; /* 手型——表示可以点击 */
+            border: 1px solid transparent; /* 默认透明边框 */
+            transition: all 0.3s; /* 过渡动画 */
+        } /* 结束历史记录样式 */
+
+        .history-item:hover { /* 历史记录悬停 */
+            border-color: #e94560; /* 红色边框 */
+            background-color: #1c2850; /* 背景稍微变亮 */
+        } /* 结束历史悬停样式 */
+
+        .history-time { /* 历史记录时间文字 */
+            font-size: 11px; /* 小字号 */
+            color: #666688; /* 暗灰紫色 */
+            margin-bottom: 4px; /* 下方间距 */
+        } /* 结束时间样式 */
+
+        .history-formula { /* 历史记录公式文字 */
+            font-size: 14px; /* 字号 */
+            color: #c0c0e0; /* 浅灰紫色 */
+            font-weight: bold; /* 加粗 */
+        } /* 结束公式样式 */
+
+        .history-empty { /* 没有历史记录时的提示 */
+            text-align: center; /* 居中 */
+            color: #555577; /* 暗灰紫色 */
+            font-size: 14px; /* 字号 */
+            padding: 40px 0; /* 上下内边距 */
+        } /* 结束空历史提示样式 */
+
+        /* ---------- 移动端适配 ---------- */
+        @media (max-width: 780px) { /* 当屏幕宽度小于等于 780 像素时 */
+            .main-container { /* 主容器 */
+                flex-direction: column; /* 改为纵向排列 */
+                align-items: center; /* 水平居中 */
+            } /* 结束主容器 */
+            .calculator-panel { /* 计算器面板 */
+                width: 100%; /* 占满宽度 */
+            } /* 结束计算器面板 */
+            .history-panel { /* 历史面板 */
+                width: 100%; /* 占满宽度 */
+                max-height: 300px; /* 限制最大高度 */
+            } /* 结束历史面板 */
+        } /* 结束移动端适配 */
+
+    </style> <!-- ========== 样式编写结束 ========== -->
 <style>.trae-browser-inspect-overlay{position:fixed;top:0;left:0;width:100%;height:100%;z-index:999997;pointer-events:auto;background:rgba(0,0,0,0)}.trae-browser-inspect-highlight-box{position:absolute;top:0;left:0;z-index:999998;display:none}.trae-browser-inspect-highlight-tag{position:absolute;left:0px;top:0px;height:18px;padding:0 6px;box-sizing:border-box;border-radius:4px;background-color:var(--vscode-icube-colorSuccessHover, "#2FB287");color:var(--vscode-icube-colorSnow, "#fff");font-size:12px;font-weight:400;display:none;align-items:center;z-index:999999}.trae-browser-inspect-highlight-box-show{display:flex}.trae-browser-inspect-select-button.trae-browser-inspect-highlight-box-show{display:flex !important}.trae-browser-inspect-select-button{position:absolute;top:0;left:0;background-color:var(--vscode-icube--bg-bg-base-secondary, "#222427");color:var(--vscode-icube--text-text-default-active, "#F5F9FE");font-size:11px;font-weight:500;border:1px solid var(--vscode-icube--border-neutral-l1, "#E0E2F217");border-radius:6px;padding:0 8px;height:32px;display:none;align-items:center;cursor:pointer;z-index:999999;gap:4px}.trae-browser-inspect-select-button svg,.trae-browser-inspect-select-button span{z-index:1}.trae-browser-inspect-select-highlight-box{background:rgba(0,0,0,0) !important}.trae-browser-inspect-select-highlight-box .trae-browser-inspect-highlight-tag{background-color:var(--vscode-icube--status-success-active, "#1E8B56")}.trae-browser-inspect-comment-card-container{position:fixed;top:0;left:0;z-index:9999999;pointer-events:auto}.trae-browser-inspect-comment-card-container .trae-browser-inspect-comment-card{display:flex;padding-top:0px !important;align-items:center;z-index:9999999 !important;background-color:var(--vscode-icube--bg-bg-menu)}*[contenteditable]{outline:none}.trae-browser-inspect-click-effect{position:fixed;width:40px;height:40px;margin-left:-20px;margin-top:-20px;border-radius:50%;background-color:var(--vscode-icube-colorSuccessHover, #2FB287);pointer-events:none;animation:trae-browser-inspect-ripple 500ms ease-out forwards;z-index:999999}@keyframes trae-browser-inspect-ripple{0%{transform:scale(0.3);opacity:.8}100%{transform:scale(2);opacity:0}}.trae-browser-inspect-ref-box{position:absolute;border:2px solid var(--vscode-icube-colorSuccessHover, "#2FB287");pointer-events:none;z-index:999998;animation:trae-browser-inspect-fadeInOut 2s ease-in-out forwards}.trae-browser-inspect-ref-label{position:absolute;top:-14px;left:0;height:14px;padding:0 4px;box-sizing:border-box;border-radius:2px;background-color:var(--vscode-icube-colorSuccessHover, "#2FB287");color:var(--vscode-icube-colorSnow, "#fff");font-size:9px;font-weight:500;display:flex;align-items:center;white-space:nowrap;z-index:999999}@keyframes trae-browser-inspect-fadeInOut{0%{opacity:0}10%{opacity:1}90%{opacity:1}100%{opacity:0}}.trae-browser-inspect-input-highlight{position:absolute;border:2px solid var(--vscode-icube-colorSuccessHover, "#2FB287");border-radius:4px;pointer-events:none;z-index:999998;box-shadow:0 0 8px var(--vscode-icube-colorSuccessHover, "#2FB287");animation:trae-browser-inspect-input-pulse 600ms ease-out forwards}@keyframes trae-browser-inspect-input-pulse{0%{opacity:0;box-shadow:0 0 0 var(--vscode-icube-colorSuccessHover, "#2FB287")}30%{opacity:1;box-shadow:0 0 12px var(--vscode-icube-colorSuccessHover, "#2FB287")}100%{opacity:0;box-shadow:0 0 0 var(--vscode-icube-colorSuccessHover, "#2FB287")}}.trae-browser-inspect-virtual-cursor{position:fixed;width:20px;height:20px;pointer-events:none;z-index:9999999;opacity:0;transition:opacity .2s ease}.trae-browser-inspect-virtual-cursor.trae-browser-inspect-cursor-visible{opacity:1}.trae-browser-inspect-virtual-cursor.trae-browser-inspect-cursor-idle{animation:trae-browser-inspect-cursor-breathe 2s ease-in-out infinite}.trae-browser-inspect-virtual-cursor svg{width:20px;height:20px;filter:drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3))}@keyframes trae-browser-inspect-cursor-breathe{0%,100%{opacity:.7}50%{opacity:1}}.trae-browser-inspect-scroll-indicator{position:fixed;display:flex;align-items:center;justify-content:center;gap:6px;padding:8px 16px;border-radius:8px;background-color:rgba(0,0,0,.7);color:#fff;font-size:13px;font-weight:500;pointer-events:none;z-index:999999;animation:trae-browser-inspect-indicator-fade 800ms ease-out forwards;backdrop-filter:blur(4px)}.trae-browser-inspect-scroll-indicator svg{width:16px;height:16px;fill:#fff}.trae-browser-inspect-scroll-indicator.trae-scroll-up{top:12px;left:50%;transform:translateX(-50%)}.trae-browser-inspect-scroll-indicator.trae-scroll-down{bottom:12px;left:50%;transform:translateX(-50%)}.trae-browser-inspect-scroll-indicator.trae-scroll-left{left:12px;top:50%;transform:translateY(-50%)}.trae-browser-inspect-scroll-indicator.trae-scroll-right{right:12px;top:50%;transform:translateY(-50%)}@keyframes trae-browser-inspect-indicator-fade{0%{opacity:0;transform:translateX(-50%) scale(0.9)}15%{opacity:1;transform:translateX(-50%) scale(1)}85%{opacity:1}100%{opacity:0}}.trae-browser-inspect-scroll-indicator.trae-scroll-left,.trae-browser-inspect-scroll-indicator.trae-scroll-right{animation-name:trae-browser-inspect-indicator-fade-y}@keyframes trae-browser-inspect-indicator-fade-y{0%{opacity:0;transform:translateY(-50%) scale(0.9)}15%{opacity:1;transform:translateY(-50%) scale(1)}85%{opacity:1}100%{opacity:0}}.trae-browser-inspect-key-badge{position:fixed;bottom:60px;left:50%;transform:translateX(-50%);padding:8px 20px;border-radius:8px;background-color:rgba(0,0,0,.8);color:#fff;font-size:18px;font-weight:600;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,monospace;pointer-events:none;z-index:999999;animation:trae-browser-inspect-key-pop 500ms ease-out forwards;backdrop-filter:blur(4px);border:1px solid hsla(0,0%,100%,.15);box-shadow:0 4px 12px rgba(0,0,0,.3);letter-spacing:1px}@keyframes trae-browser-inspect-key-pop{0%{opacity:0;transform:translateX(-50%) translateY(10px) scale(0.9)}20%{opacity:1;transform:translateX(-50%) translateY(0) scale(1)}80%{opacity:1}100%{opacity:0;transform:translateX(-50%) translateY(-10px)}}.trae-browser-inspect-step-badge{position:fixed;top:12px;left:12px;padding:6px 12px;border-radius:6px;background-color:var(--vscode-icube-colorSuccessHover, #2FB287);color:#fff;font-size:12px;font-weight:600;pointer-events:none;z-index:999999;animation:trae-browser-inspect-step-slide 600ms ease-out forwards;box-shadow:0 2px 8px rgba(47,178,135,.3);max-width:280px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.trae-browser-inspect-step-badge.trae-step-old{opacity:.4;transform:translateY(0)}@keyframes trae-browser-inspect-step-slide{0%{opacity:0;transform:translateX(-20px)}20%{opacity:1;transform:translateX(0)}100%{opacity:1;transform:translateX(0)}}.trae-browser-inspect-drag-trail{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:999998}.trae-browser-inspect-drag-trail svg{width:100%;height:100%}.trae-browser-inspect-drag-trail .trae-drag-path{fill:none;stroke:var(--vscode-icube-colorSuccessHover, #2FB287);stroke-width:2;stroke-dasharray:8 4;opacity:.6;animation:trae-browser-inspect-dash 600ms linear forwards}.trae-browser-inspect-drag-trail .trae-drag-dot{fill:var(--vscode-icube-colorSuccessHover, #2FB287);filter:drop-shadow(0 0 4px rgba(47, 178, 135, 0.6))}.trae-browser-inspect-drag-trail .trae-drag-endpoint{fill:none;stroke:var(--vscode-icube-colorSuccessHover, #2FB287);stroke-width:2;opacity:.5}@keyframes trae-browser-inspect-dash{0%{stroke-dashoffset:200}100%{stroke-dashoffset:0}}.trae-browser-inspect-drag-trail.trae-drag-fade{animation:trae-browser-inspect-trail-fade 400ms ease-out forwards}@keyframes trae-browser-inspect-trail-fade{0%{opacity:1}100%{opacity:0}}</style><script type="module">(async () => {
   try {
     const client = await import('/@vite/client');
     const hmr = client.createHotContext('hmr-handler/fake.js');
-    hmr.on('vite:afterUpdate', window['__ICUBE_WEBVIEW_HMR_CALLBACK_1785257067620']);
+    hmr.on('vite:afterUpdate', window['__ICUBE_WEBVIEW_HMR_CALLBACK_1785271357091']);
   } catch {}
 })();</script><style>.buttonsCard-bTXa5j {
   padding: var(--spacer-4);
@@ -411,7 +663,7 @@
   try {
     const client = await import('/@vite/client');
     const hmr = client.createHotContext('hmr-handler/fake.js');
-    hmr.on('vite:afterUpdate', window['__ICUBE_WEBVIEW_HMR_CALLBACK_1785257067631']);
+    hmr.on('vite:afterUpdate', window['__ICUBE_WEBVIEW_HMR_CALLBACK_1785271357107']);
   } catch {}
 })();</script><style>.buttonsCard-bTXa5j {
   padding: var(--spacer-4);
@@ -2461,44 +2713,333 @@
   user-select: none;
 }
 </style></head> <!-- 头部内容结束 -->
-<body> <!-- 页面主体开始 -->
-    <div class="box"> <!-- 计算器外层盒子开始 -->
-        <h1>网页计算器</h1> <!-- 显示网页标题 -->
-        <input type="number" id="num1" placeholder="请输入第一个数字"> <!-- 第一个数字输入框 -->
-        <select id="operator"> <!-- 运算符下拉菜单开始 -->
-            <option value="+">加</option> <!-- 加法选项 -->
-            <option value="-">减</option> <!-- 减法选项 -->
-            <option value="*">乘</option> <!-- 乘法选项 -->
-            <option value="/">除</option> <!-- 除法选项 -->
-        </select> <!-- 运算符下拉菜单结束 -->
-        <input type="number" id="num2" placeholder="请输入第二个数字"> <!-- 第二个数字输入框 -->
-        <button onclick="calculate()">计算</button> <!-- 点击后执行计算函数的红色按钮 -->
-        <div id="result">计算结果会显示在这里</div> <!-- 显示计算结果的区域 -->
-    </div> <!-- 计算器外层盒子结束 -->
-    <script> // 开始编写 JavaScript 代码
-        function calculate() { // 定义点击按钮后执行的计算函数
-            let num1 = document.getElementById("num1").value.trim(); // 获取第一个输入框的内容并去掉首尾空格
-            let num2 = document.getElementById("num2").value.trim(); // 获取第二个输入框的内容并去掉首尾空格
-            let operator = document.getElementById("operator").value; // 获取当前选择的运算符
-            let result = ""; // 先定义一个变量，用来保存计算结果
-            if (num1 === "" || num2 === "") { // 如果任意一个输入框没有输入内容
-                alert("请输入数字"); // 弹出提示框提醒用户输入数字
-                return; // 结束函数，不再继续往下执行
-            } // 结束空输入判断
-            num1 = Number(num1); // 把第一个输入的内容转换成数字
-            num2 = Number(num2); // 把第二个输入的内容转换成数字
-            if (operator === "+") { // 如果选择的是加法
-                result = num1 + num2; // 进行加法计算
-            } else if (operator === "-") { // 如果选择的是减法
-                result = num1 - num2; // 进行减法计算
-            } else if (operator === "*") { // 如果选择的是乘法
-                result = num1 * num2; // 进行乘法计算
-            } else if (operator === "/") { // 如果选择的是除法
-                result = num1 / num2; // 进行除法计算
-            } // 结束运算判断
-            document.getElementById("result").innerText = "计算结果：" + result; // 把结果显示到页面最下面
-        } // 结束 calculate 函数
-    </script> <!-- JavaScript 代码结束 -->
+
+<body> <!-- ========== 页面主体开始 ========== -->
+
+    <div class="main-container"> <!-- 主容器：包含计算器面板和历史记录面板 -->
+
+        <!-- ========== 左侧：计算器面板 ========== -->
+        <div class="calculator-panel"> <!-- 计算器面板开始 -->
+            <div class="panel-title">🧮 网页计算器</div> <!-- 面板标题，带一个计算器 emoji -->
+
+            <!-- 第一个数字输入 -->
+            <div class="input-group"> <!-- 输入组开始 -->
+                <label class="input-label">数字 ①</label> <!-- 输入框小标签 -->
+                <input type="number" id="num1" placeholder="输入第一个数字" step="any"> <!-- 第一个数字输入框，step="any" 允许输入小数 -->
+            </div> <!-- 输入组结束 -->
+
+            <!-- 运算符下拉菜单 -->
+            <div class="input-group"> <!-- 输入组开始 -->
+                <label class="input-label">运算符</label> <!-- 标签 -->
+                <select id="operator"> <!-- 运算符下拉菜单 -->
+                    <option value="+">➕ 加（+）</option> <!-- 加法 -->
+                    <option value="-">➖ 减（-）</option> <!-- 减法 -->
+                    <option value="*">✖ 乘（×）</option> <!-- 乘法 -->
+                    <option value="/">➗ 除（÷）</option> <!-- 除法 -->
+                </select> <!-- 下拉菜单结束 -->
+            </div> <!-- 输入组结束 -->
+
+            <!-- 第二个数字输入 -->
+            <div class="input-group"> <!-- 输入组开始 -->
+                <label class="input-label">数字 ②</label> <!-- 标签 -->
+                <input type="number" id="num2" placeholder="输入第二个数字" step="any"> <!-- 第二个数字输入框 -->
+            </div> <!-- 输入组结束 -->
+
+            <!-- 科学计算按钮行 -->
+            <div class="sci-buttons"> <!-- 科学按钮容器开始 -->
+                <button class="sci-btn" onclick="sciSquare()" title="计算第一个数字的平方">x²</button> <!-- 平方按钮 -->
+                <button class="sci-btn" onclick="sciSqrt()" title="计算第一个数字的平方根">√</button> <!-- 开方按钮 -->
+                <button class="sci-btn" onclick="sciPercent()" title="将第一个数字转为百分比（÷100）">%</button> <!-- 百分比按钮 -->
+                <button class="sci-btn" onclick="sciNegate()" title="取第一个数字的相反数">±</button> <!-- 取反按钮 -->
+            </div> <!-- 科学按钮容器结束 -->
+
+            <!-- 计算按钮 -->
+            <button class="calc-btn" onclick="calculate()">计 算</button> <!-- 红色计算按钮，点击执行 calculate 函数 -->
+
+            <!-- 计算过程显示 -->
+            <div class="process-area"> <!-- 过程显示区域开始 -->
+                <span id="processText" class="process-text">等待计算…</span> <!-- 过程文字，初始显示提示 -->
+            </div> <!-- 过程显示区域结束 -->
+
+            <!-- 计算结果 -->
+            <div class="result-area" id="resultArea">计算结果会显示在这里</div> <!-- 结果显示区域 -->
+
+            <!-- 键盘快捷键提示 -->
+            <div class="keyboard-hint">💡 键盘快捷键：回车=计算 &nbsp;|&nbsp; ESC=清空</div> <!-- 给用户提示按键功能 -->
+        </div> <!-- 计算器面板结束 -->
+
+        <!-- ========== 右侧：历史记录面板 ========== -->
+        <div class="history-panel"> <!-- 历史记录面板开始 -->
+            <div class="history-header"> <!-- 历史标题行开始 -->
+                <span class="history-title">📋 计算历史</span> <!-- 历史面板标题 -->
+                <button class="clear-history-btn" onclick="clearHistory()">清空历史</button> <!-- 清空历史按钮 -->
+            </div> <!-- 历史标题行结束 -->
+            <div class="history-list" id="historyList"><div class="history-empty">暂无计算记录</div></div> <!-- 历史列表结束 -->
+        </div> <!-- 历史记录面板结束 -->
+
+    </div> <!-- 主容器结束 -->
+
+    <script> // ========== 开始编写 JavaScript 代码 ==========
+
+    /* ========== 变量定义 ========== */
+    // 获取页面上的 DOM 元素，保存到变量中方便后续使用
+    const input1 = document.getElementById("num1"); // 获取第一个数字输入框
+    const input2 = document.getElementById("num2"); // 获取第二个数字输入框
+    const operatorSelect = document.getElementById("operator"); // 获取运算符下拉菜单
+    const processText = document.getElementById("processText"); // 获取过程显示区域
+    const resultArea = document.getElementById("resultArea"); // 获取结果显示区域
+    const historyList = document.getElementById("historyList"); // 获取历史记录列表容器
+
+    // 从浏览器本地存储中读取历史记录，如果没有就初始化为空数组
+    let history = JSON.parse(localStorage.getItem("calcHistory") || "[]"); // 读取本地存储中的历史记录
+
+    // 记录最后获得焦点的输入框（用于科学计算按钮判断操作哪个输入框）
+    let lastFocusedInput = input1; // 默认操作第一个输入框
+
+    /* ========== 焦点追踪 ========== */
+    input1.addEventListener("focus", function() { // 当第一个输入框获得焦点时
+        lastFocusedInput = input1; // 将最后焦点输入框设为 input1
+    }); // 结束 focus 事件监听
+
+    input2.addEventListener("focus", function() { // 当第二个输入框获得焦点时
+        lastFocusedInput = input2; // 将最后焦点输入框设为 input2
+    }); // 结束 focus 事件监听
+
+    /* ========== 渲染历史记录到页面 ========== */
+    function renderHistory() { // 定义渲染历史记录的函数
+        if (history.length === 0) { // 如果历史记录为空
+            historyList.innerHTML = '<div class="history-empty">暂无计算记录</div>'; // 显示空提示
+            return; // 结束函数
+        } // 结束空判断
+        let html = ""; // 初始化 HTML 字符串
+        for (let i = history.length - 1; i >= 0; i--) { // 倒序遍历——最新的记录在最上面
+            let item = history[i]; // 取出当前这条历史记录
+            html += '<div class="history-item" onclick="refillFromHistory(' + i + ')">'; // 创建可点击的历史记录项
+            html += '<div class="history-time">' + item.time + '</div>'; // 显示时间
+            html += '<div class="history-formula">' + item.formula + '</div>'; // 显示公式和结果
+            html += '</div>'; // 结束历史项 div
+        } // 结束循环
+        historyList.innerHTML = html; // 把生成的 HTML 放进历史列表容器
+    } // 结束 renderHistory 函数
+
+    /* ========== 点击历史记录回填到输入框 ========== */
+    function refillFromHistory(index) { // 定义回填函数，参数是历史记录索引
+        let item = history[index]; // 取出对应索引的历史记录
+        if (item.num1 !== undefined) { // 如果第一条数字存在（说明是四则运算）
+            input1.value = item.num1; // 将第一个数字填回输入框1
+            operatorSelect.value = item.op; // 将运算符填回下拉菜单
+            input2.value = item.num2; // 将第二个数字填回输入框2
+        } else { // 如果是科学计算（只有一个数字）
+            input1.value = item.num1; // 把数字填回输入框1
+            input2.value = ""; // 清空输入框2
+        } // 结束回填判断
+    } // 结束 refillFromHistory 函数
+
+    /* ========== 清空历史记录 ========== */
+    function clearHistory() { // 定义清空历史函数
+        history = []; // 把历史数组设为空
+        localStorage.removeItem("calcHistory"); // 删除浏览器本地存储中的历史记录
+        renderHistory(); // 重新渲染页面上的历史列表
+    } // 结束清空历史函数
+
+    /* ========== 获取当前时间字符串 ========== */
+    function getTimeString() { // 定义获取时间字符串的函数
+        let now = new Date(); // 获取当前日期时间对象
+        let h = String(now.getHours()).padStart(2, "0"); // 获取小时，不足两位补零
+        let m = String(now.getMinutes()).padStart(2, "0"); // 获取分钟，不足两位补零
+        let s = String(now.getSeconds()).padStart(2, "0"); // 获取秒数，不足两位补零
+        return h + ":" + m + ":" + s; // 返回 "时:分:秒" 格式的时间字符串
+    } // 结束 getTimeString 函数
+
+    /* ========== 保存一条历史记录 ========== */
+    function saveHistory(formulaText, num1Val, num2Val, opVal) { // 定义保存历史函数，接收公式文字和各项参数
+        let record = { // 创建一条历史记录对象
+            time: getTimeString(), // 记录时间
+            formula: formulaText, // 记录公式文字
+            num1: num1Val, // 记录第一个数字（用于回填）
+            num2: num2Val, // 记录第二个数字（用于回填）
+            op: opVal // 记录运算符（用于回填）
+        }; // 结束记录对象
+        history.push(record); // 把这条记录追加到历史数组末尾
+        if (history.length > 10) { // 如果历史记录超过 10 条
+            history.shift(); // 删除最旧的那条（数组第一项）
+        } // 结束截断判断
+        localStorage.setItem("calcHistory", JSON.stringify(history)); // 把更新后的历史保存到浏览器本地存储
+        renderHistory(); // 重新渲染历史记录列表
+    } // 结束 saveHistory 函数
+
+    /* ========== 核心计算函数（四则运算） ========== */
+    function calculate() { // 定义计算函数——点击"计算"按钮或按回车时调用
+        let val1 = input1.value.trim(); // 获取输入框1的内容并去掉首尾空格
+        let val2 = input2.value.trim(); // 获取输入框2的内容并去掉首尾空格
+        let op = operatorSelect.value; // 获取当前选择的运算符
+
+        // 输入验证：检查是否为空
+        if (val1 === "" || val2 === "") { // 如果任意一个输入框为空
+            alert("⚠️ 请输入数字"); // 弹出提示框提醒用户输入数字
+            return; // 结束函数，不继续往下执行
+        } // 结束空输入判断
+
+        let num1 = Number(val1); // 将第一个输入转换为数字
+        let num2 = Number(val2); // 将第二个输入转换为数字
+
+        // 再验证：输入是否为有效数字
+        if (isNaN(num1) || isNaN(num2)) { // 如果转换后不是有效数字
+            alert("⚠️ 请输入有效的数字"); // 弹出提示
+            return; // 结束函数
+        } // 结束数字验证
+
+        let result; // 定义变量存放计算结果
+        let opSymbol; // 定义变量存放显示用的运算符符号（如 × 代替 *）
+
+        // 根据运算符执行对应计算
+        if (op === "+") { // 如果选择加法
+            result = num1 + num2; // 执行加法
+            opSymbol = "+"; // 加法显示符号就是 +
+        } else if (op === "-") { // 如果选择减法
+            result = num1 - num2; // 执行减法
+            opSymbol = "-"; // 减法显示符号就是 -
+        } else if (op === "*") { // 如果选择乘法
+            result = num1 * num2; // 执行乘法
+            opSymbol = "×"; // 乘号在代码中是 *，但显示给用户时用 ×
+        } else if (op === "/") { // 如果选择除法
+            if (num2 === 0) { // 如果除数为零
+                alert("⚠️ 除数不能为零"); // 提示用户除数不能为零
+                return; // 结束函数
+            } // 结束除零判断
+            result = num1 / num2; // 执行除法
+            opSymbol = "÷"; // 除号在代码中是 /，但显示给用户时用 ÷
+        } // 结束运算符判断
+
+        // 显示计算过程
+        let formulaText = num1 + " " + opSymbol + " " + num2 + " = " + result; // 拼接公式文字
+        processText.textContent = "计算过程：" + formulaText; // 把公式显示在上方的过程区域
+
+        // 显示计算结果
+        resultArea.textContent = "计算结果：" + result; // 把结果数字显示在最下面的结果区域
+
+        // 保存到历史记录
+        saveHistory(formulaText, num1, num2, op); // 调用保存函数
+
+        // 为结果添加一个小动画效果
+        resultArea.style.transform = "scale(1.05)"; // 放大结果区域
+        setTimeout(function() { // 延迟 200 毫秒后恢复
+            resultArea.style.transform = "scale(1)"; // 恢复原始大小
+        }, 200); // 延迟时间：200 毫秒
+        resultArea.style.transition = "transform 0.2s"; // 添加过渡动画效果
+    } // 结束 calculate 函数
+
+    /* ========== 科学计算：平方 (x²) ========== */
+    function sciSquare() { // 定义平方函数
+        let val = lastFocusedInput.value.trim(); // 获取最后获得焦点的输入框的值
+        if (val === "") { // 如果输入框为空
+            alert("⚠️ 请先在输入框中输入数字"); // 弹出提示
+            return; // 结束函数
+        } // 结束空判断
+        let num = Number(val); // 将输入转换为数字
+        if (isNaN(num)) { // 如果不是有效数字
+            alert("⚠️ 请输入有效的数字"); // 弹出提示
+            return; // 结束函数
+        } // 结束验证
+        let result = num * num; // 计算平方：数字乘以自身
+        lastFocusedInput.value = result; // 把计算结果填回输入框
+        let formulaText = num + "² = " + result; // 拼接公式文字
+        processText.textContent = "计算过程：" + formulaText; // 显示计算过程
+        resultArea.textContent = "计算结果：" + result; // 显示计算结果
+        saveHistory(formulaText, num, null, "x²"); // 保存到历史记录，第二个数字为空
+    } // 结束平方函数
+
+    /* ========== 科学计算：开方 (√) ========== */
+    function sciSqrt() { // 定义开方函数
+        let val = lastFocusedInput.value.trim(); // 获取最后焦点输入框的值
+        if (val === "") { // 如果为空
+            alert("⚠️ 请先在输入框中输入数字"); // 弹出提示
+            return; // 结束
+        } // 结束空判断
+        let num = Number(val); // 转为数字
+        if (isNaN(num)) { // 如果不是有效数字
+            alert("⚠️ 请输入有效的数字"); // 弹出提示
+            return; // 结束
+        } // 结束验证
+        if (num < 0) { // 如果数字是负数
+            alert("⚠️ 不能对负数开平方根"); // 弹出提示
+            return; // 结束
+        } // 结束负数判断
+        let result = Math.sqrt(num); // 使用 Math.sqrt() 方法计算平方根
+        lastFocusedInput.value = result; // 把结果填回输入框
+        let formulaText = "√" + num + " = " + result; // 拼接公式文字
+        processText.textContent = "计算过程：" + formulaText; // 显示过程
+        resultArea.textContent = "计算结果：" + result; // 显示结果
+        saveHistory(formulaText, num, null, "√"); // 保存历史
+    } // 结束开方函数
+
+    /* ========== 科学计算：百分比 (%) ========== */
+    function sciPercent() { // 定义百分比函数——将数字除以 100
+        let val = lastFocusedInput.value.trim(); // 获取输入值
+        if (val === "") { // 如果为空
+            alert("⚠️ 请先在输入框中输入数字"); // 提示
+            return; // 结束
+        } // 结束空判断
+        let num = Number(val); // 转为数字
+        if (isNaN(num)) { // 验证数字
+            alert("⚠️ 请输入有效的数字"); // 提示
+            return; // 结束
+        } // 结束验证
+        let result = num / 100; // 百分比转换：除以 100
+        lastFocusedInput.value = result; // 填回输入框
+        let formulaText = num + "% = " + result; // 拼接公式
+        processText.textContent = "计算过程：" + formulaText; // 显示过程
+        resultArea.textContent = "计算结果：" + result; // 显示结果
+        saveHistory(formulaText, num, null, "%"); // 保存历史
+    } // 结束百分比函数
+
+    /* ========== 科学计算：取反 (±) ========== */
+    function sciNegate() { // 定义取反函数——改变数字的正负号
+        let val = lastFocusedInput.value.trim(); // 获取输入值
+        if (val === "") { // 如果为空
+            alert("⚠️ 请先在输入框中输入数字"); // 提示
+            return; // 结束
+        } // 结束空判断
+        let num = Number(val); // 转为数字
+        if (isNaN(num)) { // 验证数字
+            alert("⚠️ 请输入有效的数字"); // 提示
+            return; // 结束
+        } // 结束验证
+        let result = -num; // 取相反数：在前面加负号
+        lastFocusedInput.value = result; // 填回输入框
+        let formulaText = num + " 取反 = " + result; // 拼接公式
+        processText.textContent = "计算过程：" + formulaText; // 显示过程
+        resultArea.textContent = "计算结果：" + result; // 显示结果
+        saveHistory(formulaText, num, null, "±"); // 保存历史
+    } // 结束取反函数
+
+    /* ========== ESC 清空所有输入和结果 ========== */
+    function clearAll() { // 定义清空函数——按 ESC 或需要时调用
+        input1.value = ""; // 清空输入框1
+        input2.value = ""; // 清空输入框2
+        operatorSelect.value = "+"; // 运算符还原为默认的"加"
+        processText.textContent = "等待计算…"; // 过程区域恢复为默认提示
+        resultArea.textContent = "计算结果会显示在这里"; // 结果区域恢复为默认提示
+        input1.focus(); // 让光标回到第一个输入框，方便继续输入
+    } // 结束清空函数
+
+    /* ========== 键盘事件监听 ========== */
+    document.addEventListener("keydown", function(event) { // 监听整个页面的按键按下事件
+        if (event.key === "Enter") { // 如果按下的是回车键
+            event.preventDefault(); // 阻止浏览器默认行为（如表单提交）
+            calculate(); // 调用计算函数
+        } else if (event.key === "Escape") { // 如果按下的是 ESC 键
+            event.preventDefault(); // 阻止浏览器默认行为
+            clearAll(); // 调用清空函数
+        } // 结束按键判断
+    }); // 结束键盘事件监听
+
+    /* ========== 页面加载时初始化 ========== */
+    renderHistory(); // 页面加载时渲染历史记录列表
+    input1.focus(); // 自动把光标放在第一个输入框中，方便用户直接开始输入
+
+    </script> <!-- ========== JavaScript 代码结束 ========== -->
+
  
  
-<div class="light"></div><div data-trae-edit-ui="true"></div></body><!-- 页面主体结束 --></html>
+<div class="light"></div><div data-trae-edit-ui="true"></div></body><!-- ========== 页面主体结束 ========== --></html>
