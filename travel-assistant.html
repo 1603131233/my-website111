@@ -50,7 +50,7 @@
         /* ========== 主容器 ========== */
         .container {
             width: 100%;
-            max-width: 720px;
+            max-width: 760px;
             margin: 0 auto;
         }
 
@@ -79,29 +79,13 @@
             box-shadow: var(--shadow-md);
         }
 
-        .header .icon-bubble:nth-child(1) {
-            background: linear-gradient(135deg, #FF6B8A, #FF3B5C);
-            animation: float 3s ease-in-out infinite;
-        }
-
-        .header .icon-bubble:nth-child(2) {
-            background: linear-gradient(135deg, #FF85A0, #FF5978);
-            animation: float 3s ease-in-out 0.3s infinite;
-        }
-
-        .header .icon-bubble:nth-child(3) {
-            background: linear-gradient(135deg, #FF9FB5, #FF7590);
-            animation: float 3s ease-in-out 0.6s infinite;
-        }
+        .header .icon-bubble:nth-child(1) { background: linear-gradient(135deg, #FF6B8A, #FF3B5C); animation: float 3s ease-in-out infinite; }
+        .header .icon-bubble:nth-child(2) { background: linear-gradient(135deg, #FF85A0, #FF5978); animation: float 3s ease-in-out 0.3s infinite; }
+        .header .icon-bubble:nth-child(3) { background: linear-gradient(135deg, #FF9FB5, #FF7590); animation: float 3s ease-in-out 0.6s infinite; }
 
         @keyframes float {
-            0%,
-            100% {
-                transform: translateY(0);
-            }
-            50% {
-                transform: translateY(-8px);
-            }
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
         }
 
         .header h1 {
@@ -168,24 +152,28 @@
             background: #ffffff;
         }
 
-        /* 按钮样式 */
-        .btn-plan {
+        /* 按钮通用基础样式 */
+        .btn-base {
             height: 54px;
             padding: 0 28px;
-            background: linear-gradient(135deg, #FF3360, #FF5C7F);
-            color: #ffffff;
-            font-size: 16px;
-            font-weight: 700;
             border: none;
             border-radius: var(--radius-md);
             cursor: pointer;
             white-space: nowrap;
             letter-spacing: 1px;
-            box-shadow: 0 4px 16px rgba(255, 51, 96, 0.35);
             transition: all 0.3s ease;
             display: flex;
             align-items: center;
             gap: 6px;
+            font-weight: 700;
+            font-size: 16px;
+        }
+
+        /* 开始规划按钮（红色） */
+        .btn-plan {
+            background: linear-gradient(135deg, #FF3360, #FF5C7F);
+            color: #ffffff;
+            box-shadow: 0 4px 16px rgba(255, 51, 96, 0.35);
         }
 
         .btn-plan:hover {
@@ -215,18 +203,54 @@
             animation: spin 0.7s linear infinite;
         }
 
-        .btn-plan.loading .spinner {
-            display: inline-block;
-        }
+        .btn-plan.loading .spinner { display: inline-block; }
+        .btn-plan.loading .btn-text { display: none; }
 
-        .btn-plan.loading .btn-text {
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* ========== 操作按钮行（重新规划 + 复制攻略） ========== */
+        .action-row {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
             display: none;
         }
 
-        @keyframes spin {
-            to {
-                transform: rotate(360deg);
-            }
+        .action-row.visible {
+            display: flex;
+        }
+
+        .btn-reset {
+            background: var(--bg-card);
+            color: var(--pink-600);
+            border: 2px solid var(--pink-200);
+            box-shadow: var(--shadow-sm);
+            flex: 1;
+            justify-content: center;
+        }
+
+        .btn-reset:hover {
+            background: var(--pink-50);
+            border-color: var(--pink-400);
+            transform: translateY(-2px);
+        }
+
+        .btn-copy {
+            background: linear-gradient(135deg, #FF3360, #FF5C7F);
+            color: #ffffff;
+            box-shadow: 0 4px 16px rgba(255, 51, 96, 0.35);
+            flex: 1;
+            justify-content: center;
+        }
+
+        .btn-copy:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(255, 51, 96, 0.45);
+        }
+
+        .btn-copy.copied {
+            background: linear-gradient(135deg, #22C55E, #16A34A);
+            box-shadow: 0 4px 16px rgba(34, 197, 94, 0.35);
         }
 
         /* ========== 工作流进度区域 ========== */
@@ -238,12 +262,9 @@
             margin-bottom: 20px;
             border: 1.5px solid var(--pink-100);
             display: none;
-            /* 默认隐藏，开始规划后才显示 */
         }
 
-        .workflow-section.visible {
-            display: block;
-        }
+        .workflow-section.visible { display: block; }
 
         .workflow-title {
             font-size: 14px;
@@ -267,7 +288,7 @@
             display: flex;
             align-items: flex-start;
             gap: 16px;
-            padding: 18px 16px;
+            padding: 14px 16px;
             border-radius: var(--radius-sm);
             position: relative;
             transition: all 0.4s ease;
@@ -278,18 +299,16 @@
             content: '';
             position: absolute;
             left: 35px;
-            top: 56px;
+            top: 52px;
             width: 2px;
-            height: calc(100% - 12px);
+            height: calc(100% - 8px);
             background: var(--pink-100);
             z-index: 0;
             transition: background 0.5s ease;
         }
 
         /* 最后一个步骤不显示连接线 */
-        .step-item:last-child::before {
-            display: none;
-        }
+        .step-item:last-child::before { display: none; }
 
         /* 已完成步骤的连接线变粉色 */
         .step-item.completed::before {
@@ -314,7 +333,7 @@
             border: 2px solid var(--pink-100);
         }
 
-        /* 当前进行中的步骤圆圈 */
+        /* 当前进行中的步骤圆圈 ⏳ */
         .step-item.active .step-circle {
             background: linear-gradient(135deg, #FF3360, #FF5C7F);
             color: #ffffff;
@@ -324,16 +343,11 @@
         }
 
         @keyframes pulse-ring {
-            0%,
-            100% {
-                box-shadow: 0 0 0 4px rgba(255, 51, 96, 0.15);
-            }
-            50% {
-                box-shadow: 0 0 0 12px rgba(255, 51, 96, 0.05);
-            }
+            0%, 100% { box-shadow: 0 0 0 4px rgba(255, 51, 96, 0.15); }
+            50% { box-shadow: 0 0 0 12px rgba(255, 51, 96, 0.05); }
         }
 
-        /* 已完成的步骤圆圈 */
+        /* 已完成的步骤圆圈 ✅ */
         .step-item.completed .step-circle {
             background: linear-gradient(135deg, #22C55E, #16A34A);
             color: #ffffff;
@@ -364,13 +378,8 @@
             transition: color 0.3s;
         }
 
-        .step-item.active .step-title {
-            color: var(--pink-500);
-        }
-
-        .step-item.completed .step-title {
-            color: #16A34A;
-        }
+        .step-item.active .step-title { color: var(--pink-500); }
+        .step-item.completed .step-title { color: #16A34A; }
 
         /* 步骤状态文字 */
         .step-status {
@@ -378,9 +387,7 @@
             transition: color 0.3s;
         }
 
-        .step-status.pending {
-            color: var(--text-light);
-        }
+        .step-status.pending { color: var(--text-light); }
 
         .step-status.running {
             color: var(--pink-500);
@@ -400,37 +407,28 @@
         }
 
         @keyframes blink {
-            0%,
-            100% {
-                opacity: 1;
-            }
-            50% {
-                opacity: 0.3;
-            }
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
         }
 
-        .step-status.done {
-            color: #16A34A;
-        }
+        .step-status.done { color: #16A34A; }
 
         /* 步骤结果的简短预览（在步骤下方显示） */
         .step-preview {
             margin-top: 10px;
-            padding: 12px 16px;
+            padding: 10px 14px;
             background: #F0FDF4;
             border-radius: var(--radius-sm);
-            font-size: 13px;
+            font-size: 12px;
             color: #166534;
-            line-height: 1.7;
+            line-height: 1.6;
             border: 1px solid #BBF7D0;
             display: none;
-            max-height: 120px;
+            max-height: 100px;
             overflow-y: auto;
         }
 
-        .step-item.completed .step-preview {
-            display: block;
-        }
+        .step-item.completed .step-preview { display: block; }
 
         /* ========== 最终结果区域 ========== */
         .result-section {
@@ -443,9 +441,7 @@
             display: none;
         }
 
-        .result-section.visible {
-            display: block;
-        }
+        .result-section.visible { display: block; }
 
         .result-header {
             display: flex;
@@ -456,9 +452,7 @@
             border-bottom: 2px solid var(--pink-50);
         }
 
-        .result-header .result-icon {
-            font-size: 28px;
-        }
+        .result-header .result-icon { font-size: 28px; }
 
         .result-header h2 {
             font-size: 20px;
@@ -481,9 +475,7 @@
             box-shadow: var(--shadow-sm);
         }
 
-        .result-block:last-child {
-            margin-bottom: 0;
-        }
+        .result-block:last-child { margin-bottom: 0; }
 
         .result-block h3 {
             font-size: 16px;
@@ -500,6 +492,164 @@
             color: var(--text-dark);
             line-height: 1.8;
             white-space: pre-wrap;
+        }
+
+        /* ========== Step 4 预算表格 ========== */
+        .budget-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 8px;
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .budget-table thead th {
+            background: linear-gradient(135deg, #FF3360, #FF5C7F);
+            color: #ffffff;
+            padding: 12px 16px;
+            font-size: 14px;
+            font-weight: 600;
+            text-align: left;
+            letter-spacing: 0.5px;
+        }
+
+        .budget-table thead th:last-child { text-align: right; }
+
+        .budget-table tbody td {
+            padding: 11px 16px;
+            font-size: 14px;
+            border-bottom: 1px solid var(--pink-100);
+            background: #ffffff;
+            color: var(--text-dark);
+        }
+
+        .budget-table tbody td:last-child {
+            text-align: right;
+            font-weight: 600;
+            color: var(--pink-600);
+        }
+
+        .budget-table tbody tr:hover td { background: var(--pink-50); }
+
+        /* 总预算行高亮 */
+        .budget-table tbody tr.total-row td {
+            background: linear-gradient(135deg, #FF3360, #FF5C7F);
+            color: #ffffff;
+            font-weight: 700;
+            font-size: 15px;
+            border-bottom: none;
+        }
+
+        .budget-table tbody tr.total-row td:last-child {
+            color: #ffffff;
+            font-size: 16px;
+        }
+
+        /* 预算原始文本（备用显示） */
+        .budget-raw {
+            font-size: 14px;
+            color: var(--text-dark);
+            line-height: 1.8;
+            white-space: pre-wrap;
+        }
+
+        /* ========== Step 5 精美攻略卡片 ========== */
+        .guide-card {
+            background: linear-gradient(145deg, #FFF8FA 0%, #FFF0F3 40%, #FFE8EE 100%);
+            border-radius: var(--radius-lg);
+            padding: 32px 28px;
+            border: 2px solid var(--pink-200);
+            box-shadow: 0 12px 40px rgba(255, 51, 96, 0.18), 0 2px 8px rgba(255, 51, 96, 0.06);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* 卡片顶部装饰条 */
+        .guide-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, #FF3360, #FF6B8A, #FFADBF, #FF6B8A, #FF3360);
+            border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+        }
+
+        /* 卡片底部装饰 */
+        .guide-card::after {
+            content: '✈️ 🗺️ 🎒 🏨 🍜 📸';
+            position: absolute;
+            bottom: 12px;
+            right: 20px;
+            font-size: 12px;
+            opacity: 0.25;
+            letter-spacing: 3px;
+        }
+
+        .guide-card .card-header {
+            text-align: center;
+            margin-bottom: 24px;
+            padding-bottom: 20px;
+            border-bottom: 2px dashed var(--pink-200);
+        }
+
+        .guide-card .card-header .card-destination {
+            font-size: 28px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #FF3360, #FF6B8A);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 4px;
+        }
+
+        .guide-card .card-header .card-subtitle {
+            font-size: 13px;
+            color: var(--text-light);
+            letter-spacing: 2px;
+        }
+
+        .guide-card .card-body {
+            font-size: 14px;
+            color: var(--text-dark);
+            line-height: 2;
+            white-space: pre-wrap;
+        }
+
+        /* 卡片内的 emoji 标题样式增强 */
+        .guide-card .card-body strong,
+        .guide-card .card-body b {
+            color: var(--pink-600);
+        }
+
+        /* ========== 复制成功提示 ========== */
+        .copy-toast {
+            position: fixed;
+            top: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #F0FDF4;
+            color: #16A34A;
+            padding: 14px 24px;
+            border-radius: var(--radius-md);
+            font-size: 14px;
+            font-weight: 600;
+            box-shadow: var(--shadow-lg);
+            border: 1.5px solid #BBF7D0;
+            z-index: 1000;
+            display: none;
+            animation: slideDown 0.3s ease;
+        }
+
+        .copy-toast.visible {
+            display: block;
+            animation: slideDown 0.3s ease, fadeOut 0.3s ease 1.5s forwards;
+        }
+
+        @keyframes fadeOut {
+            to { opacity: 0; transform: translateX(-50%) translateY(-10px); }
         }
 
         /* ========== 错误提示 ========== */
@@ -521,19 +671,11 @@
             animation: slideDown 0.3s ease;
         }
 
-        .error-toast.visible {
-            display: block;
-        }
+        .error-toast.visible { display: block; }
 
         @keyframes slideDown {
-            from {
-                opacity: 0;
-                transform: translateX(-50%) translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(-50%) translateY(0);
-            }
+            from { opacity: 0; transform: translateX(-50%) translateY(-20px); }
+            to { opacity: 1; transform: translateX(-50%) translateY(0); }
         }
 
         /* ========== 页脚 ========== */
@@ -546,17 +688,10 @@
 
         /* ========== 响应式：手机适配 ========== */
         @media (max-width: 640px) {
-            .container {
-                max-width: 100%;
-            }
+            .container { max-width: 100%; }
 
-            .header h1 {
-                font-size: 26px;
-            }
-
-            .header .subtitle {
-                font-size: 13px;
-            }
+            .header h1 { font-size: 26px; }
+            .header .subtitle { font-size: 13px; }
 
             .input-row {
                 flex-direction: column;
@@ -576,74 +711,40 @@
                 font-size: 15px;
             }
 
-            .input-card {
-                padding: 20px 16px;
-            }
+            .action-row { flex-direction: column; }
+            .btn-reset, .btn-copy { width: 100%; height: 48px; font-size: 14px; }
 
-            .workflow-section {
-                padding: 18px 14px;
-            }
+            .input-card { padding: 20px 16px; }
+            .workflow-section { padding: 18px 14px; }
+            .result-section { padding: 20px 16px; }
 
-            .result-section {
-                padding: 20px 16px;
-            }
+            .step-item { padding: 12px 8px; gap: 10px; }
+            .step-circle { width: 34px; height: 34px; min-width: 34px; font-size: 15px; }
+            .step-item::before { left: 28px; top: 46px; }
+            .step-title { font-size: 14px; }
+            .step-preview { font-size: 11px; max-height: 80px; }
 
-            .step-item {
-                padding: 14px 10px;
-                gap: 12px;
-            }
+            .result-block { padding: 14px; }
+            .result-block h3 { font-size: 14px; }
+            .result-block .block-content { font-size: 13px; }
 
-            .step-circle {
-                width: 34px;
-                height: 34px;
-                min-width: 34px;
-                font-size: 15px;
-            }
+            .budget-table thead th, .budget-table tbody td { padding: 10px 12px; font-size: 13px; }
 
-            .step-item::before {
-                left: 28px;
-                top: 50px;
-            }
-
-            .step-title {
-                font-size: 14px;
-            }
-
-            .step-preview {
-                font-size: 12px;
-                max-height: 100px;
-            }
-
-            .result-block {
-                padding: 14px;
-            }
-
-            .result-block h3 {
-                font-size: 14px;
-            }
-
-            .result-block .block-content {
-                font-size: 13px;
-            }
+            .guide-card { padding: 24px 16px; }
+            .guide-card .card-header .card-destination { font-size: 22px; }
+            .guide-card .card-body { font-size: 13px; }
         }
 
         @media (max-width: 380px) {
-            .header h1 {
-                font-size: 22px;
-            }
-
-            .header .icon-bubble {
-                width: 38px;
-                height: 38px;
-                font-size: 18px;
-            }
+            .header h1 { font-size: 22px; }
+            .header .icon-bubble { width: 38px; height: 38px; font-size: 18px; }
         }
     </style>
 <style>.trae-browser-inspect-overlay{position:fixed;top:0;left:0;width:100%;height:100%;z-index:999997;pointer-events:auto;background:rgba(0,0,0,0)}.trae-browser-inspect-highlight-box{position:absolute;top:0;left:0;z-index:999998;display:none}.trae-browser-inspect-highlight-tag{position:absolute;left:0px;top:0px;height:18px;padding:0 6px;box-sizing:border-box;border-radius:4px;background-color:var(--vscode-icube-colorSuccessHover, "#2FB287");color:var(--vscode-icube-colorSnow, "#fff");font-size:12px;font-weight:400;display:none;align-items:center;z-index:999999}.trae-browser-inspect-highlight-box-show{display:flex}.trae-browser-inspect-select-button.trae-browser-inspect-highlight-box-show{display:flex !important}.trae-browser-inspect-select-button{position:absolute;top:0;left:0;background-color:var(--vscode-icube--bg-bg-base-secondary, "#222427");color:var(--vscode-icube--text-text-default-active, "#F5F9FE");font-size:11px;font-weight:500;border:1px solid var(--vscode-icube--border-neutral-l1, "#E0E2F217");border-radius:6px;padding:0 8px;height:32px;display:none;align-items:center;cursor:pointer;z-index:999999;gap:4px}.trae-browser-inspect-select-button svg,.trae-browser-inspect-select-button span{z-index:1}.trae-browser-inspect-select-highlight-box{background:rgba(0,0,0,0) !important}.trae-browser-inspect-select-highlight-box .trae-browser-inspect-highlight-tag{background-color:var(--vscode-icube--status-success-active, "#1E8B56")}.trae-browser-inspect-comment-card-container{position:fixed;top:0;left:0;z-index:9999999;pointer-events:auto}.trae-browser-inspect-comment-card-container .trae-browser-inspect-comment-card{display:flex;padding-top:0px !important;align-items:center;z-index:9999999 !important;background-color:var(--vscode-icube--bg-bg-menu)}*[contenteditable]{outline:none}.trae-browser-inspect-click-effect{position:fixed;width:40px;height:40px;margin-left:-20px;margin-top:-20px;border-radius:50%;background-color:var(--vscode-icube-colorSuccessHover, #2FB287);pointer-events:none;animation:trae-browser-inspect-ripple 500ms ease-out forwards;z-index:999999}@keyframes trae-browser-inspect-ripple{0%{transform:scale(0.3);opacity:.8}100%{transform:scale(2);opacity:0}}.trae-browser-inspect-ref-box{position:absolute;border:2px solid var(--vscode-icube-colorSuccessHover, "#2FB287");pointer-events:none;z-index:999998;animation:trae-browser-inspect-fadeInOut 2s ease-in-out forwards}.trae-browser-inspect-ref-label{position:absolute;top:-14px;left:0;height:14px;padding:0 4px;box-sizing:border-box;border-radius:2px;background-color:var(--vscode-icube-colorSuccessHover, "#2FB287");color:var(--vscode-icube-colorSnow, "#fff");font-size:9px;font-weight:500;display:flex;align-items:center;white-space:nowrap;z-index:999999}@keyframes trae-browser-inspect-fadeInOut{0%{opacity:0}10%{opacity:1}90%{opacity:1}100%{opacity:0}}.trae-browser-inspect-input-highlight{position:absolute;border:2px solid var(--vscode-icube-colorSuccessHover, "#2FB287");border-radius:4px;pointer-events:none;z-index:999998;box-shadow:0 0 8px var(--vscode-icube-colorSuccessHover, "#2FB287");animation:trae-browser-inspect-input-pulse 600ms ease-out forwards}@keyframes trae-browser-inspect-input-pulse{0%{opacity:0;box-shadow:0 0 0 var(--vscode-icube-colorSuccessHover, "#2FB287")}30%{opacity:1;box-shadow:0 0 12px var(--vscode-icube-colorSuccessHover, "#2FB287")}100%{opacity:0;box-shadow:0 0 0 var(--vscode-icube-colorSuccessHover, "#2FB287")}}.trae-browser-inspect-virtual-cursor{position:fixed;width:20px;height:20px;pointer-events:none;z-index:9999999;opacity:0;transition:opacity .2s ease}.trae-browser-inspect-virtual-cursor.trae-browser-inspect-cursor-visible{opacity:1}.trae-browser-inspect-virtual-cursor.trae-browser-inspect-cursor-idle{animation:trae-browser-inspect-cursor-breathe 2s ease-in-out infinite}.trae-browser-inspect-virtual-cursor svg{width:20px;height:20px;filter:drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3))}@keyframes trae-browser-inspect-cursor-breathe{0%,100%{opacity:.7}50%{opacity:1}}.trae-browser-inspect-scroll-indicator{position:fixed;display:flex;align-items:center;justify-content:center;gap:6px;padding:8px 16px;border-radius:8px;background-color:rgba(0,0,0,.7);color:#fff;font-size:13px;font-weight:500;pointer-events:none;z-index:999999;animation:trae-browser-inspect-indicator-fade 800ms ease-out forwards;backdrop-filter:blur(4px)}.trae-browser-inspect-scroll-indicator svg{width:16px;height:16px;fill:#fff}.trae-browser-inspect-scroll-indicator.trae-scroll-up{top:12px;left:50%;transform:translateX(-50%)}.trae-browser-inspect-scroll-indicator.trae-scroll-down{bottom:12px;left:50%;transform:translateX(-50%)}.trae-browser-inspect-scroll-indicator.trae-scroll-left{left:12px;top:50%;transform:translateY(-50%)}.trae-browser-inspect-scroll-indicator.trae-scroll-right{right:12px;top:50%;transform:translateY(-50%)}@keyframes trae-browser-inspect-indicator-fade{0%{opacity:0;transform:translateX(-50%) scale(0.9)}15%{opacity:1;transform:translateX(-50%) scale(1)}85%{opacity:1}100%{opacity:0}}.trae-browser-inspect-scroll-indicator.trae-scroll-left,.trae-browser-inspect-scroll-indicator.trae-scroll-right{animation-name:trae-browser-inspect-indicator-fade-y}@keyframes trae-browser-inspect-indicator-fade-y{0%{opacity:0;transform:translateY(-50%) scale(0.9)}15%{opacity:1;transform:translateY(-50%) scale(1)}85%{opacity:1}100%{opacity:0}}.trae-browser-inspect-key-badge{position:fixed;bottom:60px;left:50%;transform:translateX(-50%);padding:8px 20px;border-radius:8px;background-color:rgba(0,0,0,.8);color:#fff;font-size:18px;font-weight:600;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,monospace;pointer-events:none;z-index:999999;animation:trae-browser-inspect-key-pop 500ms ease-out forwards;backdrop-filter:blur(4px);border:1px solid hsla(0,0%,100%,.15);box-shadow:0 4px 12px rgba(0,0,0,.3);letter-spacing:1px}@keyframes trae-browser-inspect-key-pop{0%{opacity:0;transform:translateX(-50%) translateY(10px) scale(0.9)}20%{opacity:1;transform:translateX(-50%) translateY(0) scale(1)}80%{opacity:1}100%{opacity:0;transform:translateX(-50%) translateY(-10px)}}.trae-browser-inspect-step-badge{position:fixed;top:12px;left:12px;padding:6px 12px;border-radius:6px;background-color:var(--vscode-icube-colorSuccessHover, #2FB287);color:#fff;font-size:12px;font-weight:600;pointer-events:none;z-index:999999;animation:trae-browser-inspect-step-slide 600ms ease-out forwards;box-shadow:0 2px 8px rgba(47,178,135,.3);max-width:280px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.trae-browser-inspect-step-badge.trae-step-old{opacity:.4;transform:translateY(0)}@keyframes trae-browser-inspect-step-slide{0%{opacity:0;transform:translateX(-20px)}20%{opacity:1;transform:translateX(0)}100%{opacity:1;transform:translateX(0)}}.trae-browser-inspect-drag-trail{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:999998}.trae-browser-inspect-drag-trail svg{width:100%;height:100%}.trae-browser-inspect-drag-trail .trae-drag-path{fill:none;stroke:var(--vscode-icube-colorSuccessHover, #2FB287);stroke-width:2;stroke-dasharray:8 4;opacity:.6;animation:trae-browser-inspect-dash 600ms linear forwards}.trae-browser-inspect-drag-trail .trae-drag-dot{fill:var(--vscode-icube-colorSuccessHover, #2FB287);filter:drop-shadow(0 0 4px rgba(47, 178, 135, 0.6))}.trae-browser-inspect-drag-trail .trae-drag-endpoint{fill:none;stroke:var(--vscode-icube-colorSuccessHover, #2FB287);stroke-width:2;opacity:.5}@keyframes trae-browser-inspect-dash{0%{stroke-dashoffset:200}100%{stroke-dashoffset:0}}.trae-browser-inspect-drag-trail.trae-drag-fade{animation:trae-browser-inspect-trail-fade 400ms ease-out forwards}@keyframes trae-browser-inspect-trail-fade{0%{opacity:1}100%{opacity:0}}</style><script type="module">(async () => {
   try {
     const client = await import('/@vite/client');
     const hmr = client.createHotContext('hmr-handler/fake.js');
-    hmr.on('vite:afterUpdate', window['__ICUBE_WEBVIEW_HMR_CALLBACK_1785267559989']);
+    hmr.on('vite:afterUpdate', window['__ICUBE_WEBVIEW_HMR_CALLBACK_1785269483186']);
   } catch {}
 })();</script><style>.buttonsCard-bTXa5j {
   padding: var(--spacer-4);
@@ -1000,7 +1101,7 @@
   try {
     const client = await import('/@vite/client');
     const hmr = client.createHotContext('hmr-handler/fake.js');
-    hmr.on('vite:afterUpdate', window['__ICUBE_WEBVIEW_HMR_CALLBACK_1785267560007']);
+    hmr.on('vite:afterUpdate', window['__ICUBE_WEBVIEW_HMR_CALLBACK_1785269483200']);
   } catch {}
 })();</script><style>.buttonsCard-bTXa5j {
   padding: var(--spacer-4);
@@ -3055,6 +3156,9 @@
     <!-- ========== 错误提示横幅 ========== -->
     <div class="error-toast" id="errorToast">⚠️ 规划失败：API 请求失败：Invalid Authentication，请检查 API Key 和网络后重试</div>
 
+    <!-- ========== 复制成功提示 ========== -->
+    <div class="copy-toast" id="copyToast">📋 攻略已复制到剪贴板！</div>
+
     <!-- ========== 主容器 ========== -->
     <div class="container">
 
@@ -3069,7 +3173,7 @@
             <!-- 主标题 -->
             <h1>🌍 智能旅行助手</h1>
             <!-- 副标题 -->
-            <p class="subtitle">输入目的地，AI 自动拆解多步骤为你规划旅行</p>
+            <p class="subtitle">输入目的地，AI 自动拆解 5 步骤为你规划旅行</p>
         </div>
 
         <!-- ========== 输入卡片 ========== -->
@@ -3078,28 +3182,40 @@
                 <!-- 目的地输入框 -->
                 <input type="text" id="destinationInput" placeholder="输入目的地，比如：杭州、成都、西安" autocomplete="off">
                 <!-- 开始规划按钮 -->
-                <button class="btn-plan" id="btnPlan" onclick="startPlanning()">
+                <button class="btn-base btn-plan" id="btnPlan" onclick="startPlanning()">
                     <span class="spinner"></span>
                     <span class="btn-text">🎯 开始规划</span>
                 </button>
             </div>
         </div>
 
+        <!-- ========== 操作按钮行（重新规划 + 复制攻略） ========== -->
+        <div class="action-row visible" id="actionRow">
+            <!-- 重新规划按钮 -->
+            <button class="btn-base btn-reset" id="btnReset" onclick="resetEverything()">
+                🔄 重新规划
+            </button>
+            <!-- 复制攻略按钮 -->
+            <button class="btn-base btn-copy" id="btnCopy" onclick="copyGuide()">
+                📋 复制攻略
+            </button>
+        </div>
+
         <!-- ========== 工作流进度区域 ========== -->
         <div class="workflow-section visible" id="workflowSection">
             <div class="workflow-title">📋 工作流进度</div>
             <div class="steps-list">
-                <!-- Step 1 -->
+                <!-- Step 1：分析目的地特色 -->
                 <div class="step-item active" id="step1">
                     <div class="step-circle">1</div>
                     <div class="step-content">
                         <div class="step-label">Step 1</div>
                         <div class="step-title">🧭 分析目的地特色</div>
-                        <div class="step-status running">正在分析目的地...</div>
+                        <div class="step-status running">⏳ 正在分析目的地...</div>
                         <div class="step-preview" id="step1Preview"></div>
                     </div>
                 </div>
-                <!-- Step 2 -->
+                <!-- Step 2：生成行程规划 -->
                 <div class="step-item" id="step2">
                     <div class="step-circle">2</div>
                     <div class="step-content">
@@ -3109,7 +3225,7 @@
                         <div class="step-preview" id="step2Preview"></div>
                     </div>
                 </div>
-                <!-- Step 3 -->
+                <!-- Step 3：旅行贴士 -->
                 <div class="step-item" id="step3">
                     <div class="step-circle">3</div>
                     <div class="step-content">
@@ -3117,6 +3233,26 @@
                         <div class="step-title">💡 旅行贴士</div>
                         <div class="step-status pending">等待中</div>
                         <div class="step-preview" id="step3Preview"></div>
+                    </div>
+                </div>
+                <!-- Step 4：预算计算器 -->
+                <div class="step-item" id="step4">
+                    <div class="step-circle">4</div>
+                    <div class="step-content">
+                        <div class="step-label">Step 4</div>
+                        <div class="step-title">💰 预算计算器</div>
+                        <div class="step-status pending">等待中</div>
+                        <div class="step-preview" id="step4Preview"></div>
+                    </div>
+                </div>
+                <!-- Step 5：生成精美攻略卡片 -->
+                <div class="step-item" id="step5">
+                    <div class="step-circle">5</div>
+                    <div class="step-content">
+                        <div class="step-label">Step 5</div>
+                        <div class="step-title">🎨 生成攻略卡片</div>
+                        <div class="step-status pending">等待中</div>
+                        <div class="step-preview" id="step5Preview"></div>
                     </div>
                 </div>
             </div>
@@ -3143,6 +3279,16 @@
                 <h3>💡 旅行贴士</h3>
                 <div class="block-content" id="resultContent3"></div>
             </div>
+            <!-- Step 4 结果（预算表格） -->
+            <div class="result-block" id="resultBlock4">
+                <h3>💰 预算参考</h3>
+                <div id="budgetTableContainer"></div>
+            </div>
+            <!-- Step 5 结果（精美攻略卡片） -->
+            <div class="result-block" id="resultBlock5">
+                <h3>🎨 精美攻略卡片</h3>
+                <div id="guideCardContainer"></div>
+            </div>
         </div>
 
         <!-- ========== 页脚 ========== -->
@@ -3164,26 +3310,41 @@
         /* 模型名称 */
         const MODEL_NAME = 'kimi-k2.6';
 
-        /* Temperature 参数，控制输出随机性，1.0 为默认值 */
+        /* Temperature 参数，控制输出随机性 */
         const TEMPERATURE = 1.0;
 
         /* 当前目的地 */
         let currentDestination = '';
+
+        /* 是否正在规划中（防止重复点击） */
+        let isPlanning = false;
+
+        /* 存储 Step 5 攻略卡片的文本内容（供复制使用） */
+        let guideCardText = '';
 
         /* ================================================================
            工具函数
            ================================================================ */
 
         /**
-         * 显示页面顶部的错误提示条
-         * @param {string} msg - 错误消息文本
-         * @param {number} [duration=4000] - 显示时长（毫秒）
+         * 显示页面顶部的 Toast 提示
+         * @param {string} elId - Toast 元素的 ID
+         * @param {string} msg - 提示文字
+         * @param {number} [duration=3000] - 显示时长（毫秒）
          */
-        function showError(msg, duration = 4000) {
-            const toast = document.getElementById('errorToast');
-            toast.textContent = '⚠️ ' + msg;
+        function showToast(elId, msg, duration = 3000) {
+            const toast = document.getElementById(elId);
+            toast.textContent = msg;
             toast.classList.add('visible');
-            setTimeout(() => toast.classList.remove('visible'), duration);
+            setTimeout(function() { toast.classList.remove('visible'); }, duration);
+        }
+
+        /**
+         * 显示错误 Toast
+         * @param {string} msg - 错误消息
+         */
+        function showError(msg) {
+            showToast('errorToast', '⚠️ ' + msg, 4000);
         }
 
         /**
@@ -3194,82 +3355,80 @@
          */
         async function callKimiAPI(systemPrompt, userPrompt) {
             /* 构建请求体 */
-            const requestBody = {
-                model: MODEL_NAME, // 模型名称
-                temperature: TEMPERATURE, // 温度参数
+            var requestBody = {
+                model: MODEL_NAME,               // 模型名称
+                temperature: TEMPERATURE,        // 温度参数
                 messages: [
-                    { role: 'system', content: systemPrompt }, // 系统角色提示
-                    { role: 'user', content: userPrompt } // 用户问题
+                    { role: 'system', content: systemPrompt },  // 系统角色提示
+                    { role: 'user',   content: userPrompt   }   // 用户问题
                 ]
             };
 
             /* 发起 HTTP POST 请求 */
-            const response = await fetch(KIMI_API_URL, {
+            var response = await fetch(KIMI_API_URL, {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json', // JSON 格式
-                    'Authorization': 'Bearer ' + KIMI_API_KEY // Bearer 鉴权
+                    'Content-Type': 'application/json',         // JSON 格式
+                    'Authorization': 'Bearer ' + KIMI_API_KEY   // Bearer 鉴权
                 },
-                body: JSON.stringify(requestBody) // 序列化请求体
+                body: JSON.stringify(requestBody)               // 序列化请求体
             });
 
             /* 检查 HTTP 状态码 */
             if (!response.ok) {
-                const errorData = await response.json().catch(() => ({}));
-                const errorMsg = errorData.error?.message || 'HTTP ' + response.status;
+                var errorData = await response.json().catch(function() { return {}; });
+                var errorMsg = errorData.error ? errorData.error.message : ('HTTP ' + response.status);
                 throw new Error('API 请求失败：' + errorMsg);
             }
 
-            /* 解析响应数据 */
-            const data = await response.json();
-            /* 提取 AI 的回复文本 */
+            /* 解析响应数据并提取 AI 回复文本 */
+            var data = await response.json();
             return data.choices[0].message.content.trim();
         }
 
         /**
          * 更新某个步骤的 UI 状态
-         * @param {number} stepNum - 步骤编号（1/2/3）
-         * @param {'active'|'completed'} status - 新状态
-         * @param {string} [statusText=''] - 状态文字
-         * @param {string} [previewText=''] - 步骤预览文字
+         * @param {number} stepNum - 步骤编号（1~5）
+         * @param {string} status - 'active' 进行中 或 'completed' 已完成
+         * @param {string} [statusText=''] - 状态文字，如"⏳ 正在分析目的地..."
+         * @param {string} [previewText=''] - 步骤下方预览文字
          */
-        function updateStepUI(stepNum, status, statusText = '', previewText = '') {
+        function updateStepUI(stepNum, status, statusText, previewText) {
             /* 获取步骤 DOM 元素 */
-            const stepEl = document.getElementById('step' + stepNum);
-            const statusEl = stepEl.querySelector('.step-status');
+            var stepEl = document.getElementById('step' + stepNum);
+            var statusEl = stepEl.querySelector('.step-status');
 
             /* 移除所有旧状态 class */
             stepEl.classList.remove('active', 'completed');
             statusEl.classList.remove('pending', 'running', 'done');
 
             if (status === 'active') {
-                /* 设为"进行中"状态 */
+                /* 设为"进行中"状态 ⏳ */
                 stepEl.classList.add('active');
                 statusEl.classList.add('running');
-                statusEl.textContent = statusText;
+                statusEl.textContent = statusText || ('⏳ 正在执行...');
             } else if (status === 'completed') {
-                /* 设为"已完成"状态，圆圈变成绿色对勾 */
+                /* 设为"已完成"状态 ✅，圆圈变成绿色对勾 */
                 stepEl.classList.add('completed');
                 statusEl.classList.add('done');
-                statusEl.textContent = statusText;
+                statusEl.textContent = statusText || '✅ 已完成';
                 /* 更新步骤圆圈为对勾 */
-                const circleEl = stepEl.querySelector('.step-circle');
-                circleEl.textContent = '✓';
+                stepEl.querySelector('.step-circle').textContent = '✓';
                 /* 更新预览文字 */
-                const previewEl = document.getElementById('step' + stepNum + 'Preview');
-                previewEl.textContent = previewText;
+                var previewEl = document.getElementById('step' + stepNum + 'Preview');
+                previewEl.textContent = previewText || '';
             }
         }
 
         /**
-         * 重置所有步骤到初始状态
+         * 重置所有 5 个步骤到初始状态
          */
         function resetAllSteps() {
-            for (let i = 1; i <= 3; i++) {
-                const stepEl = document.getElementById('step' + i);
-                const statusEl = stepEl.querySelector('.step-status');
-                const circleEl = stepEl.querySelector('.step-circle');
-                const previewEl = document.getElementById('step' + i + 'Preview');
+            for (var i = 1; i <= 5; i++) {
+                var stepEl = document.getElementById('step' + i);
+                var statusEl = stepEl.querySelector('.step-status');
+                var circleEl = stepEl.querySelector('.step-circle');
+                var previewEl = document.getElementById('step' + i + 'Preview');
 
                 /* 重置 class */
                 stepEl.classList.remove('active', 'completed');
@@ -3283,141 +3442,356 @@
                 /* 清空预览 */
                 previewEl.textContent = '';
             }
+
+            /* 清空结果区域 */
+            document.getElementById('resultContent1').textContent = '';
+            document.getElementById('resultContent2').textContent = '';
+            document.getElementById('resultContent3').textContent = '';
+            document.getElementById('budgetTableContainer').innerHTML = '';
+            document.getElementById('guideCardContainer').innerHTML = '';
+
+            /* 重置攻略文本 */
+            guideCardText = '';
+        }
+
+        /**
+         * 解析预算文本，提取各项金额
+         * AI 返回格式如：交通：500元 / 住宿：800元 ...
+         * @param {string} text - AI 返回的预算文本
+         * @returns {Array} - [{name: '交通', amount: '500元'}, ...]
+         */
+        function parseBudget(text) {
+            /* 正则：匹配 "类别名称：金额" 或 "类别名称: 金额" 的格式 */
+            var lines = text.split(/[\n\r]+/);
+            var items = [];
+            /* 金额正则，匹配中文数字+元 或 阿拉伯数字+元 */
+            var amountRegex = /(\d+\.?\d*)\s*元/;
+
+            for (var i = 0; i < lines.length; i++) {
+                var line = lines[i].trim();
+                if (!line) continue;
+
+                /* 尝试匹配 "类别：金额" */
+                var match = line.match(/^(.+?)[：:]\s*(.+)$/);
+                if (match) {
+                    var name = match[1].replace(/[*-]/g, '').trim();
+                    var amount = match[2].trim();
+                    /* 检查是否是总预算行 */
+                    if (/总[计预]|合计/.test(name)) {
+                        items.push({ name: name, amount: amount, isTotal: true });
+                    } else {
+                        items.push({ name: name, amount: amount, isTotal: false });
+                    }
+                }
+            }
+
+            return items;
+        }
+
+        /**
+         * 渲染预算表格
+         * @param {string} rawText - AI 返回的原始预算文本
+         */
+        function renderBudgetTable(rawText) {
+            var container = document.getElementById('budgetTableContainer');
+            var items = parseBudget(rawText);
+
+            /* 如果能解析出至少 3 个项目，就用表格展示 */
+            if (items.length >= 3) {
+                var html = '<table class="budget-table"><thead><tr>';
+                html += '<th>项目</th><th>预估金额</th>';
+                html += '</tr></thead><tbody>';
+
+                for (var i = 0; i < items.length; i++) {
+                    var item = items[i];
+                    if (item.isTotal) {
+                        /* 总预算行用特殊样式 */
+                        html += '<tr class="total-row">';
+                        html += '<td>' + escapeHtml(item.name) + '</td>';
+                        html += '<td>' + escapeHtml(item.amount) + '</td>';
+                        html += '</tr>';
+                    } else {
+                        html += '<tr>';
+                        html += '<td>' + escapeHtml(item.name) + '</td>';
+                        html += '<td>' + escapeHtml(item.amount) + '</td>';
+                        html += '</tr>';
+                    }
+                }
+
+                html += '</tbody></table>';
+                container.innerHTML = html;
+            } else {
+                /* 解析失败时，直接展示原始文本 */
+                container.innerHTML = '<div class="budget-raw">' + escapeHtml(rawText) + '</div>';
+            }
+        }
+
+        /**
+         * HTML 转义，防止 XSS
+         * @param {string} str - 原始字符串
+         * @returns {string} - 转义后的字符串
+         */
+        function escapeHtml(str) {
+            var div = document.createElement('div');
+            div.textContent = str;
+            return div.innerHTML;
+        }
+
+        /**
+         * 渲染 Step 5 精美攻略卡片
+         * @param {string} cardText - AI 生成的攻略内容
+         * @param {string} destination - 目的地名称
+         */
+        function renderGuideCard(cardText, destination) {
+            var container = document.getElementById('guideCardContainer');
+            guideCardText = cardText;
+
+            var html = '<div class="guide-card">';
+            html += '<div class="card-header">';
+            html += '<div class="card-destination">🏝️ ' + escapeHtml(destination) + ' 旅行攻略</div>';
+            html += '<div class="card-subtitle">━━━ AI 智能规划 · 5 步工作流 ━━━</div>';
+            html += '</div>';
+            html += '<div class="card-body">' + escapeHtml(cardText) + '</div>';
+            html += '</div>';
+
+            container.innerHTML = html;
         }
 
         /* ================================================================
-           核心业务逻辑：三步工作流
+           核心业务逻辑：五步工作流
            ================================================================ */
 
         /**
          * Step 1：分析目的地特色
-         * 调用 Kimi 获取目的地的简要介绍
          */
         async function step1Analyze(destination) {
-            /* 系统提示词：让 AI 扮演旅行专家 */
-            const systemPrompt =
-                '你是一位经验丰富的旅行规划师，擅长用简洁生动的语言介绍旅行目的地。你的回答风格热情、专业、有感染力。';
-
-            /* 用户提示词：具体请求 */
-            const userPrompt =
-                '请用50字介绍' + destination + '的特色，包括著名景点、美食、气候特点。请用流畅的自然段落回答，不要用列表格式。';
-
-            /* 调用 Kimi API */
-            const result = await callKimiAPI(systemPrompt, userPrompt);
-            return result;
+            var systemPrompt = '你是一位经验丰富的旅行规划师，擅长用简洁生动的语言介绍旅行目的地。你的回答风格热情、专业、有感染力。';
+            var userPrompt = '请用50字介绍' + destination + '的特色，包括著名景点、美食、气候特点。请用流畅的自然段落回答，不要用列表格式。';
+            return await callKimiAPI(systemPrompt, userPrompt);
         }
 
         /**
          * Step 2：生成行程规划
-         * 调用 Kimi 生成 3 天 2 夜的详细行程
          */
         async function step2Plan(destination) {
-            /* 系统提示词 */
-            const systemPrompt =
-                '你是一位资深的旅行行程规划师，擅长设计合理、舒适又充满趣味的旅行路线。请用清晰的段落格式回答。';
-
-            /* 用户提示词 */
-            const userPrompt =
-                '请为' + destination +
-                '生成一个3天2夜的旅行行程，每天安排3-4个景点，包含交通建议和用餐推荐。请按天分段，每天一个小标题，用自然的段落描述。';
-
-            /* 调用 Kimi API */
-            const result = await callKimiAPI(systemPrompt, userPrompt);
-            return result;
+            var systemPrompt = '你是一位资深的旅行行程规划师，擅长设计合理、舒适又充满趣味的旅行路线。请用清晰的段落格式回答。';
+            var userPrompt = '请为' + destination + '生成一个3天2夜的旅行行程，每天安排3-4个景点，包含交通建议和用餐推荐。请按天分段，每天一个小标题，用自然的段落描述。';
+            return await callKimiAPI(systemPrompt, userPrompt);
         }
 
         /**
          * Step 3：给出旅行贴士
-         * 调用 Kimi 获取实用旅行建议
          */
         async function step3Tips(destination) {
-            /* 系统提示词 */
-            const systemPrompt =
-                '你是一位贴心的旅行顾问，善于发现旅行中的细节问题并给出实用建议。请用自然的段落格式回答。';
-
-            /* 用户提示词 */
-            const userPrompt =
-                '请给出' + destination +
-                '的旅行贴士：最佳旅行时间、必备物品、避坑指南。请用自然流畅的段落描述，分三个方面来讲。';
-
-            /* 调用 Kimi API */
-            const result = await callKimiAPI(systemPrompt, userPrompt);
-            return result;
+            var systemPrompt = '你是一位贴心的旅行顾问，善于发现旅行中的细节问题并给出实用建议。请用自然的段落格式回答。';
+            var userPrompt = '请给出' + destination + '的旅行贴士：最佳旅行时间、必备物品、避坑指南。请用自然流畅的段落描述，分三个方面来讲。';
+            return await callKimiAPI(systemPrompt, userPrompt);
         }
 
         /**
-         * 主流程：依次执行三个步骤
+         * Step 4：预算计算器
+         * 调用 Kimi 估算各项费用并用表格展示
+         */
+        async function step4Budget(destination) {
+            var systemPrompt = '你是一位精明的旅行预算规划师，擅长对旅行各项花费做出合理估算。请用以下格式回答，每行一项，方便解析：';
+            var userPrompt = '请为' + destination + '估算一个3天2夜旅行的预算。请严格按照以下格式逐行输出（不要用markdown表格）：\n' +
+                '交通：X元\n住宿：X元\n餐饮：X元\n门票：X元\n购物：X元\n总预算：X元\n\n每项后面用简短括号说明，如"交通：500元（往返高铁）"。';
+            return await callKimiAPI(systemPrompt, userPrompt);
+        }
+
+        /**
+         * Step 5：生成精美攻略卡片
+         * 综合前面所有内容，生成一份小红书风格的攻略
+         */
+        async function step5Card(destination, result1, result2, result3, result4) {
+            var systemPrompt = '你是一位旅行博主，擅长写小红书风格的旅行攻略。请用emoji装饰、分段清晰、语言活泼有趣。';
+            /* 将前面的结果摘要传递给 AI，让其综合生成攻略 */
+            var userPrompt = '请根据以下信息，为' + destination + '生成一份精美的旅行攻略，像小红书笔记一样美观：\n\n' +
+                '【目的地特色】' + result1 + '\n\n' +
+                '【行程规划】' + result2 + '\n\n' +
+                '【旅行贴士】' + result3 + '\n\n' +
+                '【预算参考】' + result4 + '\n\n' +
+                '请综合以上信息，用大量emoji装饰，生成一份结构清晰的旅行攻略，包含：目的地亮点✨、3天行程🗓️、预算参考💰、必备清单🎒。分段清晰，语言活泼。';
+            return await callKimiAPI(systemPrompt, userPrompt);
+        }
+
+        /* ================================================================
+           复制攻略功能
+           ================================================================ */
+
+        /**
+         * 复制 Step 5 攻略卡片内容到剪贴板
+         */
+        async function copyGuide() {
+            if (!guideCardText) {
+                showError('请先完成规划，生成攻略后再复制哦～');
+                return;
+            }
+
+            try {
+                /* 使用 Clipboard API 复制文本 */
+                await navigator.clipboard.writeText(guideCardText);
+                /* 显示复制成功提示 */
+                showToast('copyToast', '📋 攻略已复制到剪贴板！', 2500);
+                /* 按钮短暂变绿 */
+                var btnCopy = document.getElementById('btnCopy');
+                btnCopy.classList.add('copied');
+                btnCopy.innerHTML = '✅ 已复制';
+                setTimeout(function() {
+                    btnCopy.classList.remove('copied');
+                    btnCopy.innerHTML = '📋 复制攻略';
+                }, 2000);
+            } catch (err) {
+                /* 降级方案：使用传统方法 */
+                var textarea = document.createElement('textarea');
+                textarea.value = guideCardText;
+                textarea.style.position = 'fixed';
+                textarea.style.opacity = '0';
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+                showToast('copyToast', '📋 攻略已复制到剪贴板！', 2500);
+            }
+        }
+
+        /* ================================================================
+           重新规划功能
+           ================================================================ */
+
+        /**
+         * 重置所有内容，回到初始状态
+         */
+        function resetEverything() {
+            /* 重置步骤 UI */
+            resetAllSteps();
+
+            /* 隐藏工作流和结果区域 */
+            document.getElementById('workflowSection').classList.remove('visible');
+            document.getElementById('resultSection').classList.remove('visible');
+
+            /* 隐藏操作按钮行 */
+            document.getElementById('actionRow').classList.remove('visible');
+
+            /* 清空输入框 */
+            var inputEl = document.getElementById('destinationInput');
+            inputEl.value = '';
+            inputEl.disabled = false;
+            inputEl.focus();
+
+            /* 重置按钮状态 */
+            var btnPlan = document.getElementById('btnPlan');
+            btnPlan.disabled = false;
+            btnPlan.classList.remove('loading');
+
+            /* 重置复制按钮 */
+            var btnCopy = document.getElementById('btnCopy');
+            btnCopy.classList.remove('copied');
+            btnCopy.innerHTML = '📋 复制攻略';
+
+            /* 重置规划状态标志 */
+            isPlanning = false;
+            currentDestination = '';
+            guideCardText = '';
+
+            /* 滚动回顶部 */
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        /* ================================================================
+           主流程：依次执行五个步骤
+           ================================================================ */
+
+        /**
+         * 主流程：依次执行 5 个步骤
          */
         async function startPlanning() {
+            /* 防止重复点击 */
+            if (isPlanning) return;
+
             /* 获取输入的目的地 */
-            const inputEl = document.getElementById('destinationInput');
-            const destination = inputEl.value.trim();
+            var inputEl = document.getElementById('destinationInput');
+            var destination = inputEl.value.trim();
 
             /* 校验：目的地不能为空 */
             if (!destination) {
                 showError('请输入一个目的地再开始规划哦～');
-                /* 让输入框抖动一下提示用户 */
                 inputEl.style.borderColor = '#FF3360';
                 inputEl.focus();
-                setTimeout(() => { inputEl.style.borderColor = ''; }, 1500);
+                setTimeout(function() { inputEl.style.borderColor = ''; }, 1500);
                 return;
             }
 
-            /* 保存当前目的地 */
+            /* 标记为规划中 */
+            isPlanning = true;
             currentDestination = destination;
 
             /* 隐藏之前的错误提示 */
             document.getElementById('errorToast').classList.remove('visible');
 
-            /* 重置步骤 UI */
+            /* 重置所有步骤 */
             resetAllSteps();
 
-            /* 隐藏最终结果区域 */
+            /* 隐藏最终结果区域和操作按钮 */
             document.getElementById('resultSection').classList.remove('visible');
+            document.getElementById('actionRow').classList.remove('visible');
 
             /* 显示工作流区域 */
             document.getElementById('workflowSection').classList.add('visible');
 
-            /* 禁用按钮，显示加载状态 */
-            const btnPlan = document.getElementById('btnPlan');
+            /* 禁用按钮和输入框，显示加载状态 */
+            var btnPlan = document.getElementById('btnPlan');
             btnPlan.disabled = true;
             btnPlan.classList.add('loading');
             inputEl.disabled = true;
 
-            /* 保存三个步骤的结果 */
-            let result1 = '';
-            let result2 = '';
-            let result3 = '';
+            /* 存储五个步骤的结果 */
+            var result1 = '', result2 = '', result3 = '', result4 = '', result5 = '';
 
             try {
                 /* ===== Step 1：分析目的地特色 ===== */
-                updateStepUI(1, 'active', '正在分析目的地...');
+                updateStepUI(1, 'active', '⏳ 正在分析目的地...');
                 result1 = await step1Analyze(destination);
-                updateStepUI(1, 'completed', '已完成', result1);
-                /* 同时写入最终结果区域 */
+                updateStepUI(1, 'completed', '✅ 已完成', result1.substring(0, 60) + '...');
                 document.getElementById('resultContent1').textContent = result1;
 
                 /* ===== Step 2：生成行程规划 ===== */
-                updateStepUI(2, 'active', '正在规划行程...');
+                updateStepUI(2, 'active', '⏳ 正在规划行程...');
                 result2 = await step2Plan(destination);
-                updateStepUI(2, 'completed', '已完成', result2.substring(0, 80) + '...');
+                updateStepUI(2, 'completed', '✅ 已完成', result2.substring(0, 60) + '...');
                 document.getElementById('resultContent2').textContent = result2;
 
                 /* ===== Step 3：旅行贴士 ===== */
-                updateStepUI(3, 'active', '正在整理贴士...');
+                updateStepUI(3, 'active', '⏳ 正在整理贴士...');
                 result3 = await step3Tips(destination);
-                updateStepUI(3, 'completed', '已完成', result3.substring(0, 80) + '...');
+                updateStepUI(3, 'completed', '✅ 已完成', result3.substring(0, 60) + '...');
                 document.getElementById('resultContent3').textContent = result3;
 
+                /* ===== Step 4：预算计算器 ===== */
+                updateStepUI(4, 'active', '⏳ 正在计算预算...');
+                result4 = await step4Budget(destination);
+                updateStepUI(4, 'completed', '✅ 已完成', result4.substring(0, 60) + '...');
+                /* 解析并渲染预算表格 */
+                renderBudgetTable(result4);
+
+                /* ===== Step 5：生成精美攻略卡片 ===== */
+                updateStepUI(5, 'active', '⏳ 正在生成攻略卡片...');
+                result5 = await step5Card(destination, result1, result2, result3, result4);
+                updateStepUI(5, 'completed', '✅ 已完成', result5.substring(0, 60) + '...');
+                /* 渲染精美攻略卡片 */
+                renderGuideCard(result5, destination);
+
                 /* 更新结果标题 */
-                document.getElementById('resultTitle').textContent =
-                    destination + ' · 旅行攻略';
+                document.getElementById('resultTitle').textContent = destination + ' · 旅行攻略';
 
                 /* 显示最终结果区域 */
                 document.getElementById('resultSection').classList.add('visible');
 
-                /* 平滑滚动到结果区域 */
-                document.getElementById('resultSection').scrollIntoView({
+                /* 显示操作按钮行（重新规划 + 复制攻略） */
+                document.getElementById('actionRow').classList.add('visible');
+
+                /* 平滑滚动到工作流区域顶部 */
+                document.getElementById('workflowSection').scrollIntoView({
                     behavior: 'smooth',
                     block: 'start'
                 });
@@ -3426,12 +3800,14 @@
                 /* 捕获并显示错误 */
                 console.error('工作流出错：', error);
                 showError('规划失败：' + error.message + '，请检查 API Key 和网络后重试');
+                /* 出错时也显示操作按钮，让用户可重试 */
+                document.getElementById('actionRow').classList.add('visible');
             } finally {
                 /* 恢复按钮和输入框状态 */
                 btnPlan.disabled = false;
                 btnPlan.classList.remove('loading');
                 inputEl.disabled = false;
-                inputEl.focus();
+                isPlanning = false;
             }
         }
 
@@ -3439,11 +3815,11 @@
            页面初始化 & 事件绑定
            ================================================================ */
 
-        /* 页面加载完成后绑定回车键事件 */
+        /* 页面加载完成后绑定事件 */
         document.addEventListener('DOMContentLoaded', function() {
-            const inputEl = document.getElementById('destinationInput');
+            var inputEl = document.getElementById('destinationInput');
 
-            /* 按回车键也可以触发规划 */
+            /* 按回车键触发规划 */
             inputEl.addEventListener('keydown', function(event) {
                 if (event.key === 'Enter') {
                     event.preventDefault();
