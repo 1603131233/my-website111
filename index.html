@@ -1,212 +1,293 @@
 <!DOCTYPE html>
-<html lang="zh-CN" data-theme="light" data-trae-theme="dark"><head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>我的AI学习作品集</title>
-    <style>
-        /* 页面基础样式 */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+<html lang="zh-CN" data-theme="light" data-trae-theme="dark"><!-- 设置网页语言为中文 --><head> <!-- 开始头部区域 -->
+    <meta charset="UTF-8"> <!-- 设置字符编码为 UTF-8，防止中文乱码 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- 让网页在手机等设备上自适应显示 -->
+    <title>我的AI学习作品集</title> <!-- 设置浏览器标签页显示的标题 -->
+    <style> <!-- 开始页面样式 -->
+        /* ========== 1. 基础重置 ========== */
+        * { /* 选择页面中的所有元素 */
+            margin: 0; /* 清除所有元素默认外边距 */
+            padding: 0; /* 清除所有元素默认内边距 */
+            box-sizing: border-box; /* 让元素宽高包含边框和内边距，方便布局 */
         }
-        
-        body {
-            font-family: "Microsoft YaHei", Arial, sans-serif;
-            background: linear-gradient(135deg, #0f172a, #1e293b);
-            color: #e2e8f0;
-            min-height: 100vh;
-            overflow-x: hidden;
+
+        /* ========== 2. 页面主体 ========== */
+        body { /* 设置整个页面主体样式 */
+            font-family: "Microsoft YaHei", Arial, sans-serif; /* 设置页面字体 */
+            background: linear-gradient(135deg, #0f172a, #1e293b); /* 设置深色渐变背景 */
+            color: #e2e8f0; /* 设置默认文字颜色为浅灰色 */
+            min-height: 100vh; /* 让页面最小高度占满整个浏览器窗口 */
+            overflow-x: hidden; /* 隐藏水平方向溢出，防止滚动条 */
+            position: relative; /* 为绝对定位的子元素提供参照 */
         }
-        
-        /* 顶部导航栏 - 毛玻璃效果 */
-        .navbar {
-            background: rgba(15, 23, 42, 0.8);
-            padding: 15px 0;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(96, 165, 250, 0.1);
-            transition: all 0.3s ease;
+
+        /* ========== 3. Canvas 粒子背景层（效果1） ========== */
+        #particleCanvas { /* 设置粒子画布样式 */
+            position: fixed; /* 固定定位，不随页面滚动 */
+            top: 0; /* 紧贴顶部 */
+            left: 0; /* 紧贴左侧 */
+            width: 100%; /* 宽度占满窗口 */
+            height: 100%; /* 高度占满窗口 */
+            z-index: 0; /* 放在所有内容的最底层 */
+            pointer-events: none; /* 不拦截鼠标事件，让点击穿透到下层元素 */
         }
-        
-        .nav-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+
+        /* ========== 4. 滚动进度条（效果4） ========== */
+        #scrollProgressBar { /* 设置滚动进度条样式 */
+            position: fixed; /* 固定在页面顶部 */
+            top: 0; /* 紧贴顶部 */
+            left: 0; /* 从左边开始 */
+            height: 3px; /* 进度条高度为 3 像素 */
+            width: 0%; /* 初始宽度为 0，随滚动增大 */
+            background: linear-gradient(90deg, #3b82f6, #a78bfa); /* 蓝色到紫色的渐变 */
+            z-index: 2000; /* 放在最顶层，确保在所有元素之上 */
+            transition: width 0.1s linear; /* 宽度过渡平滑 */
+            border-radius: 0 2px 2px 0; /* 右侧略微圆角 */
         }
-        
-        .logo {
-            font-size: 24px;
-            font-weight: bold;
-            color: #60a5fa;
+
+        /* ========== 5. 顶部导航栏 ========== */
+        .navbar { /* 设置顶部导航栏样式 */
+            background: rgba(15, 23, 42, 0.8); /* 半透明深色背景 */
+            padding: 15px 0; /* 设置上下和左右内边距 */
+            position: sticky; /* 让导航栏在滚动时吸附在顶部 */
+            top: 0; /* 吸附位置为页面顶部 */
+            z-index: 100; /* 提高层级，避免被其他内容遮挡 */
+            backdrop-filter: blur(10px); /* 添加毛玻璃模糊效果 */
+            border-bottom: 1px solid rgba(96, 165, 250, 0.1); /* 底部细边框 */
+            transition: all 0.3s ease; /* 过渡动画 */
         }
-        
-        /* 主体内容 */
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 40px 20px;
+
+        .nav-container { /* 设置导航栏内部容器样式 */
+            max-width: 1200px; /* 限制内容最大宽度 */
+            margin: 0 auto; /* 水平居中容器 */
+            padding: 0 20px; /* 设置左右内边距 */
+            display: flex; /* 使用弹性布局 */
+            justify-content: space-between; /* 左右内容两端对齐 */
+            align-items: center; /* 垂直方向居中对齐 */
         }
-        
-        /* 欢迎区域 */
-        .hero {
-            text-align: center;
-            padding: 60px 20px;
-            opacity: 0;
-            transform: translateY(30px);
-            animation: fadeInUp 0.8s ease forwards;
+
+        .logo { /* 设置左侧站点标题样式 */
+            font-size: 24px; /* 设置标题字体大小 */
+            font-weight: bold; /* 设置文字加粗 */
+            color: #60a5fa; /* 设置标题颜色为亮蓝色 */
         }
-        
-        .hero h1 {
-            font-size: 42px;
-            margin-bottom: 20px;
-            background: linear-gradient(90deg, #60a5fa, #a78bfa);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+
+        .nav-right { /* 设置导航栏右侧区域样式 */
+            display: flex; /* 使用弹性布局 */
+            align-items: center; /* 垂直居中 */
+            gap: 20px; /* 右侧各元素的间距 */
         }
-        
-        .hero p {
-            font-size: 18px;
-            color: #94a3b8;
-            max-width: 600px;
-            margin: 0 auto;
-            line-height: 1.6;
+
+        .visitor-counter { /* 设置访问计数器样式（效果3） */
+            color: #94a3b8; /* 设置文字颜色 */
+            font-size: 14px; /* 设置字体大小 */
+            white-space: nowrap; /* 防止文字换行 */
         }
-        
-        /* 作品卡片网格 */
-        .projects-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
-            margin-top: 40px;
+
+        /* ========== 6. 主体内容容器 ========== */
+        .container { /* 设置主体内容容器样式 */
+            max-width: 1200px; /* 限制内容最大宽度 */
+            margin: 0 auto; /* 水平居中容器 */
+            padding: 40px 20px; /* 设置四周内边距 */
+            position: relative; /* 为绝对定位的子元素提供参照 */
+            z-index: 1; /* 放在 Canvas 背景之上 */
         }
-        
-        /* 单个作品卡片 */
-        .project-card {
-            background: rgba(30, 41, 59, 0.8);
-            border: 1px solid rgba(96, 165, 250, 0.2);
-            border-radius: 16px;
-            padding: 30px;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            color: inherit;
-            display: block;
-            opacity: 0;
-            transform: translateY(30px);
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
+
+        /* ========== 7. 欢迎区域 ========== */
+        .hero { /* 设置首页欢迎区域样式 */
+            text-align: center; /* 让区域里的文字居中显示 */
+            padding: 60px 20px; /* 设置欢迎区域四周内边距 */
         }
-        
-        /* 卡片悬停效果 - 放大+发光+阴影 */
-        .project-card:hover {
-            transform: translateY(-8px) scale(1.03);
-            border-color: #60a5fa;
-            box-shadow: 0 15px 40px rgba(96, 165, 250, 0.3);
+
+        .hero h1 { /* 设置主标题样式 */
+            font-size: 42px; /* 设置主标题字体大小 */
+            margin-bottom: 20px; /* 设置标题和下面内容的间距 */
+            background: linear-gradient(90deg, #60a5fa, #a78bfa); /* 设置渐变色背景 */
+            -webkit-background-clip: text; /* 将背景裁剪到文字区域 */
+            -webkit-text-fill-color: transparent; /* 让文字颜色透明，显示渐变背景 */
+            min-height: 60px; /* 保证标题区域有最小高度，防止闪烁 */
         }
-        
-        /* 卡片点击反馈 */
-        .project-card:active {
-            transform: translateY(-4px) scale(0.98);
+
+        /* 打字机光标闪烁效果(效果2) */
+        #typewriterCursor { /* 设置打字机光标样式 */
+            display: inline; /* 内联显示，跟在文字后面 */
+            color: #60a5fa; /* 光标颜色为亮蓝色 */
+            font-weight: normal; /* 不加粗 */
+            animation: blink 0.8s infinite; /* 应用闪烁动画，0.8秒循环 */
         }
-        
-        /* 卡片进入动画 - 依次淡入 */
-        .project-card.show {
-            animation: fadeInUp 0.6s ease forwards;
+
+        @keyframes blink { /* 定义光标闪烁动画 */
+            0%, 100% { opacity: 1; } /* 动画开始和结束时完全可见 */
+            50% { opacity: 0; } /* 动画中间时段完全透明 */
         }
-        
-        /* 每个卡片延迟不同，形成依次出现的效果 */
-        .project-card:nth-child(1).show { animation-delay: 0.1s; }
-        .project-card:nth-child(2).show { animation-delay: 0.2s; }
-        .project-card:nth-child(3).show { animation-delay: 0.3s; }
-        .project-card:nth-child(4).show { animation-delay: 0.4s; }
-        .project-card:nth-child(5).show { animation-delay: 0.5s; }
-        .project-card:nth-child(6).show { animation-delay: 0.6s; }
-        .project-card:nth-child(7).show { animation-delay: 0.7s; }
-        .project-card:nth-child(8).show { animation-delay: 0.8s; }
-        
-        /* 淡入动画定义 */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+
+        .hero p { /* 设置欢迎区域段落样式 */
+            font-size: 18px; /* 设置段落字体大小 */
+            color: #94a3b8; /* 设置段落文字为浅灰蓝色 */
+            max-width: 600px; /* 限制文字段落宽度 */
+            margin: 0 auto; /* 让段落居中 */
+            line-height: 1.6; /* 设置文字行高，提高可读性 */
         }
-        
-        .project-icon {
-            font-size: 40px;
-            margin-bottom: 15px;
-            transition: transform 0.3s ease;
+
+        /* ========== 8. 作品卡片网格 ========== */
+        .projects-grid { /* 设置卡片网格布局样式 */
+            display: grid; /* 使用网格布局 */
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* 自动生成响应式列布局 */
+            gap: 25px; /* 设置卡片之间的间距 */
+            margin-top: 40px; /* 设置网格区域与上方内容的距离 */
         }
-        
-        /* 图标悬停旋转效果 */
-        .project-card:hover .project-icon {
-            transform: scale(1.2) rotate(5deg);
+
+        /* ========== 9. 单个作品卡片 ========== */
+        .project-card { /* 设置单个作品卡片样式 */
+            background: rgba(30, 41, 59, 0.8); /* 半透明深色背景 */
+            border: 1px solid rgba(96, 165, 250, 0.2); /* 亮蓝色半透明边框 */
+            border-radius: 16px; /* 设置圆角 */
+            padding: 30px; /* 设置卡片内部边距 */
+            transition: all 0.3s ease; /* 添加过渡动画 */
+            text-decoration: none; /* 去掉链接默认下划线 */
+            color: inherit; /* 继承父级文字颜色 */
+            display: block; /* 块级显示 */
+            cursor: pointer; /* 鼠标变为手型 */
+            position: relative; /* 相对定位，为水波纹提供参照 */
+            overflow: hidden; /* 隐藏超出卡片的波纹效果（效果5） */
         }
-        
-        .project-card h3 {
-            font-size: 22px;
-            margin-bottom: 10px;
-            color: #f1f5f9;
+
+        .project-card:hover { /* 设置卡片鼠标悬停样式 */
+            transform: translateY(-8px) scale(1.03); /* 鼠标移入时向上移动并略微放大 */
+            border-color: #60a5fa; /* 边框颜色变为亮蓝 */
+            box-shadow: 0 15px 40px rgba(96, 165, 250, 0.3); /* 添加蓝色发光阴影 */
         }
-        
-        .project-card p {
-            font-size: 14px;
-            color: #94a3b8;
-            line-height: 1.6;
+
+        .project-card:active { /* 设置卡片点击时的样式 */
+            transform: translateY(-4px) scale(0.98); /* 按下时轻微缩小，增加点击反馈 */
         }
-        
-        .project-tag {
-            display: inline-block;
-            background: rgba(96, 165, 250, 0.2);
-            color: #60a5fa;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            margin-top: 15px;
-            transition: all 0.3s ease;
+
+        /* 水波纹元素样式（效果5） */
+        .ripple-effect { /* 设置水波纹元素样式 */
+            position: absolute; /* 绝对定位在卡片内部 */
+            border-radius: 50%; /* 圆形 */
+            background: rgba(96, 165, 250, 0.4); /* 半透明蓝色波纹 */
+            transform: scale(0); /* 初始缩放为 0 */
+            animation: ripple 0.6s ease-out; /* 应用波纹扩散动画 */
+            pointer-events: none; /* 不拦截鼠标事件 */
         }
-        
-        /* 标签悬停变亮 */
-        .project-card:hover .project-tag {
-            background: rgba(96, 165, 250, 0.4);
-            color: #fff;
-        }
-        
-        /* 页脚 */
-        footer {
-            text-align: center;
-            padding: 40px;
-            color: #64748b;
-            font-size: 14px;
-            opacity: 0;
-            animation: fadeInUp 0.8s ease 0.8s forwards;
-        }
-        
-        /* 响应式适配手机 */
-        @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 28px;
-            }
-            .projects-grid {
-                grid-template-columns: 1fr;
+
+        @keyframes ripple { /* 定义水波纹动画 */
+            to { /* 动画结束时 */
+                transform: scale(4); /* 放大到 4 倍 */
+                opacity: 0; /* 完全透明 */
             }
         }
-    </style>
+
+        .project-icon { /* 设置卡片图标样式 */
+            font-size: 40px; /* 设置图标大小 */
+            margin-bottom: 15px; /* 设置图标和标题的间距 */
+            transition: transform 0.3s ease; /* 添加图标动画 */
+        }
+
+        .project-card:hover .project-icon { /* 悬停时卡片图标效果 */
+            transform: scale(1.2) rotate(5deg); /* 放大并轻微旋转 */
+        }
+
+        .project-card h3 { /* 设置卡片标题样式 */
+            font-size: 22px; /* 设置标题字体大小 */
+            margin-bottom: 10px; /* 设置标题和简介的间距 */
+            color: #f1f5f9; /* 设置标题颜色为亮白色 */
+        }
+
+        .project-card p { /* 设置卡片简介文字样式 */
+            font-size: 14px; /* 设置简介文字大小 */
+            color: #94a3b8; /* 设置简介文字颜色 */
+            line-height: 1.6; /* 设置文字行高 */
+        }
+
+        .project-tag { /* 设置卡片标签样式 */
+            display: inline-block; /* 行内块级显示 */
+            background: rgba(96, 165, 250, 0.2); /* 半透明蓝色背景 */
+            color: #60a5fa; /* 文字颜色为亮蓝 */
+            padding: 4px 12px; /* 设置标签内边距 */
+            border-radius: 20px; /* 设置圆角，胶囊形状 */
+            font-size: 12px; /* 设置字体大小 */
+            margin-top: 15px; /* 设置标签和上方内容的间距 */
+            transition: all 0.3s ease; /* 添加过渡动画 */
+        }
+
+        .project-card:hover .project-tag { /* 悬停时标签样式 */
+            background: rgba(96, 165, 250, 0.4); /* 背景变亮 */
+            color: #fff; /* 文字变为白色 */
+        }
+
+        /* ========== 10. 页脚 ========== */
+        footer { /* 设置页脚样式 */
+            text-align: center; /* 让页脚内容居中 */
+            padding: 40px; /* 设置页脚内边距 */
+            color: #64748b; /* 设置页脚文字颜色为较浅灰色 */
+            font-size: 14px; /* 设置页脚字体大小 */
+            position: relative; /* 相对定位 */
+            z-index: 1; /* 放在 Canvas 背景之上 */
+        }
+
+        /* ========== 11. 返回顶部按钮（效果6） ========== */
+        #backToTopBtn { /* 设置返回顶部按钮样式 */
+            position: fixed; /* 固定在页面右下角 */
+            bottom: 30px; /* 距离底部 30 像素 */
+            right: 30px; /* 距离右侧 30 像素 */
+            width: 50px; /* 按钮宽度 */
+            height: 50px; /* 按钮高度 */
+            border-radius: 50%; /* 圆形 */
+            background: linear-gradient(135deg, #3b82f6, #a78bfa); /* 蓝紫渐变色背景 */
+            color: #fff; /* 图标颜色为白色 */
+            border: none; /* 去掉边框 */
+            font-size: 24px; /* 图标大小 */
+            cursor: pointer; /* 鼠标变为手型 */
+            z-index: 1500; /* 放在较高层级 */
+            opacity: 0; /* 初始透明（隐藏） */
+            transform: translateY(20px); /* 初始向下偏移 */
+            pointer-events: none; /* 初始不响应点击 */
+            transition: all 0.3s ease; /* 添加过渡动画 */
+            box-shadow: 0 4px 15px rgba(96, 165, 250, 0.4); /* 添加蓝色阴影 */
+            display: flex; /* 弹性布局 */
+            align-items: center; /* 垂直居中图标 */
+            justify-content: center; /* 水平居中图标 */
+        }
+
+        #backToTopBtn:hover { /* 悬停时按钮样式 */
+            transform: translateY(-2px) scale(1.1); /* 放大并上移 */
+            box-shadow: 0 8px 25px rgba(96, 165, 250, 0.6); /* 阴影增强 */
+        }
+
+        #backToTopBtn.show { /* 按钮显示状态 */
+            opacity: 1; /* 完全可见 */
+            transform: translateY(0); /* 恢复位置 */
+            pointer-events: auto; /* 恢复响应点击 */
+        }
+
+        /* ========== 12. 响应式适配手机 ========== */
+        @media (max-width: 768px) { /* 当屏幕宽度小于等于 768 像素时启用移动端样式 */
+            .hero h1 { /* 调整移动端主标题样式 */
+                font-size: 28px; /* 缩小主标题文字大小 */
+            }
+            .projects-grid { /* 调整移动端卡片网格 */
+                grid-template-columns: 1fr; /* 改为单列布局 */
+            }
+            .nav-container { /* 调整移动端导航栏 */
+                flex-direction: column; /* 改为垂直排列 */
+                gap: 10px; /* 设置间距 */
+            }
+            #backToTopBtn { /* 调整移动端返回顶部按钮 */
+                bottom: 20px; /* 距离底部近一点 */
+                right: 20px; /* 距离右侧近一点 */
+                width: 40px; /* 按钮稍小一点 */
+                height: 40px; /* 按钮稍小一点 */
+                font-size: 20px; /* 图标稍小 */
+            }
+        }
+    </style> <!-- 结束页面样式 -->
 <style>.trae-browser-inspect-overlay{position:fixed;top:0;left:0;width:100%;height:100%;z-index:999997;pointer-events:auto;background:rgba(0,0,0,0)}.trae-browser-inspect-highlight-box{position:absolute;top:0;left:0;z-index:999998;display:none}.trae-browser-inspect-highlight-tag{position:absolute;left:0px;top:0px;height:18px;padding:0 6px;box-sizing:border-box;border-radius:4px;background-color:var(--vscode-icube-colorSuccessHover, "#2FB287");color:var(--vscode-icube-colorSnow, "#fff");font-size:12px;font-weight:400;display:none;align-items:center;z-index:999999}.trae-browser-inspect-highlight-box-show{display:flex}.trae-browser-inspect-select-button.trae-browser-inspect-highlight-box-show{display:flex !important}.trae-browser-inspect-select-button{position:absolute;top:0;left:0;background-color:var(--vscode-icube--bg-bg-base-secondary, "#222427");color:var(--vscode-icube--text-text-default-active, "#F5F9FE");font-size:11px;font-weight:500;border:1px solid var(--vscode-icube--border-neutral-l1, "#E0E2F217");border-radius:6px;padding:0 8px;height:32px;display:none;align-items:center;cursor:pointer;z-index:999999;gap:4px}.trae-browser-inspect-select-button svg,.trae-browser-inspect-select-button span{z-index:1}.trae-browser-inspect-select-highlight-box{background:rgba(0,0,0,0) !important}.trae-browser-inspect-select-highlight-box .trae-browser-inspect-highlight-tag{background-color:var(--vscode-icube--status-success-active, "#1E8B56")}.trae-browser-inspect-comment-card-container{position:fixed;top:0;left:0;z-index:9999999;pointer-events:auto}.trae-browser-inspect-comment-card-container .trae-browser-inspect-comment-card{display:flex;padding-top:0px !important;align-items:center;z-index:9999999 !important;background-color:var(--vscode-icube--bg-bg-menu)}*[contenteditable]{outline:none}.trae-browser-inspect-click-effect{position:fixed;width:40px;height:40px;margin-left:-20px;margin-top:-20px;border-radius:50%;background-color:var(--vscode-icube-colorSuccessHover, #2FB287);pointer-events:none;animation:trae-browser-inspect-ripple 500ms ease-out forwards;z-index:999999}@keyframes trae-browser-inspect-ripple{0%{transform:scale(0.3);opacity:.8}100%{transform:scale(2);opacity:0}}.trae-browser-inspect-ref-box{position:absolute;border:2px solid var(--vscode-icube-colorSuccessHover, "#2FB287");pointer-events:none;z-index:999998;animation:trae-browser-inspect-fadeInOut 2s ease-in-out forwards}.trae-browser-inspect-ref-label{position:absolute;top:-14px;left:0;height:14px;padding:0 4px;box-sizing:border-box;border-radius:2px;background-color:var(--vscode-icube-colorSuccessHover, "#2FB287");color:var(--vscode-icube-colorSnow, "#fff");font-size:9px;font-weight:500;display:flex;align-items:center;white-space:nowrap;z-index:999999}@keyframes trae-browser-inspect-fadeInOut{0%{opacity:0}10%{opacity:1}90%{opacity:1}100%{opacity:0}}.trae-browser-inspect-input-highlight{position:absolute;border:2px solid var(--vscode-icube-colorSuccessHover, "#2FB287");border-radius:4px;pointer-events:none;z-index:999998;box-shadow:0 0 8px var(--vscode-icube-colorSuccessHover, "#2FB287");animation:trae-browser-inspect-input-pulse 600ms ease-out forwards}@keyframes trae-browser-inspect-input-pulse{0%{opacity:0;box-shadow:0 0 0 var(--vscode-icube-colorSuccessHover, "#2FB287")}30%{opacity:1;box-shadow:0 0 12px var(--vscode-icube-colorSuccessHover, "#2FB287")}100%{opacity:0;box-shadow:0 0 0 var(--vscode-icube-colorSuccessHover, "#2FB287")}}.trae-browser-inspect-virtual-cursor{position:fixed;width:20px;height:20px;pointer-events:none;z-index:9999999;opacity:0;transition:opacity .2s ease}.trae-browser-inspect-virtual-cursor.trae-browser-inspect-cursor-visible{opacity:1}.trae-browser-inspect-virtual-cursor.trae-browser-inspect-cursor-idle{animation:trae-browser-inspect-cursor-breathe 2s ease-in-out infinite}.trae-browser-inspect-virtual-cursor svg{width:20px;height:20px;filter:drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3))}@keyframes trae-browser-inspect-cursor-breathe{0%,100%{opacity:.7}50%{opacity:1}}.trae-browser-inspect-scroll-indicator{position:fixed;display:flex;align-items:center;justify-content:center;gap:6px;padding:8px 16px;border-radius:8px;background-color:rgba(0,0,0,.7);color:#fff;font-size:13px;font-weight:500;pointer-events:none;z-index:999999;animation:trae-browser-inspect-indicator-fade 800ms ease-out forwards;backdrop-filter:blur(4px)}.trae-browser-inspect-scroll-indicator svg{width:16px;height:16px;fill:#fff}.trae-browser-inspect-scroll-indicator.trae-scroll-up{top:12px;left:50%;transform:translateX(-50%)}.trae-browser-inspect-scroll-indicator.trae-scroll-down{bottom:12px;left:50%;transform:translateX(-50%)}.trae-browser-inspect-scroll-indicator.trae-scroll-left{left:12px;top:50%;transform:translateY(-50%)}.trae-browser-inspect-scroll-indicator.trae-scroll-right{right:12px;top:50%;transform:translateY(-50%)}@keyframes trae-browser-inspect-indicator-fade{0%{opacity:0;transform:translateX(-50%) scale(0.9)}15%{opacity:1;transform:translateX(-50%) scale(1)}85%{opacity:1}100%{opacity:0}}.trae-browser-inspect-scroll-indicator.trae-scroll-left,.trae-browser-inspect-scroll-indicator.trae-scroll-right{animation-name:trae-browser-inspect-indicator-fade-y}@keyframes trae-browser-inspect-indicator-fade-y{0%{opacity:0;transform:translateY(-50%) scale(0.9)}15%{opacity:1;transform:translateY(-50%) scale(1)}85%{opacity:1}100%{opacity:0}}.trae-browser-inspect-key-badge{position:fixed;bottom:60px;left:50%;transform:translateX(-50%);padding:8px 20px;border-radius:8px;background-color:rgba(0,0,0,.8);color:#fff;font-size:18px;font-weight:600;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,monospace;pointer-events:none;z-index:999999;animation:trae-browser-inspect-key-pop 500ms ease-out forwards;backdrop-filter:blur(4px);border:1px solid hsla(0,0%,100%,.15);box-shadow:0 4px 12px rgba(0,0,0,.3);letter-spacing:1px}@keyframes trae-browser-inspect-key-pop{0%{opacity:0;transform:translateX(-50%) translateY(10px) scale(0.9)}20%{opacity:1;transform:translateX(-50%) translateY(0) scale(1)}80%{opacity:1}100%{opacity:0;transform:translateX(-50%) translateY(-10px)}}.trae-browser-inspect-step-badge{position:fixed;top:12px;left:12px;padding:6px 12px;border-radius:6px;background-color:var(--vscode-icube-colorSuccessHover, #2FB287);color:#fff;font-size:12px;font-weight:600;pointer-events:none;z-index:999999;animation:trae-browser-inspect-step-slide 600ms ease-out forwards;box-shadow:0 2px 8px rgba(47,178,135,.3);max-width:280px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.trae-browser-inspect-step-badge.trae-step-old{opacity:.4;transform:translateY(0)}@keyframes trae-browser-inspect-step-slide{0%{opacity:0;transform:translateX(-20px)}20%{opacity:1;transform:translateX(0)}100%{opacity:1;transform:translateX(0)}}.trae-browser-inspect-drag-trail{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:999998}.trae-browser-inspect-drag-trail svg{width:100%;height:100%}.trae-browser-inspect-drag-trail .trae-drag-path{fill:none;stroke:var(--vscode-icube-colorSuccessHover, #2FB287);stroke-width:2;stroke-dasharray:8 4;opacity:.6;animation:trae-browser-inspect-dash 600ms linear forwards}.trae-browser-inspect-drag-trail .trae-drag-dot{fill:var(--vscode-icube-colorSuccessHover, #2FB287);filter:drop-shadow(0 0 4px rgba(47, 178, 135, 0.6))}.trae-browser-inspect-drag-trail .trae-drag-endpoint{fill:none;stroke:var(--vscode-icube-colorSuccessHover, #2FB287);stroke-width:2;opacity:.5}@keyframes trae-browser-inspect-dash{0%{stroke-dashoffset:200}100%{stroke-dashoffset:0}}.trae-browser-inspect-drag-trail.trae-drag-fade{animation:trae-browser-inspect-trail-fade 400ms ease-out forwards}@keyframes trae-browser-inspect-trail-fade{0%{opacity:1}100%{opacity:0}}</style><script type="module">(async () => {
   try {
     const client = await import('/@vite/client');
     const hmr = client.createHotContext('hmr-handler/fake.js');
-    hmr.on('vite:afterUpdate', window['__ICUBE_WEBVIEW_HMR_CALLBACK_1785268818150']);
+    hmr.on('vite:afterUpdate', window['__ICUBE_WEBVIEW_HMR_CALLBACK_1785271854493']);
   } catch {}
 })();</script><style>.buttonsCard-bTXa5j {
   padding: var(--spacer-4);
@@ -563,7 +644,7 @@
   try {
     const client = await import('/@vite/client');
     const hmr = client.createHotContext('hmr-handler/fake.js');
-    hmr.on('vite:afterUpdate', window['__ICUBE_WEBVIEW_HMR_CALLBACK_1785268818170']);
+    hmr.on('vite:afterUpdate', window['__ICUBE_WEBVIEW_HMR_CALLBACK_1785271854507']);
   } catch {}
 })();</script><style>.buttonsCard-bTXa5j {
   padding: var(--spacer-4);
@@ -2612,35 +2693,49 @@
   color: var(--trae-text-default);
   user-select: none;
 }
-</style></head>
-<body>
-    <!-- 导航栏 -->
-    <nav class="navbar" style="box-shadow: rgba(0, 0, 0, 0.3) 0px 4px 20px;">
-        <div class="nav-container">
-            <div class="logo">🚀 AI学习之路</div>
-            <div style="color: #94a3b8;">零基础 → AI开发工程师</div>
-        </div>
-    </nav>
+</style></head> <!-- 结束头部区域 -->
+<body> <!-- 开始页面主体内容 -->
 
-    <!-- 欢迎区域 -->
-    <div class="container">
-        <div class="hero">
-            <h1>欢迎来到我的AI学习作品集</h1>
+    <!-- ===== Canvas 粒子背景（效果1） ===== -->
+    <canvas id="particleCanvas" width="605" height="719"></canvas> <!-- 粒子动画的画布，固定在页面最底层 -->
+
+    <!-- ===== 滚动进度条（效果4） ===== -->
+    <div id="scrollProgressBar"></div> <!-- 顶部的滚动进度条，随滚动从蓝渐变到紫 -->
+
+    <!-- ===== 导航栏 ===== -->
+    <nav class="navbar"> <!-- 顶部导航栏开始 -->
+        <div class="nav-container"> <!-- 导航栏内容容器开始 -->
+            <div class="logo">🚀 AI学习之路</div> <!-- 左侧网站名称 -->
+            <div class="nav-right"> <!-- 右侧区域开始 -->
+                <!-- 访问计数器（效果3） -->
+                <div class="visitor-counter" id="visitorCounter">👁️ 您是第 3 位访客</div> <!-- 显示访问次数 -->
+                <div style="color: #94a3b8;">零基础 → AI开发工程师</div> <!-- 副标题 -->
+            </div> <!-- 右侧区域结束 -->
+        </div> <!-- 导航栏内容容器结束 -->
+    </nav> <!-- 顶部导航栏结束 -->
+
+    <!-- ===== 欢迎区域 ===== -->
+    <div class="container"> <!-- 主体内容容器开始 -->
+        <div class="hero"> <!-- 欢迎介绍区域开始 -->
+            <h1> <!-- 主标题，使用 span 配合 JS 实现打字机效果 -->
+                <span id="typewriterText">欢迎来到我的AI学习作品集</span> <!-- 打字机效果的文字内容（效果2） -->
+                <span id="typewriterCursor" style="animation: auto ease 0s 1 normal none running none; display: none;">|</span> <!-- 打字机光标（效果2） -->
+            </h1>
             <p>这是一个从零开始的学习记录。我不会写代码，全程用AI辅助，做出了这些网页。每一个作品都代表一次进步。</p>
-        </div>
+        </div> <!-- 欢迎介绍区域结束 -->
 
-        <!-- 作品展示 -->
-        <div class="projects-grid">
+        <!-- ===== 作品展示（8个卡片，保持不变） ===== -->
+        <div class="projects-grid"> <!-- 卡片网格容器开始 -->
             <!-- 作品1：Hello World -->
-            <a href="index1.html" class="project-card show">
-                <div class="project-icon">👋</div>
-                <h3>Hello World</h3>
-                <p>我的第一个网页！点击红色按钮，弹出"Hello World"。学会了按钮和弹窗的基本原理。</p>
-                <span class="project-tag">基础入门</span>
-            </a>
+            <a href="index1.html" class="project-card"> <!-- 第一个作品卡片（改为链接） -->
+                <div class="project-icon">👋</div> <!-- 作品图标 -->
+                <h3>Hello World</h3> <!-- 作品标题 -->
+                <p>我的第一个网页！点击红色按钮，弹出"Hello World"。学会了按钮和弹窗的基本原理。</p> <!-- 作品简介 -->
+                <span class="project-tag">基础入门</span> <!-- 作品标签 -->
+            </a> <!-- 第一个作品卡片结束 -->
 
             <!-- 作品2：名字欢迎页 -->
-            <a href="hello-name.html" class="project-card show">
+            <a href="hello-name.html" class="project-card"> <!-- 第二个作品卡片 -->
                 <div class="project-icon">🎉</div>
                 <h3>名字欢迎页</h3>
                 <p>输入你的名字，生成专属欢迎语。学会了输入框和获取用户输入的值。</p>
@@ -2648,7 +2743,7 @@
             </a>
 
             <!-- 作品3：计算器 -->
-            <a href="calculator.html" class="project-card show">
+            <a href="calculator.html" class="project-card"> <!-- 第三个作品卡片 -->
                 <div class="project-icon">🧮</div>
                 <h3>网页计算器</h3>
                 <p>支持加减乘除的完整计算器。学会了运算逻辑和条件判断。</p>
@@ -2656,81 +2751,303 @@
             </a>
 
             <!-- 作品4：AI文案生成器 -->
-            <a href="ai-copywriter.html" class="project-card show">
+            <a href="ai-copywriter.html" class="project-card"> <!-- 第四个作品卡片 -->
                 <div class="project-icon">✨</div>
                 <h3>AI文案生成器</h3>
                 <p>接入Kimi真AI，输入产品名称自动生成小红书种草文案。带emoji、分段、网感十足！</p>
                 <span class="project-tag">AI应用</span>
             </a>
 
-            <!-- 作品5：AI聊天机器人（新增） -->
-            <a href="ai-chat.html" class="project-card show">
+            <!-- 作品5：AI聊天机器人 -->
+            <a href="ai-chat.html" class="project-card"> <!-- 第五个作品卡片 -->
                 <div class="project-icon">🤖</div>
                 <h3>AI聊天机器人</h3>
                 <p>接入Kimi真AI的网页版聊天机器人，支持多轮对话，像微信一样聊天！</p>
                 <span class="project-tag">AI应用</span>
             </a>
 
-            <!-- 作品7：文档问答助手 -->
-            <a href="doc-qa.html" class="project-card show">
+            <!-- 作品6：文档问答助手 -->
+            <a href="doc-qa.html" class="project-card"> <!-- 第六个作品卡片 -->
                 <div class="project-icon">📄</div>
                 <h3>文档问答助手</h3>
                 <p>RAG检索增强生成，上传文档后AI只根据文档内容回答，不会胡说</p>
                 <span class="project-tag">AI应用</span>
             </a>
 
-            <!-- 作品8：旅游助手 -->
-            <a href="travel-assistant.html" class="project-card show">
+            <!-- 作品7：旅游助手 -->
+            <a href="travel-assistant.html" class="project-card"> <!-- 第七个作品卡片 -->
                 <div class="project-icon">🌍</div>
                 <h3>旅游助手</h3>
                 <p>3段工作流，根据地区按照3段写出规划</p>
                 <span class="project-tag">AI应用</span>
             </a>
 
-            <!-- 作品6：关于我 -->
-            <div class="project-card show" style="cursor: default;">
+            <!-- 作品8：关于我 -->
+            <div class="project-card" style="cursor: default;"> <!-- 第八个作品卡片（不是链接） -->
                 <div class="project-icon">👤</div>
                 <h3>关于我</h3>
                 <p>零基础小白，正在用AI学习编程。目标是成为AI开发工程师。这个网站就是我用AI做出来的！</p>
                 <span class="project-tag">持续更新中</span>
             </div>
-        </div>
-    </div>
+        </div> <!-- 卡片网格容器结束 -->
+    </div> <!-- 主体内容容器结束 -->
 
-    <!-- 页脚 -->
-    <footer>
-        <p>Made with ❤️ and AI | 我的AI学习之旅</p>
-    </footer>
+    <!-- ===== 页脚 ===== -->
+    <footer> <!-- 页脚区域开始 -->
+        <p>Made with ❤️ and AI | 我的AI学习之旅</p> <!-- 页脚说明文字 -->
+    </footer> <!-- 页脚区域结束 -->
 
-    <script>
-        // 滚动动画：当卡片进入视口时，添加show类触发动画
-        // 创建IntersectionObserver观察器
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                // 当元素进入视口时
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('show'); // 添加show类，触发CSS动画
+    <!-- ===== 返回顶部按钮（效果6） ===== -->
+    <button id="backToTopBtn">↑</button> <!-- 右下角的返回顶部按钮 -->
+
+    <script> <!-- 开始 JavaScript 脚本 -->
+        // ============================================================
+        // 效果3：访问计数器（使用 localStorage 记录访问次数）
+        // ============================================================
+        (function initVisitorCounter() { // 用自执行函数封装计数器逻辑
+            var count = localStorage.getItem('visitorCount'); // 从 localStorage 读取之前的访问次数
+            if (count) { // 如果之前有记录
+                count = parseInt(count) + 1; // 访问次数加 1
+            } else { // 如果没有记录（第一次访问）
+                count = 1; // 设为第 1 次访问
+            }
+            localStorage.setItem('visitorCount', count); // 把新的次数保存回 localStorage
+            var counterEl = document.getElementById('visitorCounter'); // 获取计数器显示元素
+            counterEl.textContent = '👁️ 您是第 ' + count + ' 位访客'; // 更新页面上的显示文字
+        })(); // 自执行函数结束
+
+        // ============================================================
+        // 效果1：Canvas 粒子动态背景
+        // ============================================================
+        (function initParticleCanvas() { // 用自执行函数封装粒子画布逻辑
+            var canvas = document.getElementById('particleCanvas'); // 获取 Canvas 元素
+            var ctx = canvas.getContext('2d'); // 获取 2D 绘图上下文
+            var particles = []; // 存储所有粒子的数组
+            var particleCount = 80; // 粒子总数
+            var mouseX = -1000; // 鼠标 X 坐标，初始值放在屏幕外
+            var mouseY = -1000; // 鼠标 Y 坐标，初始值放在屏幕外
+
+            // 设置画布大小为窗口大小
+            function resizeCanvas() { // 定义调整画布大小的函数
+                canvas.width = window.innerWidth; // 画布宽度设为窗口宽度
+                canvas.height = window.innerHeight; // 画布高度设为窗口高度
+            }
+            resizeCanvas(); // 先调用一次设置初始大小
+            window.addEventListener('resize', resizeCanvas); // 窗口大小变化时重新设置画布大小
+
+            // 粒子类——每个粒子是一个独立的对象
+            function Particle() { // 粒子构造函数
+                this.x = Math.random() * canvas.width; // 随机生成 X 坐标
+                this.y = Math.random() * canvas.height; // 随机生成 Y 坐标
+                this.vx = (Math.random() - 0.5) * 0.8; // 随机水平速度（-0.4 到 0.4 之间，缓慢飘动）
+                this.vy = (Math.random() - 0.5) * 0.8; // 随机垂直速度
+                this.radius = Math.random() * 2.5 + 1; // 随机半径（1 到 3.5 之间）
+                // 随机选择淡蓝色或淡紫色
+                this.color = Math.random() > 0.5 // 50% 概率随机选择颜色
+                    ? 'rgba(147, 197, 253, 0.7)' // 淡蓝色，半透明
+                    : 'rgba(167, 139, 250, 0.7)'; // 淡紫色，半透明
+            }
+
+            // 粒子更新方法——计算每帧的位置变化
+            Particle.prototype.update = function () { // 更新粒子状态
+                this.x += this.vx; // 根据水平速度更新 X 坐标
+                this.y += this.vy; // 根据垂直速度更新 Y 坐标
+
+                // 如果粒子飞出画布边界，从另一侧重新进入（循环飘动）
+                if (this.x < -10) this.x = canvas.width + 10; // 飞出左边，从右边进入
+                if (this.x > canvas.width + 10) this.x = -10; // 飞出右边，从左边进入
+                if (this.y < -10) this.y = canvas.height + 10; // 飞出上边，从下边进入
+                if (this.y > canvas.height + 10) this.y = -10; // 飞出下边，从上边进入
+
+                // 鼠标交互——鼠标附近的粒子会散开
+                var dx = this.x - mouseX; // 计算粒子与鼠标的水平距离
+                var dy = this.y - mouseY; // 计算粒子与鼠标的垂直距离
+                var dist = Math.sqrt(dx * dx + dy * dy); // 计算粒子与鼠标的直线距离
+                if (dist < 150) { // 如果粒子在鼠标周围 150 像素范围内
+                    var angle = Math.atan2(dy, dx); // 计算粒子相对于鼠标的角度
+                    var force = (150 - dist) / 150; // 距离越近，推力越大（0 到 1 之间）
+                    this.vx += Math.cos(angle) * force * 0.3; // 给水平速度加上推力
+                    this.vy += Math.sin(angle) * force * 0.3; // 给垂直速度加上推力
+                }
+
+                // 速度衰减——让粒子慢慢恢复原来的飘动速度
+                this.vx *= 0.995; // 水平速度每次衰减 0.5%
+                this.vy *= 0.995; // 垂直速度每次衰减 0.5%
+
+                // 限制最大速度——防止粒子飞得太快
+                var maxSpeed = 2; // 最大速度为 2
+                var speed = Math.sqrt(this.vx * this.vx + this.vy * this.vy); // 计算当前速度
+                if (speed > maxSpeed) { // 如果超过最大速度
+                    this.vx = (this.vx / speed) * maxSpeed; // 按比例缩小水平速度
+                    this.vy = (this.vy / speed) * maxSpeed; // 按比例缩小垂直速度
+                }
+            };
+
+            // 粒子绘制方法——在画布上画出每个粒子
+            Particle.prototype.draw = function () { // 绘制粒子
+                ctx.beginPath(); // 开始一条新路径
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2); // 画一个圆形
+                ctx.fillStyle = this.color; // 设置填充颜色
+                ctx.fill(); // 填充颜色
+            };
+
+            // 初始化所有粒子
+            for (var i = 0; i < particleCount; i++) { // 循环创建指定数量的粒子
+                particles.push(new Particle()); // 创建新粒子并加入数组
+            }
+
+            // 绑定鼠标移动事件——鼠标位置影响粒子
+            window.addEventListener('mousemove', function (e) { // 监听鼠标移动
+                mouseX = e.clientX; // 记录鼠标 X 坐标
+                mouseY = e.clientY; // 记录鼠标 Y 坐标
+            });
+
+            // 鼠标离开窗口时，把位置重置到屏幕外
+            window.addEventListener('mouseleave', function () { // 监听鼠标离开窗口
+                mouseX = -1000; // 放到屏幕外，粒子不受影响
+                mouseY = -1000;
+            });
+
+            // 动画主循环——每帧更新并绘制所有粒子
+            function animate() { // 定义动画循环函数
+                ctx.clearRect(0, 0, canvas.width, canvas.height); // 清空画布
+                for (var i = 0; i < particles.length; i++) { // 遍历所有粒子
+                    particles[i].update(); // 先更新位置
+                    particles[i].draw(); // 再绘制
+                }
+
+                // 绘制粒子之间的连接线——距离近的粒子之间画半透明细线
+                for (var i = 0; i < particles.length; i++) { // 遍历所有粒子
+                    for (var j = i + 1; j < particles.length; j++) { // 只和后面的粒子比较，避免重复
+                        var dx = particles[i].x - particles[j].x; // 水平距离
+                        var dy = particles[i].y - particles[j].y; // 垂直距离
+                        var dist = Math.sqrt(dx * dx + dy * dy); // 直线距离
+                        if (dist < 120) { // 如果两个粒子距离小于 120 像素
+                            ctx.beginPath(); // 开始画线
+                            ctx.moveTo(particles[i].x, particles[i].y); // 线的起点
+                            ctx.lineTo(particles[j].x, particles[j].y); // 线的终点
+                            ctx.strokeStyle = 'rgba(147, 197, 253, ' + (1 - dist / 120) * 0.15 + ')'; // 颜色透明度随距离变化
+                            ctx.lineWidth = 0.6; // 线宽
+                            ctx.stroke(); // 画出线条
+                        }
+                    }
+                }
+
+                requestAnimationFrame(animate); // 请求下一帧动画，形成循环
+            }
+
+            animate(); // 启动动画循环
+        })(); // 自执行函数结束
+
+        // ============================================================
+        // 效果2：打字机效果标题
+        // ============================================================
+        (function initTypewriter() { // 用自执行函数封装打字机逻辑
+            var textElement = document.getElementById('typewriterText'); // 获取文字显示的元素
+            var cursorElement = document.getElementById('typewriterCursor'); // 获取光标元素
+            var fullText = '欢迎来到我的AI学习作品集'; // 要逐字显示的文字
+            var index = 0; // 当前已显示的字符位置
+            var speed = 80; // 每个字的打字间隔（毫秒）
+
+            function typeChar() { // 定义打字函数
+                if (index < fullText.length) { // 如果还没打完所有字
+                    textElement.textContent += fullText.charAt(index); // 添加下一个字
+                    index++; // 位置前进一个
+                    setTimeout(typeChar, speed); // 延迟后继续打下一个字
+                } else { // 文字全部打完
+                    // 打完字后，光标停止闪烁并隐藏
+                    cursorElement.style.animation = 'none'; // 停止闪烁动画
+                    cursorElement.style.display = 'none'; // 隐藏光标
+                }
+            }
+
+            typeChar(); // 启动打字效果
+        })(); // 自执行函数结束
+
+        // ============================================================
+        // 效果4：滚动进度条
+        // ============================================================
+        (function initScrollProgress() { // 用自执行函数封装进度条逻辑
+            var progressBar = document.getElementById('scrollProgressBar'); // 获取进度条元素
+
+            window.addEventListener('scroll', function () { // 监听页面滚动事件
+                var scrollTop = window.scrollY; // 获取当前滚动的垂直距离
+                var docHeight = document.documentElement.scrollHeight - window.innerHeight; // 计算可滚动的总高度
+                var progress = (scrollTop / docHeight) * 100; // 计算滚动百分比
+                if (progress > 100) progress = 100; // 防止超过 100%
+                if (progress < 0) progress = 0; // 防止负数
+                progressBar.style.width = progress + '%'; // 更新进度条宽度
+            });
+        })(); // 自执行函数结束
+
+        // ============================================================
+        // 效果5：卡片点击水波纹效果
+        // ============================================================
+        (function initRippleEffect() { // 用自执行函数封装水波纹逻辑
+            var cards = document.querySelectorAll('.project-card'); // 获取所有作品卡片
+
+            for (var i = 0; i < cards.length; i++) { // 遍历每张卡片
+                cards[i].addEventListener('click', function (e) { // 给每张卡片添加点击事件
+                    // 创建一个 span 元素作为水波纹
+                    var ripple = document.createElement('span'); // 创建 span 元素
+                    ripple.className = 'ripple-effect'; // 添加波纹样式类
+
+                    // 计算波纹大小——取卡片宽高中的较大值作为直径
+                    var cardRect = this.getBoundingClientRect(); // 获取卡片的位置和尺寸
+                    var size = Math.max(cardRect.width, cardRect.height); // 取宽高的最大值
+                    ripple.style.width = size + 'px'; // 设置波纹宽度
+                    ripple.style.height = size + 'px'; // 设置波纹高度
+
+                    // 将波纹定位到鼠标点击的位置
+                    ripple.style.left = (e.clientX - cardRect.left - size / 2) + 'px'; // 计算左边距
+                    ripple.style.top = (e.clientY - cardRect.top - size / 2) + 'px'; // 计算上边距
+
+                    this.appendChild(ripple); // 把波纹元素添加到卡片中
+
+                    // 动画结束后移除波纹元素，避免 DOM 越积越多
+                    ripple.addEventListener('animationend', function () { // 监听动画结束事件
+                        ripple.remove(); // 删除波纹元素
+                    });
+                });
+            }
+        })(); // 自执行函数结束
+
+        // ============================================================
+        // 效果6：返回顶部按钮
+        // ============================================================
+        (function initBackToTop() { // 用自执行函数封装返回顶部逻辑
+            var backToTopBtn = document.getElementById('backToTopBtn'); // 获取返回顶部按钮
+
+            // 监听滚动事件——决定按钮显示还是隐藏
+            window.addEventListener('scroll', function () { // 监听页面滚动
+                if (window.scrollY > 400) { // 如果页面滚动了超过 400 像素
+                    backToTopBtn.classList.add('show'); // 添加 show 类，显示按钮
+                } else { // 否则
+                    backToTopBtn.classList.remove('show'); // 移除 show 类，隐藏按钮
                 }
             });
-        }, {
-            threshold: 0.1 // 元素出现10%时触发
-        });
 
-        // 观察所有作品卡片
-        document.querySelectorAll('.project-card').forEach(card => {
-            observer.observe(card);
-        });
+            // 点击按钮时平滑滚动到页面顶部
+            backToTopBtn.addEventListener('click', function () { // 监听点击事件
+                window.scrollTo({ // 调用滚动方法
+                    top: 0, // 目标位置为顶部
+                    behavior: 'smooth' // 平滑滚动动画
+                });
+            });
+        })(); // 自执行函数结束
 
-        // 导航栏滚动效果：滚动时增加阴影
-        window.addEventListener('scroll', () => {
-            const navbar = document.querySelector('.navbar');
-            if (window.scrollY > 10) {
-                navbar.style.boxShadow = '0 4px 20px rgba(0,0,0,0.3)';
-            } else {
-                navbar.style.boxShadow = 'none';
+        // ============================================================
+        // 导航栏滚动阴影效果（保留原有功能）
+        // ============================================================
+        window.addEventListener('scroll', function () { // 监听页面滚动
+            var navbar = document.querySelector('.navbar'); // 获取导航栏
+            if (window.scrollY > 10) { // 如果滚动了超过 10 像素
+                navbar.style.boxShadow = '0 4px 20px rgba(0,0,0,0.3)'; // 添加底部阴影
+            } else { // 否则
+                navbar.style.boxShadow = 'none'; // 去掉阴影
             }
         });
-    </script>
-
-
-<div class="light"></div><div data-trae-edit-ui="true"></div></body></html>
+    </script> <!-- 结束 JavaScript 脚本 -->
+ 
+ 
+<div class="light"></div><div data-trae-edit-ui="true"></div></body><!-- 结束页面主体内容 --></html>
